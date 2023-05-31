@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "143430881665",
+    "project_id": "ontime-a3df1",
+    "storage_bucket": "ontime-a3df1.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:143430881665:android:abbd25ebc539c1b5e0d880",
+        "android_client_info": {
+          "package_name": "com.example.opsc7311_poe"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC-6CIK20r20yDSNDvrF67zDnlkyjtmBTw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
