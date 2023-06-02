@@ -8,6 +8,9 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import com.example.opsc7311_poe.R
+import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.ktx.Firebase
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Date
@@ -25,6 +28,8 @@ private const val ARG_PARAM2 = "param2"
 
 private var startDate: Date = Date()
 private var endDate: Date = Date()
+
+private lateinit var db: FirebaseFirestore
 
 class ProjectForm : Fragment() {
     // TODO: Rename and change types of parameters
@@ -51,6 +56,8 @@ class ProjectForm : Fragment() {
 
         val btnSubmit = view.findViewById<Button>(R.id.btnProjectSubmit)
 
+        addProject()
+
         btnStartDate.setOnClickListener() {
             showStartDatePicker(btnStartDate)
         }
@@ -60,10 +67,15 @@ class ProjectForm : Fragment() {
         }
 
         btnSubmit.setOnClickListener {
-
+            addProject()
         }
 
         return view
+    }
+
+    private fun addProject() {
+        db = Firebase.firestore
+
     }
 
     private fun showEndDatePicker(button: Button) {
@@ -79,7 +91,8 @@ class ProjectForm : Fragment() {
         val year = calendar.get(Calendar.YEAR)
         val month = calendar.get(Calendar.MONTH)
         val day = calendar.get(Calendar.DAY_OF_MONTH)
-            var setDate = Date()
+        var setDate = Date()
+
         val datePickerDialog = activity?.let {
             DatePickerDialog(it, DatePickerDialog.OnDateSetListener {
                 view, year, monthOfYear, dayOfMonth ->
