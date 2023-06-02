@@ -1,11 +1,16 @@
 package ProjectForm
 
+import android.app.DatePickerDialog
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import com.example.opsc7311_poe.R
+import java.text.SimpleDateFormat
+import java.util.Calendar
+import java.util.Date
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -17,6 +22,10 @@ private const val ARG_PARAM2 = "param2"
  * Use the [ProjectForm.newInstance] factory method to
  * create an instance of this fragment.
  */
+
+private var startDate: Date = Date()
+private var endDate: Date = Date()
+
 class ProjectForm : Fragment() {
     // TODO: Rename and change types of parameters
     private var param1: String? = null
@@ -35,7 +44,53 @@ class ProjectForm : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_project_form, container, false)
+        val view = inflater.inflate(R.layout.fragment_project_form, container, false)
+
+        val btnStartDate = view.findViewById<Button>(R.id.btnProjectStartDateInput)
+        val btnEndDate = view.findViewById<Button>(R.id.btnProjectEndDateInput)
+
+        val btnSubmit = view.findViewById<Button>(R.id.btnProjectSubmit)
+
+        btnStartDate.setOnClickListener() {
+            showStartDatePicker(btnStartDate)
+        }
+
+        btnEndDate.setOnClickListener() {
+            showEndDatePicker(btnEndDate)
+        }
+
+        btnSubmit.setOnClickListener {
+
+        }
+
+        return view
+    }
+
+    private fun showEndDatePicker(button: Button) {
+        endDate = createDatePicker(button)
+    }
+
+    private fun showStartDatePicker(button: Button) {
+        startDate = createDatePicker(button)
+    }
+
+    private fun createDatePicker(button: Button): Date {
+        val calendar = Calendar.getInstance()
+        val year = calendar.get(Calendar.YEAR)
+        val month = calendar.get(Calendar.MONTH)
+        val day = calendar.get(Calendar.DAY_OF_MONTH)
+            var setDate = Date()
+        val datePickerDialog = activity?.let {
+            DatePickerDialog(it, DatePickerDialog.OnDateSetListener {
+                view, year, monthOfYear, dayOfMonth ->
+                val date = "$dayOfMonth/$monthOfYear/$year"
+                button.text = date
+                setDate = (SimpleDateFormat("dd/MM/yyyy")).parse(date)
+            }, year, month, day)
+        }
+
+        datePickerDialog!!.show()
+        return setDate
     }
 
     companion object {
