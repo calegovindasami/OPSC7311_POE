@@ -14,6 +14,7 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
 import com.example.opsc7311_poe.R
+import com.google.android.gms.tasks.Task
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
@@ -80,15 +81,16 @@ class ProjectForm : Fragment() {
             val description = view.findViewById<EditText>(R.id.edtProjectDescriptionInput).text.toString()
             val minHours = Integer.parseInt(view.findViewById<EditText>(R.id.edtProjectMinDailyHoursInput).text.toString())
             val maxHours = Integer.parseInt(view.findViewById<EditText>(R.id.edtProjectMaxDailyHoursInput).text.toString())
-//            val parser =  SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss")
-//            val tdate = parser.parse("2018-12-14T09:55:00")
+            val parser =  SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss")
+            val tdate = parser.parse("2018-12-14T09:55:00")
             val tasks = mutableListOf<TaskViewModel>()
-//            val task = TaskViewModel("neww", "", tdate, 2, "https://firebasestorage.googleapis.com/v0/b/ontime-a3df1.appspot.com/o/st10083941%2FdVtiL2KihT64NCwHu3lA%2FFarm%20Central%20Background.jpg?alt=media&token=89ec95ae-93c7-4256-8bf4-3ab7e23a750e")
+            val task = TaskViewModel("neww", "", tdate, 2, "https://firebasestorage.googleapis.com/v0/b/ontime-a3df1.appspot.com/o/st10083941%2FdVtiL2KihT64NCwHu3lA%2FFarm%20Central%20Background.jpg?alt=media&token=89ec95ae-93c7-4256-8bf4-3ab7e23a750e")
 //            tasks.add(task)
 
             var project = ProjectViewModel(projectName, description, startDate, endDate, minHours, maxHours, tasks)
 
-            addProject(project)
+//            addProject(project)
+            updateProject(task)
         }
 
         return view
@@ -105,6 +107,29 @@ class ProjectForm : Fragment() {
             }
 
 
+    }
+
+    private fun getProject() {
+        val db = Firebase.firestore
+        val docRef =  db.collection("users").document("st10083941").collection("projects").document("jV6Qj5X4Yat2lgHwYm2W")
+        docRef.get().addOnSuccessListener { documentSnapshot ->
+            val project = documentSnapshot.toObject<ProjectViewModel>()
+            val name = project!!.name
+        }
+
+    }
+
+    private  fun updateProject(task: TaskViewModel) {
+        val db = Firebase.firestore
+        val docRef =  db.collection("users").document("st10083941").collection("projects").document("jV6Qj5X4Yat2lgHwYm2W")
+        docRef.get().addOnSuccessListener { documentSnapshot ->
+            val project = documentSnapshot.toObject<ProjectViewModel>()
+            project!!.tasks!!.add(task)
+            docRef.update("tasks", project!!.tasks!!).addOnSuccessListener {
+                val wow = "works"
+            }
+
+        }
     }
 
     private fun showEndDatePicker(button: Button) {
