@@ -6,6 +6,6 @@ import java.net.URL
 import java.time.LocalDateTime
 import java.util.Date
 
-data class TaskViewModel(val name: String, val description: String, val startTime: Date?, val numberOfHours: Int, val photoUrl: String) {
+data class TaskViewModel(var name: String, var description: String, var startTime: Date?, var numberOfHours: Int, var photoUrl: String) {
     constructor() : this("", "", null, -1, "")
 }

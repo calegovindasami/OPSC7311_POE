@@ -1,6 +1,7 @@
 package com.example.opsc7311_poe
 
 import ProjectForm.ProjectForm
+import TaskForm.TaskForm
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 
@@ -11,8 +12,8 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         val projectForm = ProjectForm.newInstance()
-
-        supportFragmentManager.beginTransaction().replace(R.id.main_container, projectForm).commit()
+        val taskForm = TaskForm.newInstance()
+        supportFragmentManager.beginTransaction().replace(R.id.main_container, taskForm).commit()
 
     }
 }

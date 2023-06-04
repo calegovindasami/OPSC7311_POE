@@ -1,0 +1,106 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="TaskForm.TaskForm">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/txtProjectFormHeader"
+            android:layout_width="match_parent"
+            android:layout_marginBottom="50dp"
+            android:layout_height="wrap_content"
+            android:text="Add Task"/>
+
+    <LinearLayout
+        android:layout_marginBottom="16dp"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+
+            android:text="Task Name"/>
+        <EditText
+            android:id="@+id/edtTaskNameInput"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_marginBottom="16dp"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+
+            android:text="Description"/>
+
+        <EditText
+            android:id="@+id/edtTaskDescriptionInput"
+            android:inputType="textMultiLine"
+            android:scrollbars="vertical"
+            android:minLines="4"
+            android:maxLines="6"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_marginBottom="16dp"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+
+        <Button
+            android:id="@+id/btnTaskStartDateInput"
+            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+            android:layout_width="150dp"
+            android:layout_marginRight="16dp"
+            android:layout_height="wrap_content"
+            android:text="Start Time"/>
+
+        <EditText
+            android:id="@+id/edtTaskNumHoursInput"
+            android:inputType="number"
+            android:layout_width="150dp"
+            android:hint="Number of Hours"
+            android:layout_height="wrap_content"/>
+
+
+    </LinearLayout>
+
+        <Button
+            android:layout_gravity="center"
+            android:id="@+id/btnTaskUploadImageInput"
+            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+            android:layout_width="150dp"
+            android:layout_marginRight="16dp"
+            android:layout_height="wrap_content"
+            android:text="Upload Image"/>
+
+        <Button
+            android:layout_gravity="center"
+            android:id="@+id/btnTaskSubmit"
+            android:layout_width="150dp"
+            android:layout_marginRight="16dp"
+            android:layout_height="wrap_content"
+            android:text="SUBMIT"/>
+
+
+    </LinearLayout>
+
+</FrameLayout>
