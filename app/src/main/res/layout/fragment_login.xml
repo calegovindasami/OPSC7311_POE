@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+xmlns:android="http://schemas.android.com/apk/res/android"
+ xmlns:android="http://schemas.android.com/apk/res/android"
+android:orientation="vertical"
+android:layout_width="match_parent"
+android:layout_height="match_parent">
+
+
+
+<TextView
+    android:id="@+id/textView_Login"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:text="Login" />
+
+<EditText
+    android:id="@+id/etUsername"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:ems="10"
+    android:inputType="textPersonName"
+    android:text="Username"/>
+
+<EditText
+    android:id="@+id/etPassword"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:ems="10"
+    android:inputType="textPersonName"
+    android:text="Password"/>
+
+
+
+<Button
+    android:id="@+id/btnLogin"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:text="Login" />
+
+
+<TextView
+    android:id="@+id/textView_SignUp"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:text="Don't have an account?Sign Up" />
+
+
+</LinearLayout>
