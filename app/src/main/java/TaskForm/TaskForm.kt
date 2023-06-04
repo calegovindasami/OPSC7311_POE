@@ -1,5 +1,6 @@
 package TaskForm
 
+import Data.ProjectViewModel
 import Data.TaskViewModel
 import android.app.TimePickerDialog
 import android.net.Uri
@@ -12,6 +13,10 @@ import android.widget.Button
 import android.widget.EditText
 import androidx.activity.result.contract.ActivityResultContracts
 import com.example.opsc7311_poe.R
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.firestore.ktx.toObject
+import com.google.firebase.ktx.Firebase
+import com.google.firebase.storage.ktx.storage
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Date
@@ -68,7 +73,7 @@ class TaskForm : Fragment() {
         val btnSubmit = view.findViewById<Button>(R.id.btnTaskSubmit)
 
         btnSubmit.setOnClickListener() {
-
+            uploadData(getFormData(view))
         }
 
         return view
@@ -110,11 +115,21 @@ class TaskForm : Fragment() {
     }
 
     private fun uploadData(task: TaskViewModel) {
+        val db = Firebase.firestore
+        val docRef =  db.collection("users").document("st10083941").collection("projects").document("jV6Qj5X4Yat2lgHwYm2W")
+        docRef.get().addOnSuccessListener { documentSnapshot ->
+            val project = documentSnapshot.toObject<ProjectViewModel>()
+            project!!.tasks!!.add(task)
+            docRef.update("tasks", project!!.tasks!!).addOnSuccessListener {
+                val wow = "works"
+            }
 
+        }
     }
 
     private fun uploadImage() {
-
+        val storage = Firebase.storage
+        val storageRef = storage.reference
     }
 
 
