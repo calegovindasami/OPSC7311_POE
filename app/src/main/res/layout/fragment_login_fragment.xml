@@ -1,14 +1,45 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".login_fragment">
+    android:layout_height="match_parent">
 
-    <!-- TODO: Update blank fragment layout -->
+
+
+
     <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+    android:id="@+id/textView_Login"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:text="Login" />
 
-</FrameLayout>
+    <EditText
+        android:id="@+id/etEmail"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="textEmailAddress"
+        android:text="Username"/>
+
+    <EditText
+        android:id="@+id/etPassword"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:text="Password"/>
+
+
+    <Button
+        android:id="@+id/btnLogin"
+        android:layout_width="match_parent"
+        android:layout_height="35dp"
+        android:text="Login" />
+
+    <TextView
+        android:id="@+id/textView_SignUp"
+        android:layout_width="match_parent"
+        android:layout_height="34dp"
+        android:text="Don't have an account?Sign Up" />
+</LinearLayout>
