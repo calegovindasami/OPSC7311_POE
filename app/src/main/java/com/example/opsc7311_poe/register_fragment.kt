@@ -23,7 +23,13 @@ private const val ARG_PARAM2 = "param2"
  * create an instance of this fragment.
  */
 class register_fragment : Fragment() {
+    lateinit var etEmail: EditText
+    lateinit var etConfEmail: EditText
+    lateinit var etConfPass: EditText
+    private lateinit var etPass: EditText
+    private lateinit var btnSignUp: Button
     private lateinit var auth: FirebaseAuth
+
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
@@ -42,33 +48,58 @@ class register_fragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-       val view =inflater.inflate(R.layout.fragment_register_fragment, container, false)
+        val view = inflater.inflate(R.layout.fragment_register_fragment, container, false)
 
-        val etRegEmail= view.findViewById<EditText>(R.id.etRegEmail)
-        val etConfirmEmail= view.findViewById<EditText>(R.id.etConfirmEmail)
-        val etPassword = view.findViewById<EditText>(R.id.etPassword)
-        val etConfirmPassword = view.findViewById<EditText>(R.id.etConfirmPassword)
-        val btnRegister=view.findViewById<Button>(R.id.btnRegister)
-        btnRegister.setOnClickListener {
-            (this)
+        val etEmail = view.findViewById<EditText>(R.id.etRegEmail)
+        val etConfEmail = view.findViewById<EditText>(R.id.etConfirmEmail)
+        val etPass = view.findViewById<EditText>(R.id.etPassword)
+        val etConfPass = view.findViewById<EditText>(R.id.etConfirmPassword)
+        val btnRegister = view.findViewById<Button>(R.id.btnRegister)
 
-        }
+        btnRegister
+            .setOnClickListener {
+                signUpUser()
+            }
+
+
+
         return view
     }
-    private fun register(email: String, password: String) {
-        auth.createUserWithEmailAndPassword(email.trim(), password.trim())
-            .addOnCompleteListener(activity?.let { it }) {
 
-                if (it.isSuccessful) {
-                    Log.d(TAG, "createUserWithEmail:success")
 
-                } else {
-                    Log.w(TAG, "signInWithEmail:failure", it.exception)
-                    Toast.makeText(this, "Sign in failed.", Toast.LENGTH_SHORT).show
+    private fun signUpUser() {
+        val email = etEmail.text.toString()
+        val confirmEmail = etConfEmail.text.toString()
+        val pass = etPass.text.toString()
+        val confirmPassword = etConfPass.text.toString()
 
-                }
-            }
+        if (email.isBlank() || pass.isBlank() || confirmPassword.isBlank()) {
+            Toast.makeText(this, "Email and Password can't be blank", Toast.LENGTH_SHORT).show()
+            return
+        }
+
+        if (pass != confirmPassword) {
+            Toast.makeText(this, "Password and Confirm Password do not match", Toast.LENGTH_SHORT)
+                .show()
+            return
+        }
+
     }
+
+        private fun register(email: String, pass: String) {
+            auth.createUserWithEmailAndPassword(email.trim(), pass.trim())
+                .addOnCompleteListener(activity?.let { it }) {
+
+                    if (it.isSuccessful) {
+                        Log.d(TAG, "createUserWithEmail:success")
+
+                    } else {
+                        Log.w(TAG, "signInWithEmail:failure", it.exception)
+                        Toast.makeText(this, "Sign in failed.", Toast.LENGTH_SHORT).show
+
+                    }
+                }
+        }
 
     companion object {
         /**

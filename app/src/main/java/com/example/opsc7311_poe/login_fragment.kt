@@ -26,8 +26,12 @@ private const val ARG_PARAM2 = "param2"
  * create an instance of this fragment.
  */
 class login_fragment : Fragment() {
+    lateinit var etEmail: EditText
 
+    private lateinit var etPass: EditText
+    lateinit var btnLogin: Button
     private lateinit var auth: FirebaseAuth
+
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
@@ -45,52 +49,49 @@ class login_fragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        val view= inflater.inflate(R.layout.fragment_login_fragment, container, false)
+        val view = inflater.inflate(R.layout.fragment_login_fragment, container, false)
 
 
-         //initialize firebase auth
-        auth= Firebase.auth
+        //initialize firebase auth
+        auth = Firebase.auth
 
 
-
-        val etEmail= view.findViewById<EditText>(R.id.etEmail)
-        val etPassword = view.findViewById<EditText>(R.id.etPassword)
+        val etEmail = view.findViewById<EditText>(R.id.etEmail)
+        val etPass = view.findViewById<EditText>(R.id.etPassword)
         val btnLogin = view.findViewById<Button>(R.id.btnLogin)
         btnLogin.setOnClickListener {
-            (this)
-
+            login()
         }
 
+        return view
 
-
-
-
-
-
-
-
-         return view
     }
 
-    private fun signInUser(email: String, password: String){
-        auth.signInWithEmailAndPassword(email.trim(), password)
-            .addOnCompleteListener(activity?.let{it}){
-                    it ->
+
+
+private fun login() {
+    val email = etEmail.text.toString()
+    val pass = etPass.text.toString()
+}
+
+    private fun signInUser(email: String, pass: String) {
+        auth.signInWithEmailAndPassword(email.trim(), pass)
+            .addOnCompleteListener(activity?.let { it }) { it ->
                 if (it.isSuccessful) {
                     Log.d(TAG, "signInWithEmail:success")
 
+                } else {
+                    Log.w(TAG, "signInWithEmail:failure", it.exception)
+                    Toast.makeText(this, "Sign in failed.", Toast.LENGTH_SHORT).show
+
+
                 }
-                else{
-                    Log.w(TAG,"signInWithEmail:failure",it.exception)
-                Toast.makeText(this,"Sign in failed.",Toast.LENGTH_SHORT).show
-
-                }
-
-
 
             }
 
     }
+
+
     companion object {
         /**
          * Use this factory method to create a new instance of
