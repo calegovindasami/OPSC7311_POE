@@ -13,7 +13,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         val projectForm = ProjectForm.newInstance()
         val taskForm = TaskForm.newInstance()
-        supportFragmentManager.beginTransaction().replace(R.id.main_container, taskForm).commit()
+        supportFragmentManager.beginTransaction().replace(R.id.main_container, projectForm).commit()
 
     }
 }
