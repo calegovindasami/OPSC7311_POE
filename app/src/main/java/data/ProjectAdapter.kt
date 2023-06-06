@@ -9,7 +9,7 @@ import com.example.opsc7311_poe.R
 class ProjectAdapter(private val projectList : ArrayList<ProjectViewModel>) : RecyclerView.Adapter<ProjectAdapter.ProjectViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ProjectAdapter.ProjectViewHolder {
-        val itemView = View.inflate(parent.context, R.layout.project_list_item, null)
+        val itemView = View.inflate(parent.context, R.layout.activity_main, null)
         return ProjectViewHolder(parent)
     }
 
