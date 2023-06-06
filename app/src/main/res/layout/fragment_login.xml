@@ -14,30 +14,32 @@
             android:textSize="48dp"
             android:gravity="center"
             android:layout_height="wrap_content"
-            android:text="Register"
+            android:text="Login"
             android:layout_marginBottom="128dp"/>
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/tiLoginEmail"
+
             android:layout_width="match_parent"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_marginBottom="32dp"
             android:hint="Email"
             android:layout_height="wrap_content">
             <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/tiLoginEmail"
                 android:layout_width="match_parent"
                 android:inputType="textEmailAddress"
                 android:layout_height="wrap_content"/>
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/tiLoginPassword"
+
             android:layout_marginBottom="32dp"
             android:layout_width="match_parent"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:hint="Password"
             android:layout_height="wrap_content">
             <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/tiLoginPassword"
                 android:layout_width="match_parent"
                 android:inputType="textPassword"
                 android:layout_height="wrap_content"/>

@@ -18,7 +18,7 @@
         android:layout_marginBottom="128dp"/>
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/tiRegisterEmail"
+
         android:layout_width="match_parent"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_marginBottom="32dp"
@@ -26,12 +26,13 @@
         android:layout_height="wrap_content">
         <com.google.android.material.textfield.TextInputEditText
             android:layout_width="match_parent"
+            android:id="@+id/tiRegisterEmail"
             android:inputType="textEmailAddress"
             android:layout_height="wrap_content"/>
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/tiRegisterPassword"
+
         android:layout_marginBottom="32dp"
         android:layout_width="match_parent"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
@@ -39,6 +40,7 @@
         android:layout_height="wrap_content">
         <com.google.android.material.textfield.TextInputEditText
             android:layout_width="match_parent"
+            android:id="@+id/tiRegisterPassword"
             android:inputType="textPassword"
             android:layout_height="wrap_content"/>
     </com.google.android.material.textfield.TextInputLayout>

@@ -5,7 +5,12 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import com.example.opsc7311_poe.R
+import com.google.android.material.textfield.TextInputEditText
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -18,6 +23,7 @@ private const val ARG_PARAM2 = "param2"
  * create an instance of this fragment.
  */
 class RegisterFragment : Fragment() {
+    private lateinit var auth: FirebaseAuth
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
@@ -35,7 +41,29 @@ class RegisterFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_register, container, false)
+        val view = inflater.inflate(R.layout.fragment_register, container, false)
+
+
+
+        val btnSubmit = view.findViewById<Button>(R.id.btnRegisterSubmit)
+
+        btnSubmit.setOnClickListener() {
+            auth = Firebase.auth
+            val email = view.findViewById<TextInputEditText>(R.id.tiRegisterEmail).text.toString()
+            val password = view.findViewById<TextInputEditText>(R.id.tiRegisterPassword).text.toString()
+
+            auth.createUserWithEmailAndPassword(email, password).addOnCompleteListener() {
+                if (it.isSuccessful) {
+
+                }
+                else {
+                    //TODO
+                }
+            }
+        }
+
+
+        return view
     }
 
     companion object {
@@ -49,11 +77,9 @@ class RegisterFragment : Fragment() {
          */
         // TODO: Rename and change types and number of parameters
         @JvmStatic
-        fun newInstance(param1: String, param2: String) =
+        fun newInstance() =
             RegisterFragment().apply {
                 arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
                 }
             }
     }

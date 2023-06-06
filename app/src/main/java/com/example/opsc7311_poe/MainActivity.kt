@@ -1,5 +1,7 @@
 package com.example.opsc7311_poe
 
+import Authentication.LoginFragment
+import Authentication.RegisterFragment
 import ProjectForm.ProjectForm
 import TaskForm.TaskForm
 import androidx.appcompat.app.AppCompatActivity
@@ -13,7 +15,9 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         val projectForm = ProjectForm.newInstance()
         val taskForm = TaskForm.newInstance()
-        supportFragmentManager.beginTransaction().replace(R.id.main_container, projectForm).commit()
+        val register = RegisterFragment.newInstance()
+        val login = LoginFragment.newInstance()
+        supportFragmentManager.beginTransaction().replace(R.id.main_container, login).commit()
 
     }
 }
