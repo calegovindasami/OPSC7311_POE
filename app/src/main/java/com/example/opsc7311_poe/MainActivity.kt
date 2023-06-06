@@ -16,7 +16,7 @@ import data.TaskViewModel
 
 class MainActivity : AppCompatActivity() {
     // TODO: Add firebase
-    private lateinit var dbref : DatabaseReference
+    private var db: FirebaseFirestore = Firebase.firestore
     // for projects
     private lateinit var projectRecyclerView: RecyclerView
     private lateinit var projectArrayList: ArrayList<ProjectViewModel>
@@ -33,7 +33,7 @@ class MainActivity : AppCompatActivity() {
         projectRecyclerView.setHasFixedSize(true)
 
         projectArrayList = arrayListOf<ProjectViewModel>()
-        getProjectData()
+        projectRecyclerView.adapter = TaskAdapter(getTasks())
 
         // Method used to get data from task
         taskRecyclerView = findViewById(R.id.taskRecyclerView)
@@ -41,7 +41,7 @@ class MainActivity : AppCompatActivity() {
         taskRecyclerView.setHasFixedSize(true)
 
         taskArrayList = arrayListOf<TaskViewModel>()
-        getTaskData()
+        taskRecyclerView.adapter = TaskAdapter(getProjects())
 
     }
 
@@ -65,24 +65,38 @@ class MainActivity : AppCompatActivity() {
         })
     }
 
-    // https://www.youtube.com/watch?v=VVXKVFyYQdQ ref for how I did this code
-    private fun getProjectData() {
-        dbref = FirebaseDatabase.getInstance().getReference("Project")
-        dbref.addValueEventListener(object : ValueEventListener {
 
-            override fun onDataChange(snapshot: DataSnapshot) {
-                if (snapshot.exists()) {
-                    for (projectSnapshot in snapshot.children) {
-                        val project = projectSnapshot.getValue(ProjectViewModel::class.java)
-                        projectArrayList.add(project!!)
-                    }
-                    projectRecyclerView.adapter = ProjectAdapter(projectArrayList)
+    private fun getTasks(userId: String): MutableList<TaskViewModel> {
+        var taskList:MutableList<TaskViewModel> = mutableListOf()
+        val docRef =  db.collection("users").document(userId).collection("task")
+        docRef.get().addOnSuccessListener {
+                tasks ->
+            for (task in tasks) {
+                var newTask = task.toObject<TaskViewModel>()
+                taskList.add(newTask)
+            }
+        }
+            .addOnFailureListener() {
+                //TODO
+            }
+
+        return taskList
+    }
+        private fun getProjects(userId: String): MutableList<ProjectViewModel> {
+            var projectList:MutableList<ProjectViewModel> = mutableListOf()
+            val docRef =  db.collection("users").document(userId).collection("projects")
+            docRef.get().addOnSuccessListener {
+                    projects ->
+                for (proj in projects) {
+                    var project = proj.toObject<ProjectViewModel>()
+                    projectList.add(project)
                 }
             }
-            override fun onCancelled(error: DatabaseError) {
-                TODO("Not yet implemented")
-            }
+                .addOnFailureListener() {
+                    //TODO
+                }
 
-        })
-    }
+            return projectList
+        }
+
 }
