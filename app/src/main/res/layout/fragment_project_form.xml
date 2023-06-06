@@ -1,0 +1,90 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#d6d9e0"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:padding="16dp"
+    tools:context="ProjectForm.ProjectForm">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+
+        android:orientation="vertical">
+
+        <com.google.android.material.textview.MaterialTextView
+            android:layout_width="match_parent"
+
+            android:textSize="48dp"
+            android:gravity="center"
+            android:layout_height="wrap_content"
+            android:text="Add Project"
+            android:layout_marginBottom="16dp"/>
+
+<!--darker-->
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:hint="Project Name"
+
+            android:layout_marginBottom="16dp"
+            android:layout_height="wrap_content">
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/edtProjectNameInput"
+
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:hint="Description"
+            android:layout_marginBottom="16dp"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_height="wrap_content">
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/edtProjectDescriptionInput"
+                android:layout_width="match_parent"
+                android:inputType="textMultiLine"
+                android:minLines="2"
+                android:textAlignment="textStart"
+                android:maxLines="4"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_height="wrap_content"/>
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <Button
+            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+            android:id="@+id/btnProjectDateRange"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:text="Start and End Date"/>
+
+        <com.google.android.material.textview.MaterialTextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Daily Required Hours"/>
+        <com.google.android.material.slider.RangeSlider
+            android:id="@+id/rangeProjectDailyHours"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:valueFrom="0"
+            app:tickVisible="false"
+            android:layout_marginBottom="16dp"
+            app:values="@array/task_range_slider"
+            android:valueTo="23"
+            android:stepSize="1"
+            />
+
+        <Button
+            android:id="@+id/btnProjectSubmit"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:text="SUBMIT"/>
+
+    </LinearLayout>
+
+</FrameLayout>

@@ -1,0 +1,99 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+
+    android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:padding="16dp"
+    android:layout_height="match_parent"
+    tools:context="TaskForm.TaskForm">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/task_context"
+        android:orientation="vertical">
+
+        <com.google.android.material.textview.MaterialTextView
+            android:layout_width="match_parent"
+
+            android:textSize="48dp"
+            android:gravity="center"
+            android:layout_height="wrap_content"
+            android:text="Add Task"
+            android:layout_marginBottom="16dp"/>
+
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:hint="Task Name"
+            android:layout_marginBottom="16dp"
+            android:layout_height="wrap_content">
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/edtTaskNameInput"
+
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:hint="Description"
+            android:layout_marginBottom="16dp"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_height="wrap_content">
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/edtTaskDescriptionInput"
+                android:layout_width="match_parent"
+                android:inputType="textMultiLine"
+                android:minLines="2"
+                android:textAlignment="textStart"
+                android:maxLines="4"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_height="wrap_content"/>
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <Button
+            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+            android:id="@+id/btnTaskStartTime"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:text="Start Time"/>
+
+        <com.google.android.material.textview.MaterialTextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Number of Hours"/>
+        <com.google.android.material.slider.Slider
+            android:id="@+id/rangeTaskNumHours"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:tickVisible="false"
+            android:layout_marginBottom="16dp"
+            app:labelStyle="@style/Widget.Material3.Tooltip"
+            android:tooltipText="Number of Hours"
+            android:valueFrom="1.0"
+            android:stepSize="1.0"
+            android:valueTo="24.0"
+            />
+
+        <Button
+            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+            android:id="@+id/btnTaskUploadImg"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:text="Upload Image"/>
+
+        <Button
+            android:id="@+id/btnTaskSubmit"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:text="SUBMIT"/>
+
+
+    </LinearLayout>
+
+</FrameLayout>
