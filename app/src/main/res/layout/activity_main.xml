@@ -6,41 +6,4 @@
     android:background="?selectableItemBackground"
     android:layout_height="wrap_content"
     app:cardCornerRadius="10dp">
-
-    <LinearLayout
-        android:orientation="vertical"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_margin="15dp">
-
-        <TextView
-            android:id="@+id/projectName"
-            android:layout_width="match_parent"
-            android:layout_height="25dp"/>
-        <TextView
-            android:id="@+id/projectDescription"
-            android:layout_width="match_parent"
-            android:layout_height="25dp"/>
-        <TextView
-            android:id="@+id/projectStartDate"
-            android:layout_width="match_parent"
-            android:layout_height="25dp"/>
-        <TextView
-            android:id="@+id/projectEndDate"
-            android:layout_width="match_parent"
-            android:layout_height="25dp"/>
-        <TextView
-            android:id="@+id/projectMinimumDailyHours"
-            android:layout_width="match_parent"
-            android:layout_height="25dp"/>
-        <TextView
-            android:id="@+id/projectMaximumDailyHours"
-            android:layout_width="match_parent"
-            android:layout_height="25dp"/>
-
-
-    </LinearLayout>
-
-
-
 </androidx.cardview.widget.CardView>
