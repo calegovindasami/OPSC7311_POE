@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
 import data.ProjectAdapter
 import data.ProjectViewModel
@@ -33,15 +34,15 @@ class MainActivity : AppCompatActivity() {
         projectRecyclerView.setHasFixedSize(true)
 
         projectArrayList = arrayListOf<ProjectViewModel>()
-        projectRecyclerView.adapter = ProjectAdapter(getProjects("UserID") as ArrayList<ProjectViewModel>)
+        projectRecyclerView.adapter = ProjectAdapter(getProjects("ST10083941") as ArrayList<ProjectViewModel>)
 
         // Method used to get data from task
-        taskRecyclerView = findViewById(R.id.taskRecyclerView)
+        /*taskRecyclerView = findViewById(R.id.taskRecyclerView)
         taskRecyclerView.layoutManager = LinearLayoutManager(this)
         taskRecyclerView.setHasFixedSize(true)
 
         taskArrayList = arrayListOf<TaskViewModel>()
-        taskRecyclerView.adapter = TaskAdapter(getTasks("UserID"))
+        taskRecyclerView.adapter = TaskAdapter(getTasks("UserID"))*/
 
     }
     // No idea on why the error is on tasks
