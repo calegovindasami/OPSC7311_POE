@@ -25,7 +25,9 @@ import java.lang.Exception
 import java.net.URL
 import java.text.DateFormat
 import java.text.SimpleDateFormat
+import java.time.LocalDate
 import java.time.LocalDateTime
+import java.time.Period
 import java.util.Calendar
 import java.util.Date
 import kotlin.math.min
@@ -110,6 +112,24 @@ class ProjectForm : Fragment() {
         }
     }
 
+    private fun getProjects(userId: String): MutableList<ProjectViewModel> {
+        val db = Firebase.firestore
+        var projectList:MutableList<ProjectViewModel> = mutableListOf()
+        val docRef =  db.collection("users").document(userId).collection("projects")
+        docRef.get().addOnSuccessListener {
+            projects ->
+            for (proj in projects) {
+                var project = proj.toObject<ProjectViewModel>()
+                projectList.add(project)
+            }
+        }
+            .addOnFailureListener() {
+                //TODO
+            }
+
+        return projectList
+    }
+
 
 
     private fun createDatePicker(button: Button){
@@ -126,6 +146,20 @@ class ProjectForm : Fragment() {
         }
 
         dateRangePicker.show(parentFragmentManager, "Tag")
+    }
+
+    fun groupByHours() {
+        val list = listOf(ProjectViewModel())
+
+        list.forEach {
+            p ->
+            var total = 0
+            p.tasks!!.forEach {
+                task ->
+                total += task.numberOfHours
+
+            }
+        }
     }
 
     companion object {
