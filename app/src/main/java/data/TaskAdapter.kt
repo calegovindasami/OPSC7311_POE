@@ -19,7 +19,7 @@ class TaskAdapter(private val taskList: MutableList<TaskViewModel>) : RecyclerVi
         holder.taskDescription.text = current.description
         holder.taskStartTime.text = current.startTime.toString()
         holder.taskNumberOfHours.text = current.numberOfHours.toString()
-        holder.taskPhotoUrl.text = current.photoUrl.toString()
+        holder.taskPhotoUrl.text = current.photoUrl
 
     }
 
