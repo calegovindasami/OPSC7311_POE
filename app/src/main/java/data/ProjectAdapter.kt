@@ -21,7 +21,6 @@ class ProjectAdapter(private val projectList : ArrayList<ProjectViewModel>) : Re
         holder.projectEndDate.text = current.endDate.toString()
         holder.projectMinimumDailyHours.text = current.minimumDailyHours.toString()
         holder.projectMaximumDailyHours.text = current.maximumDailyHours.toString()
-
     }
 
     override fun getItemCount(): Int {
