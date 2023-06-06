@@ -4,18 +4,18 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseError
-import com.google.firebase.database.DatabaseReference
-import com.google.firebase.database.FirebaseDatabase
-import com.google.firebase.database.ValueEventListener
+import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.ktx.Firebase
 import data.ProjectAdapter
 import data.ProjectViewModel
 import data.TaskAdapter
 import data.TaskViewModel
 
 class MainActivity : AppCompatActivity() {
-    // TODO: Add firebase
+    // TODO: Add the UI to make sure the code works, The Var names are set so you can use those or just change them,
+    //  Apologizes as I tried to do the UI but Android Studio Freezes the second I touch the code. When my power comes
+    //  on I'll hop onto discord to complete this but with everything else combined we should be good to go
     private var db: FirebaseFirestore = Firebase.firestore
     // for projects
     private lateinit var projectRecyclerView: RecyclerView
@@ -33,7 +33,7 @@ class MainActivity : AppCompatActivity() {
         projectRecyclerView.setHasFixedSize(true)
 
         projectArrayList = arrayListOf<ProjectViewModel>()
-        projectRecyclerView.adapter = TaskAdapter(getTasks())
+        projectRecyclerView.adapter = ProjectAdapter(getProjects("UserID") as ArrayList<ProjectViewModel>)
 
         // Method used to get data from task
         taskRecyclerView = findViewById(R.id.taskRecyclerView)
@@ -41,31 +41,10 @@ class MainActivity : AppCompatActivity() {
         taskRecyclerView.setHasFixedSize(true)
 
         taskArrayList = arrayListOf<TaskViewModel>()
-        taskRecyclerView.adapter = TaskAdapter(getProjects())
+        taskRecyclerView.adapter = TaskAdapter(getTasks("UserID"))
 
     }
-
-    private fun getTaskData() {
-        dbref = FirebaseDatabase.getInstance().getReference("Task")
-        dbref.addValueEventListener(object : ValueEventListener {
-
-            override fun onDataChange(snapshot: DataSnapshot) {
-                if (snapshot.exists()) {
-                    for (taskSnapshot in snapshot.children) {
-                        val task = taskSnapshot.getValue(TaskViewModel::class.java)
-                        taskArrayList.add(task!!)
-                    }
-                    taskRecyclerView.adapter = TaskAdapter(taskArrayList)
-                }
-            }
-            override fun onCancelled(error: DatabaseError) {
-                TODO("Not yet implemented")
-            }
-
-        })
-    }
-
-
+    // No idea on why the error is on tasks
     private fun getTasks(userId: String): MutableList<TaskViewModel> {
         var taskList:MutableList<TaskViewModel> = mutableListOf()
         val docRef =  db.collection("users").document(userId).collection("task")
