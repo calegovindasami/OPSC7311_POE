@@ -2,6 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:padding="16dp"
     tools:context="Authentication.LoginFragment">
 
@@ -18,7 +19,8 @@
             android:layout_marginBottom="128dp"/>
 
         <com.google.android.material.textfield.TextInputLayout
-
+            android:id="@+id/tlLoginEmail"
+            app:errorEnabled="true"
             android:layout_width="match_parent"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_marginBottom="32dp"
@@ -32,11 +34,12 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
-
+            android:id="@+id/tlLoginPassword"
             android:layout_marginBottom="32dp"
             android:layout_width="match_parent"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:hint="Password"
+            app:errorEnabled="true"
             android:layout_height="wrap_content">
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/tiLoginPassword"
@@ -56,7 +59,9 @@
             android:text="SUBMIT"/>
 
         <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/txtGoToSignUp"
             android:layout_width="match_parent"
+            android:clickable="true"
             android:layout_height="wrap_content"
             android:textSize="16dp"
             android:gravity="center"
