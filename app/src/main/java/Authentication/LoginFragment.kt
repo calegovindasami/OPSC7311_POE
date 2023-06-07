@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import android.widget.Button
 import com.example.opsc7311_poe.MainActivity
 import com.example.opsc7311_poe.R
+import com.example.opsc7311_poe.ViewProject
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
@@ -63,9 +64,9 @@ class LoginFragment : Fragment() {
             else {
                 auth.signInWithEmailAndPassword(email, password).addOnCompleteListener() {
                     if (it.isSuccessful) {
-                        var uid = it.result.user!!.uid
-                        val intent = Intent(activity, MainActivity::class.java)
-                        activity?.startActivity(intent)
+                        val projectFragment = ViewProject.newInstance()
+                        requireActivity().supportFragmentManager.beginTransaction().replace(R.id.auth_view, projectFragment).commit()
+
                     }
                     else {
                         Snackbar.make(requireView(), it.exception!!.message.toString(), Snackbar.LENGTH_LONG).show()

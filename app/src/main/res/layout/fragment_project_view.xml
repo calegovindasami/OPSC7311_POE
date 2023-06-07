@@ -9,14 +9,6 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/project_view"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:clickable="true"
-            tools:listitem="@layout/project_card"
-            android:isScrollContainer="true"
-            android:focusable="true">
-        </androidx.recyclerview.widget.RecyclerView>
+
     </RelativeLayout>
 </LinearLayout>
