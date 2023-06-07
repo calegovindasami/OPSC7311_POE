@@ -1,14 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:padding="8dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ViewProject">
 
-    <RelativeLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
+
+        <com.google.android.material.textview.MaterialTextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:layout_marginBottom="32dp"
+            android:textSize="32dp"
+            android:text="Projects"/>
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/project_view"
@@ -19,6 +29,18 @@
             android:isScrollContainer="true"
             android:focusable="true">
         </androidx.recyclerview.widget.RecyclerView>
-    </RelativeLayout>
+
+
+    </LinearLayout>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/btnAddProject"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:backgroundTint="@color/secondary"
+        android:layout_margin="16dp"
+        android:contentDescription="+"
+        app:srcCompat="@drawable/baseline_add_24_white"/>
 
 </FrameLayout>

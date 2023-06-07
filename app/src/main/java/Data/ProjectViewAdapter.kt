@@ -8,6 +8,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.opsc7311_poe.R
 import com.google.android.material.textfield.TextInputEditText
+import java.text.SimpleDateFormat
 
 class ProjectViewAdapter(private val projectList: List<ProjectViewModel>) : RecyclerView.Adapter<ProjectViewAdapter.ViewHolder>() {
     class ViewHolder(projectView: View): RecyclerView.ViewHolder(projectView) {
@@ -35,8 +36,8 @@ class ProjectViewAdapter(private val projectList: List<ProjectViewModel>) : Recy
 
         holder.name.text = projectViewModel.name
         holder.desc.text = projectViewModel.description
-        holder.startDate.text = projectViewModel.startDate.toString()
-        holder.endDate.text = projectViewModel.endDate.toString()
+        holder.startDate.text = SimpleDateFormat("dd/MM/yyyy").parse(projectViewModel.startDate.toString()).toString()
+        holder.endDate.text = SimpleDateFormat("dd/MM/yyyy").parse(projectViewModel.endDate.toString()).toString()
         holder.maxHours.text = projectViewModel.maximumDailyHours.toString()
         holder.minHours.text = projectViewModel.minimumDailyHours.toString()
     }
