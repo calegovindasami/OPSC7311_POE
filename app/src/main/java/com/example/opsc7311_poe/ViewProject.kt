@@ -1,5 +1,6 @@
 package com.example.opsc7311_poe
 
+import ProjectForm.ProjectForm
 import Services.ProjectService
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -8,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
@@ -69,9 +71,16 @@ class ViewProject : Fragment() {
                 val adapter = ProjectViewAdapter(projectList)
                 recyclerView.adapter = adapter
             }
+
+
         }
 
+        val btnAddProject = view.findViewById<FloatingActionButton>(R.id.btnAddProject)
 
+        btnAddProject.setOnClickListener() {
+            val projectForm = ProjectForm.newInstance()
+            requireActivity().supportFragmentManager.beginTransaction().replace(R.id.auth_view, projectForm).commit()
+        }
 
 
 
