@@ -1,5 +1,38 @@
 <resources>
-    <string name="app_name">OPSC7311_POE</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="app_name">OnTime</string>
+    <string name="login">LOGIN</string>
+    <string name="signup">SIGN UP</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="forgot_password">FORGOT PASSWORD?</string>
+    <string name="confirm_password">Confirm Password</string>
+    <string name="full_name">Full Name</string>
+    <string name="register">REGISTER</string>
+    <string name="otp">Get OTP</string>
+
+    <string name="title_activity_main">MainActivity</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_title">Android Studio</string>
+    <string name="nav_header_subtitle">android.studio@android.com</string>
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="action_settings">Settings</string>
+
+    <string name="menu_home">Home</string>
+    <string name="menu_project">Projects</string>
+    <string name="menu_graph">Graph</string>
+    <string name="user_pic">User Pic</string>
+    <string name="user_name">User Name</string>
+    <string name="user_gmail_com">user@gmail.com</string>
+    <string name="content_description_media">Project Image</string>
+    <string name="title">Project Name</string>
+    <string name="secondary_text">Description</string>
+    <string name="supporting_text">Description Text</string>
+    <string name="action_1">Add</string>
+    <string name="action_2">Delete</string>
+    <string name="supporting_text_2">StartDate-EndDate</string>
+    <string name="page_title">OnTime</string>
+    <string name="search">Search</string>
+    <string name="content_description_search">Search for project</string>
+
 </resources>

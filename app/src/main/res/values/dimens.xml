@@ -1,0 +1,43 @@
+<resources>
+    <!-- Default screen margins, per the Android Design guidelines. -->
+    <dimen name="activity_horizontal_margin">16dp</dimen>
+    <dimen name="activity_vertical_margin">16dp</dimen>
+    <dimen name="nav_header_vertical_spacing">8dp</dimen>
+    <dimen name="nav_header_height">176dp</dimen>
+    <dimen name="fab_margin">16dp</dimen>
+    <dimen name="text_margin">16dp</dimen>
+
+    <!--General Dimen-->
+    <dimen name="Margin20">20dp</dimen>
+    <dimen name="Margin10">10dp</dimen>
+    <dimen name="Margin8">8dp</dimen>
+    <dimen name="Margin16">16dp</dimen>
+    <dimen name="Padding10">10dp</dimen>
+    <dimen name="Padding8">8dp</dimen>
+    <dimen name="Padding16">16dp</dimen>
+    <dimen name="Heading">32sp</dimen>
+    <dimen name="SubHeading">26sp</dimen>
+    <dimen name="Text">20sp</dimen>
+    <dimen name="SubText">22sp</dimen>
+    <dimen name="SmallText">16sp</dimen>
+
+    <dimen name="loginbtnHeight">60dp</dimen>
+    <dimen name="loginbtnWidth">140dp</dimen>
+
+
+    <!--Img Dimen-->
+    <dimen name="ImgBannerHeight">350dp</dimen>
+
+    <!--LinearLayout Dimen-->
+    <dimen name="LinearLayoutMarginTop">20dp</dimen>
+
+
+    <!--TextInputLayout Dimen-->
+    <dimen name="TextInputLayoutWidth">300dp</dimen>
+
+    <!--Button Dimen-->
+    <dimen name="ConfirmBtnWidth">300dp</dimen>
+    <dimen name="ConfirmBtnHeight">60dp</dimen>
+
+
+</resources>
