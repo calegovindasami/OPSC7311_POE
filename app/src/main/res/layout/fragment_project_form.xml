@@ -2,7 +2,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#d6d9e0"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:padding="16dp"
     tools:context="ProjectForm.ProjectForm">
@@ -12,6 +11,13 @@
         android:layout_height="wrap_content"
 
         android:orientation="vertical">
+
+        <ImageButton
+            android:id="@+id/btnProjectBack"
+            android:layout_width="50dp"
+            android:background="@color/white"
+            android:src="@drawable/baseline_arrow_back_24"
+            android:layout_height="wrap_content"/>
 
         <com.google.android.material.textview.MaterialTextView
             android:layout_width="match_parent"
@@ -84,6 +90,8 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="16dp"
             android:text="SUBMIT"/>
+
+
 
     </LinearLayout>
 

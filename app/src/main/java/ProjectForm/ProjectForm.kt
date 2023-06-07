@@ -7,15 +7,20 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
+import android.widget.ImageButton
 import android.widget.Toast
 import androidx.core.util.Pair
 import androidx.fragment.app.Fragment
 import com.example.opsc7311_poe.R
+import com.example.opsc7311_poe.ViewProject
 import com.google.android.material.datepicker.MaterialDatePicker
 import com.google.android.material.slider.RangeSlider
+import com.google.android.material.snackbar.Snackbar
+import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
+import data.TaskViewModel
 import java.util.Date
 
 // TODO: Rename parameter arguments, choose names that match
@@ -62,6 +67,12 @@ class ProjectForm : Fragment() {
 
         val btnSubmit = view.findViewById<Button>(R.id.btnProjectSubmit)
 
+        val btnBack = view.findViewById<ImageButton>(R.id.btnProjectBack)
+        btnBack.setOnClickListener() {
+            val projectView = ViewProject.newInstance()
+            requireActivity().supportFragmentManager.beginTransaction().replace(R.id.auth_view, projectView).commit()
+        }
+
         btnSubmit.setOnClickListener {
             addProject(getFormData(view))
         }
@@ -75,46 +86,24 @@ class ProjectForm : Fragment() {
         val timeRange = view.findViewById<RangeSlider>(R.id.rangeProjectDailyHours)
         val minHours = timeRange.valueFrom.toInt()
         val maxHours = timeRange.valueTo.toInt()
-        return ProjectViewModel(projectName, description, startDate, endDate, minHours, maxHours, null)
+        val tasks: MutableList<TaskViewModel> = mutableListOf()
+        return ProjectViewModel(projectName, description, startDate, endDate, minHours, maxHours, tasks)
     }
 
     private fun addProject(project: ProjectViewModel) {
         val db = Firebase.firestore
-        db.collection("users").document("st10083941").collection("projects").add(project)
-            .addOnSuccessListener {
-                Toast.makeText(activity?.let{it}, "${project.name} has been added!", Toast.LENGTH_LONG)
+        var auth = Firebase.auth
+        var uid = auth.uid
+        db.collection("users").document(uid.toString()).collection("projects").add(project).addOnCompleteListener() {
+            if (it.isSuccessful) {
+                Snackbar.make(requireView(), "Project added.", Snackbar.LENGTH_LONG)
             }
-            .addOnFailureListener {
-                Toast.makeText(activity?.let{it}, "${it.toString()}", Toast.LENGTH_LONG)
-            }
-    }
-
-    private fun getProject() {
-        val db = Firebase.firestore
-        val docRef =  db.collection("users").document("st10083941").collection("projects").document("jV6Qj5X4Yat2lgHwYm2W")
-        docRef.get().addOnSuccessListener { documentSnapshot ->
-            val project = documentSnapshot.toObject<ProjectViewModel>()
-            val name = project!!.name
-        }
-    }
-
-    private fun getProjects(userId: String): MutableList<ProjectViewModel> {
-        val db = Firebase.firestore
-        var projectList:MutableList<ProjectViewModel> = mutableListOf()
-        val docRef =  db.collection("users").document(userId).collection("projects")
-        docRef.get().addOnSuccessListener {
-            projects ->
-            for (proj in projects) {
-                var project = proj.toObject<ProjectViewModel>()
-                projectList.add(project)
+            else {
+                Snackbar.make(requireView(), it.exception?.message.toString(), Snackbar.LENGTH_LONG)
             }
         }
-            .addOnFailureListener() {
-                //TODO
-            }
-
-        return projectList
     }
+
 
 
 

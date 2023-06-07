@@ -1,5 +1,7 @@
 package Services
 
+import android.view.View
+import com.google.android.material.snackbar.Snackbar
 import data.ProjectViewModel
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.firestore
@@ -10,7 +12,7 @@ class ProjectService {
     private var db: FirebaseFirestore = Firebase.firestore
 
 
-    private fun getProjects(userId: String): MutableList<ProjectViewModel> {
+    suspend fun getProjects(userId: String, view: View): MutableList<ProjectViewModel> {
         var projectList:MutableList<ProjectViewModel> = mutableListOf()
         val docRef =  db.collection("users").document(userId).collection("projects")
         docRef.get().addOnSuccessListener {
@@ -21,13 +23,13 @@ class ProjectService {
             }
         }
             .addOnFailureListener() {
-                //TODO
+                Snackbar.make(view, "Error loading projects.", Snackbar.LENGTH_LONG)
             }
 
         return projectList
     }
 
-    private fun getProject(userId: String): ProjectViewModel {
+    public fun getProject(userId: String): ProjectViewModel {
         var project: ProjectViewModel = ProjectViewModel()
         val docRef =  db.collection("users").document(userId).collection("projects").document("jV6Qj5X4Yat2lgHwYm2W")
         docRef.get().addOnSuccessListener { documentSnapshot ->
