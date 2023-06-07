@@ -9,7 +9,7 @@ import android.os.Bundle
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.fragment_project_view)
+        setContentView(R.layout.fragment_task_view)
 
     }
 

@@ -1,7 +1,8 @@
-package data
+package Data
 
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.opsc7311_poe.R
@@ -9,7 +10,7 @@ import com.example.opsc7311_poe.R
 class TaskAdapter(private val taskList: MutableList<TaskViewModel>) : RecyclerView.Adapter<TaskAdapter.TaskViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TaskAdapter.TaskViewHolder {
-        val itemView = View.inflate(parent.context, R.layout.task_list_item, null)
+        val itemView = View.inflate(parent.context, R.layout.activity_main, null)
         return TaskAdapter.TaskViewHolder(parent)
     }
 
