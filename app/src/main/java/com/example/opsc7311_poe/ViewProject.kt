@@ -55,10 +55,21 @@ class ViewProject : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_view_project, container, false)
+
+
+
+        val btnAddProject = view.findViewById<FloatingActionButton>(R.id.btnAddProject)
+
+        btnAddProject.setOnClickListener() {
+            val projectForm = ProjectForm.newInstance()
+            requireActivity().supportFragmentManager.beginTransaction().replace(R.id.auth_view, projectForm).commit()
+        }
+
+
         auth = Firebase.auth
         val uid = auth.uid!!
         var projectList: MutableList<ProjectViewModel> = mutableListOf()
-        val docRef =  db.collection("users").document("st10083941").collection("projects")
+        val docRef =  db.collection("users").document(uid).collection("projects")
         docRef.get().addOnCompleteListener() {
             if (it.isSuccessful) {
                 var projects = it.result.documents
@@ -70,18 +81,15 @@ class ViewProject : Fragment() {
                 recyclerView.layoutManager = LinearLayoutManager(context)
                 val adapter = ProjectViewAdapter(projectList)
                 recyclerView.adapter = adapter
+                val x = "hit"
+            }
+
+            else if (it.isCanceled) {
+                Snackbar.make(requireView(), it.exception!!.message.toString(), Snackbar.LENGTH_LONG).show()
             }
 
 
         }
-
-        val btnAddProject = view.findViewById<FloatingActionButton>(R.id.btnAddProject)
-
-        btnAddProject.setOnClickListener() {
-            val projectForm = ProjectForm.newInstance()
-            requireActivity().supportFragmentManager.beginTransaction().replace(R.id.auth_view, projectForm).commit()
-        }
-
 
 
         return view

@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
+import android.widget.ImageButton
 import android.widget.Toast
 import androidx.core.util.Pair
 import androidx.fragment.app.Fragment
@@ -19,6 +20,7 @@ import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
+import data.TaskViewModel
 import java.util.Date
 
 // TODO: Rename parameter arguments, choose names that match
@@ -65,7 +67,7 @@ class ProjectForm : Fragment() {
 
         val btnSubmit = view.findViewById<Button>(R.id.btnProjectSubmit)
 
-        val btnBack = view.findViewById<Button>(R.id.btnProjectBack)
+        val btnBack = view.findViewById<ImageButton>(R.id.btnProjectBack)
         btnBack.setOnClickListener() {
             val projectView = ViewProject.newInstance()
             requireActivity().supportFragmentManager.beginTransaction().replace(R.id.auth_view, projectView).commit()
@@ -84,7 +86,8 @@ class ProjectForm : Fragment() {
         val timeRange = view.findViewById<RangeSlider>(R.id.rangeProjectDailyHours)
         val minHours = timeRange.valueFrom.toInt()
         val maxHours = timeRange.valueTo.toInt()
-        return ProjectViewModel(projectName, description, startDate, endDate, minHours, maxHours, null)
+        val tasks: MutableList<TaskViewModel> = mutableListOf()
+        return ProjectViewModel(projectName, description, startDate, endDate, minHours, maxHours, tasks)
     }
 
     private fun addProject(project: ProjectViewModel) {
