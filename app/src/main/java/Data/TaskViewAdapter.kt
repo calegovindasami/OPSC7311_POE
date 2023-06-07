@@ -1,5 +1,6 @@
 package Data
 
+import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
@@ -17,7 +18,7 @@ class TaskViewAdapter(private val taskList: List<TaskViewModel>) : RecyclerView.
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val view = View.inflate(parent.context, R.layout.activity_main, null)
+        val view = LayoutInflater.from(parent.context).inflate( R.layout.project_card, parent, false)
         return ViewHolder(view)
     }
 
