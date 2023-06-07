@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import android.widget.Button
 import com.example.opsc7311_poe.R
 import com.google.android.material.textfield.TextInputEditText
+import com.google.android.material.textview.MaterialTextView
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
@@ -45,25 +46,18 @@ class RegisterFragment : Fragment() {
 
 
 
-        val btnSubmit = view.findViewById<Button>(R.id.btnRegisterSubmit)
-
-        btnSubmit.setOnClickListener() {
-            auth = Firebase.auth
-            val email = view.findViewById<TextInputEditText>(R.id.tiRegisterEmail).text.toString()
-            val password = view.findViewById<TextInputEditText>(R.id.tiRegisterPassword).text.toString()
-
-            auth.createUserWithEmailAndPassword(email, password).addOnCompleteListener() {
-                if (it.isSuccessful) {
-
-                }
-                else {
-                    //TODO
-                }
-            }
+        val btnLogin = view.findViewById<MaterialTextView>(R.id.txtGoToLogin)
+        btnLogin.setOnClickListener() {
+            navigateToLogin()
         }
 
 
         return view
+    }
+
+    private fun navigateToLogin() {
+        val loginFragment = LoginFragment.newInstance()
+        requireActivity().supportFragmentManager.beginTransaction().replace(R.id.auth_view, loginFragment).commit()
     }
 
     companion object {

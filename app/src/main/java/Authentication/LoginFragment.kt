@@ -1,13 +1,18 @@
 package Authentication
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import com.example.opsc7311_poe.MainActivity
 import com.example.opsc7311_poe.R
+import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputEditText
+import com.google.android.material.textfield.TextInputLayout
+import com.google.android.material.textview.MaterialTextView
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
@@ -44,22 +49,39 @@ class LoginFragment : Fragment() {
         val view = inflater.inflate(R.layout.fragment_login, container, false)
         val btnSubmit = view.findViewById<Button>(R.id.btnLoginSubmit)
 
+        //Attempts to sign in user.
         btnSubmit.setOnClickListener() {
             auth = Firebase.auth
             val email = view.findViewById<TextInputEditText>(R.id.tiLoginEmail).text.toString()
             val password = view.findViewById<TextInputEditText>(R.id.tiLoginPassword).text.toString()
 
-            auth.signInWithEmailAndPassword(email, password).addOnCompleteListener() {
-                if (it.isSuccessful) {
-                    var uid = it.result.user!!.uid
-                }
-                else {
 
+            if (email =="" || password == "") {
+                val emailLayout = view.findViewById<TextInputLayout>(R.id.tlLoginEmail)
+                Snackbar.make(requireView(), "Invalid fields", Snackbar.LENGTH_LONG).show()
+            }
+            else {
+                auth.signInWithEmailAndPassword(email, password).addOnCompleteListener() {
+                    if (it.isSuccessful) {
+                        var uid = it.result.user!!.uid
+                        val intent = Intent(activity, MainActivity::class.java)
+                        activity?.startActivity(intent)
+                    }
+                    else {
+                        Snackbar.make(requireView(), it.exception!!.message.toString(), Snackbar.LENGTH_LONG).show()
+                    }
                 }
             }
         }
+
+        val btnSignUp = view.findViewById<MaterialTextView>(R.id.txtGoToSignUp)
+        btnSignUp.setOnClickListener() {
+            val registerFragment = RegisterFragment.newInstance()
+            requireActivity().supportFragmentManager.beginTransaction().replace(R.id.auth_view, registerFragment).commit()
+        }
         return view
     }
+
 
     companion object {
         /**
