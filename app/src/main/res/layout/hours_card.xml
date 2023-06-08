@@ -4,7 +4,8 @@
     android:layout_height="wrap_content"
     android:layout_margin="8dp"
     android:clickable="true"
-    android:focusable="true">
+    android:focusable="true"
+    android:backgroundTint="@color/background">
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -17,38 +18,74 @@
             android:padding="16dp">
 
             <!-- Title, secondary and supporting text -->
+
             <TextView
                 android:id="@+id/hoursProjectName"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:paddingStart="5dp"
                 android:text="Project Name"
+                android:background="@color/primary"
                 android:textSize="32sp"
                 android:textAppearance="?attr/textAppearanceCaption"
-                android:textColor="?android:attr/textColorPrimary"
+                android:textColor="@color/white"
                 />
 
-            <TextView
-                android:id="@+id/totalHours"
+            <LinearLayout
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
-                android:text="Project Total Hours:"
-                android:textSize="20sp"
-                android:textAppearance="?attr/textAppearanceBodyMedium"
-                android:textColor="?android:attr/textColorSecondary"
-                />
+                android:layout_height="wrap_content">
+                <TextView
+
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:text="Total Hours:"
+                    android:textSize="20sp"
+                    android:textAppearance="?attr/textAppearanceBodyMedium"
+                    android:textColor="?android:attr/textColorSecondary"
+                    />
+
+                <TextView
+                    android:id="@+id/totalHours"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:text="100"
+                    android:textSize="20sp"
+                    android:textAppearance="?attr/textAppearanceBodyMedium"
+                    android:textColor="?android:attr/textColorSecondary"
+                    />
+
+            </LinearLayout>
 
 
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:text="Total Tasks: "
+                    android:textSize="20sp"
+                    android:textAppearance="?attr/textAppearanceBodyMedium"
+                    android:textColor="?android:attr/textColorSecondary" />
 
                 <TextView
                     android:id="@+id/totalTasks"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="4dp"
-                    android:text="Total Number Of Tasks: "
+                    android:text="20"
                     android:textSize="20sp"
                     android:textAppearance="?attr/textAppearanceBodyMedium"
                     android:textColor="?android:attr/textColorSecondary" />
+
+
+            </LinearLayout>
+
 
 
 
@@ -66,8 +103,9 @@
             <com.google.android.material.button.MaterialButton
                 android:layout_width="150dp"
                 android:layout_height="50dp"
+                android:backgroundTint="@color/primary"
                 android:text="View"
-                style="?attr/borderlessButtonStyle"
+
                 />
         </LinearLayout>
 
