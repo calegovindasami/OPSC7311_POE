@@ -1,6 +1,7 @@
 package com.example.opsc7311_poe
 
 import Authentication.LoginFragment
+import ProjectForm.ProjectForm
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
@@ -16,6 +17,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         val loginFragment = LoginFragment.newInstance()
+        val projectF = ProjectForm.newInstance()
         supportFragmentManager.beginTransaction().replace(R.id.auth_view,loginFragment).commitAllowingStateLoss()
     }
 

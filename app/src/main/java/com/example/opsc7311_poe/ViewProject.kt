@@ -77,7 +77,13 @@ class ViewProject : Fragment() {
                 recyclerView = view.findViewById<RecyclerView>(R.id.project_view)
                 recyclerView.layoutManager = LinearLayoutManager(context)
                 val adapter = ProjectViewAdapter(projectList)
+                adapter.setOnItemClickListener(object: ProjectViewAdapter.OnItemClickListener {
+                    override fun onItemClick(position: Int) {
+                        Snackbar.make(requireView(), projectList[position].name, Snackbar.LENGTH_LONG).show()
+                    }
+                })
                 recyclerView.adapter = adapter
+
                 val x = "hit"
             }
 

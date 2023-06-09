@@ -21,7 +21,14 @@ import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
 import data.TaskViewModel
+import java.text.DateFormat
+import java.text.SimpleDateFormat
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
+import java.util.Calendar
 import java.util.Date
+import java.util.Locale
+import kotlin.time.Duration.Companion.days
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -84,8 +91,10 @@ class ProjectForm : Fragment() {
         val projectName = view.findViewById<EditText>(R.id.edtProjectNameInput).text.toString()
         val description = view.findViewById<EditText>(R.id.edtProjectDescriptionInput).text.toString()
         val timeRange = view.findViewById<RangeSlider>(R.id.rangeProjectDailyHours)
-        val minHours = timeRange.valueFrom.toInt()
-        val maxHours = timeRange.valueTo.toInt()
+
+        val timeRangeValues = timeRange.values
+        val minHours = timeRangeValues[0].toInt()
+        val maxHours = timeRangeValues[1].toInt()
         val tasks: MutableList<TaskViewModel> = mutableListOf()
         return ProjectViewModel(projectName, description, startDate, endDate, minHours, maxHours, tasks)
     }
@@ -114,14 +123,17 @@ class ProjectForm : Fragment() {
                 .build()
 
         dateRangePicker.addOnPositiveButtonClickListener {
-            val dates = dateRangePicker.selection
-            startDate = Date(dates!!.first)
-            endDate = Date(dates!!.second)
+            var firstDate = it.first
+            var secondDate = it.second
+            startDate = Date(firstDate)
+            endDate = Date(secondDate)
 
         }
 
         dateRangePicker.show(parentFragmentManager, "Tag")
     }
+
+
 
 
 
