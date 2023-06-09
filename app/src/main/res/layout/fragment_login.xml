@@ -55,7 +55,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
-        android:id="@+id/tlLoginEmail"
+        android:id="@+id/tiLoginEmail"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
@@ -73,7 +73,7 @@
         />
 
     <EditText
-        android:id="@+id/tlLoginPassword"
+        android:id="@+id/tiLoginPassword"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
@@ -88,7 +88,7 @@
         android:padding="16dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tlLoginEmail" />
+        app:layout_constraintTop_toBottomOf="@+id/tiLoginEmail" />
 
     <Button
         android:id="@+id/btnLoginSubmit"
@@ -104,7 +104,7 @@
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tlLoginPassword" />
+        app:layout_constraintTop_toBottomOf="@+id/tiLoginPassword" />
 
 
     <TextView
