@@ -1,4 +1,4 @@
-package data
+package Data
 
 import com.google.android.gms.tasks.Task
 import data.TaskViewModel
