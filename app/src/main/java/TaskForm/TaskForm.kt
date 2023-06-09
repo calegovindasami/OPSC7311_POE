@@ -11,15 +11,19 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
+import android.widget.ImageButton
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import com.example.opsc7311_poe.R
+import com.example.opsc7311_poe.ViewTask
 import com.google.android.material.slider.Slider
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.timepicker.MaterialTimePicker
 import com.google.android.material.timepicker.MaterialTimePicker.INPUT_MODE_CLOCK
 import com.google.android.material.timepicker.TimeFormat
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
@@ -31,7 +35,7 @@ import java.util.Date
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
+private const val ARG_PROJECTID = "projectId"
 private const val ARG_PARAM2 = "param2"
 
 
@@ -44,18 +48,20 @@ class TaskForm : Fragment() {
     lateinit var imgUri: String
     lateinit var startTime: Date
 
+    private lateinit var auth: FirebaseAuth
+
     private val contract = registerForActivityResult(ActivityResultContracts.GetContent()) {
 
         imgUri = it.toString()
     }
     // TODO: Rename and change types of parameters
-    private var param1: String? = null
+    private var projectId: String? = null
     private var param2: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
+            projectId = it.getString(ARG_PROJECTID)
             param2 = it.getString(ARG_PARAM2)
         }
     }
@@ -81,6 +87,13 @@ class TaskForm : Fragment() {
         val btnSubmit = view.findViewById<Button>(R.id.btnTaskSubmit)
         btnSubmit.setOnClickListener() {
             uploadData(getFormData(view), view)
+        }
+
+        val btnTaskBack = view.findViewById<ImageButton>(R.id.btnTaskBack)
+
+        btnTaskBack.setOnClickListener() {
+            val viewTask = ViewTask.newInstance(projectId!!)
+            requireActivity().supportFragmentManager.beginTransaction().replace(R.id.auth_view, viewTask).commit()
         }
 
         return view
@@ -126,7 +139,9 @@ class TaskForm : Fragment() {
 
     private fun uploadData(task: TaskViewModel, contextView: View) {
         val db = Firebase.firestore
-        val docRef =  db.collection("users").document("st10083941").collection("projects").document("jV6Qj5X4Yat2lgHwYm2W")
+        auth = Firebase.auth
+        val uid = auth.uid!!
+        val docRef =  db.collection("users").document(uid).collection("projects").document(projectId!!)
         docRef.get().addOnSuccessListener { documentSnapshot ->
             val project = documentSnapshot.toObject<ProjectViewModel>()
             project!!.tasks!!.add(task)
@@ -152,10 +167,10 @@ class TaskForm : Fragment() {
          */
         // TODO: Rename and change types and number of parameters
         @JvmStatic
-        fun newInstance() =
+        fun newInstance(projectId: String) =
             TaskForm().apply {
                 arguments = Bundle().apply {
-
+                    putString(ARG_PROJECTID, projectId)
                 }
             }
     }

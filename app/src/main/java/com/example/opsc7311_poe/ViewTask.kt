@@ -1,5 +1,6 @@
 package com.example.opsc7311_poe
 
+import TaskForm.TaskForm
 import data.TaskViewAdapter
 import android.os.Build
 import android.os.Bundle
@@ -7,9 +8,13 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
+import android.widget.ImageButton
 import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.floatingactionbutton.FloatingActionButton
+import com.google.android.material.textfield.TextInputEditText
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.ktx.firestore
@@ -34,7 +39,6 @@ class ViewTask : Fragment() {
     private lateinit var recyclerView: RecyclerView
     private lateinit var auth: FirebaseAuth
     private var db = Firebase.firestore
-    private lateinit var project: ProjectViewModel
     private lateinit var tasks: MutableList<TaskViewModel>
 
     @RequiresApi(Build.VERSION_CODES.TIRAMISU)
@@ -57,21 +61,39 @@ class ViewTask : Fragment() {
 
         val uid = auth.uid!!
 
+
         val docRef =  db.collection("users").document(uid).collection("projects").document(projectId!!)
         docRef.get().addOnCompleteListener() {
             if (it.isSuccessful) {
                 var docSnap = it.result
-                project = docSnap.toObject<ProjectViewModel>()!!
+                val project = docSnap.toObject<ProjectViewModel>()!!
                 tasks = project.tasks!!
-
-                recyclerView = view.findViewById<RecyclerView>(R.id.task_view)
-                recyclerView.layoutManager = LinearLayoutManager(context)
-                val adapter = TaskViewAdapter(tasks)
-                recyclerView.adapter = adapter
+                if (tasks.size > 0) {
+                    recyclerView = view.findViewById<RecyclerView>(R.id.task_view)
+                    recyclerView.layoutManager = LinearLayoutManager(context)
+                    recyclerView.setHasFixedSize(true)
+                    val adapter = TaskViewAdapter(tasks)
+                    recyclerView.adapter = adapter
+                }
             }
             else {
                 //TODO
             }
+        }
+
+        val btnAddTask = view.findViewById<FloatingActionButton>(R.id.btnAddTask)
+
+        btnAddTask.setOnClickListener() {
+            val taskForm = TaskForm.newInstance(projectId!!)
+            requireActivity().supportFragmentManager.beginTransaction().replace(R.id.auth_view, taskForm).commit()
+
+        }
+
+        val btnTaskBack = view.findViewById<ImageButton>(R.id.btnTaskViewBack)
+
+        btnTaskBack.setOnClickListener() {
+            val projectView = ViewProject.newInstance()
+            requireActivity().supportFragmentManager.beginTransaction().replace(R.id.auth_view, projectView).commit()
         }
 
         return view
