@@ -1,4 +1,4 @@
-package Data
+package data
 
 import android.view.LayoutInflater
 import android.view.View

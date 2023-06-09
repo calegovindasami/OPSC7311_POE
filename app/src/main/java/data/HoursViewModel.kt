@@ -1,4 +1,4 @@
-package Data
+package data
 
 data class HoursViewModel(
     var projectName:String,
