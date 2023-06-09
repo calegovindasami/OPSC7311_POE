@@ -1,7 +1,6 @@
 package com.example.opsc7311_poe
 
 import ProjectForm.ProjectForm
-import Services.ProjectService
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -17,10 +16,8 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
-import data.ProjectAdapter
 import data.ProjectViewAdapter
 import data.ProjectViewModel
-import kotlinx.coroutines.tasks.await
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER

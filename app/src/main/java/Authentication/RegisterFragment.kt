@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import com.example.opsc7311_poe.R
+import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textview.MaterialTextView
 import com.google.firebase.auth.FirebaseAuth
@@ -24,10 +25,10 @@ private const val ARG_PARAM2 = "param2"
  * create an instance of this fragment.
  */
 class RegisterFragment : Fragment() {
-    private lateinit var auth: FirebaseAuth
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
+    private lateinit var auth: FirebaseAuth
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -44,6 +45,23 @@ class RegisterFragment : Fragment() {
         // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_register, container, false)
 
+        val email = view.findViewById<TextInputEditText>(R.id.tiRegisterEmail).text.toString()
+        val password = view.findViewById<TextInputEditText>(R.id.tiRegisterPassword).text.toString()
+
+        val btnRegister = view.findViewById<Button>(R.id.btnRegisterSubmit)
+        btnRegister.setOnClickListener() {
+            auth = Firebase.auth
+
+            auth.createUserWithEmailAndPassword(email.trim(), password)
+                .addOnCompleteListener() {
+                    if (it.isSuccessful) {
+                        Snackbar.make(requireView(), "Successfully registered!", Snackbar.LENGTH_LONG)
+                    }
+                    else if(it.isCanceled) {
+                        Snackbar.make(requireView(), it.exception?.message.toString(), Snackbar.LENGTH_LONG)
+                    }
+                }
+        }
 
 
         val btnLogin = view.findViewById<MaterialTextView>(R.id.txtGoToLogin)
