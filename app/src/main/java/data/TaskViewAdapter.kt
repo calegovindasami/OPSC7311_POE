@@ -14,7 +14,7 @@ class TaskViewAdapter(private val taskList: List<TaskViewModel>) : RecyclerView.
         val taskDescription = itemView.findViewById<TextView>(R.id.taskDescription)
         val taskStartTime = itemView.findViewById<TextView>(R.id.taskStartTime)
         val taskNumberOfHours = itemView.findViewById<TextView>(R.id.taskNumberOfHours)
-        val taskPhotoUrl = itemView.findViewById<TextView>(R.id.taskPhotoUrl)
+      //  val taskPhotoUrl = itemView.findViewById<TextView>(R.id.taskPhotoUrl)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -28,7 +28,7 @@ class TaskViewAdapter(private val taskList: List<TaskViewModel>) : RecyclerView.
         holder.taskDescription.text = current.description
         holder.taskStartTime.text = current.startTime.toString()
         holder.taskNumberOfHours.text = current.numberOfHours.toString()
-        holder.taskPhotoUrl.text = current.photoUrl
+       // holder.taskPhotoUrl.text = current.photoUrl
 
     }
 
