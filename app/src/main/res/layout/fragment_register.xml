@@ -55,7 +55,7 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <EditText
-            android:id="@+id/tlLoginEmail"
+            android:id="@+id/tiRegisterEmail"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="32dp"
@@ -73,7 +73,7 @@
             />
 
         <EditText
-            android:id="@+id/tlLoginPassword"
+            android:id="@+id/tiRegisterPassword"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="32dp"
@@ -88,10 +88,10 @@
             android:padding="16dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tlLoginEmail" />
+            app:layout_constraintTop_toBottomOf="@+id/tiRegisterEmail" />
 
         <Button
-            android:id="@+id/btnLoginSubmit"
+            android:id="@+id/btnRegisterSubmit"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="32dp"
@@ -104,8 +104,8 @@
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tlLoginPassword" />
-        
+            app:layout_constraintTop_toBottomOf="@+id/tiRegisterPassword" />
+
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
