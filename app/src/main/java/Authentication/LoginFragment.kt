@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.EditText
 import com.example.opsc7311_poe.MainActivity
 import com.example.opsc7311_poe.R
 import com.example.opsc7311_poe.ViewProject
@@ -53,12 +54,10 @@ class LoginFragment : Fragment() {
         //Attempts to sign in user.
         btnSubmit.setOnClickListener() {
             auth = Firebase.auth
-            val email = view.findViewById<TextInputEditText>(R.id.tiLoginEmail).text.toString()
-            val password = view.findViewById<TextInputEditText>(R.id.tiLoginPassword).text.toString()
-
+            val email = view.findViewById<EditText>(R.id.tiLoginEmail).text.toString()
+            val password = view.findViewById<EditText>(R.id.tiLoginPassword).text.toString()
 
             if (email =="" || password == "") {
-                val emailLayout = view.findViewById<TextInputLayout>(R.id.tlLoginEmail)
                 Snackbar.make(requireView(), "Invalid fields", Snackbar.LENGTH_LONG).show()
             }
             else {
