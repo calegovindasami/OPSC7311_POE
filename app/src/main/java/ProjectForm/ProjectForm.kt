@@ -96,6 +96,7 @@ class ProjectForm : Fragment() {
         val minHours = timeRangeValues[0].toInt()
         val maxHours = timeRangeValues[1].toInt()
         val tasks: MutableList<TaskViewModel> = mutableListOf()
+        tasks.add(TaskViewModel("Testing", "This is a description", null, 3, "url"))
         return ProjectViewModel(projectName, description, startDate, endDate, minHours, maxHours, tasks)
     }
 

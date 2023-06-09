@@ -1,6 +1,6 @@
 package com.example.opsc7311_poe
 
-import Data.TaskViewAdapter
+import data.TaskViewAdapter
 import android.os.Build
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -10,13 +10,17 @@ import android.view.ViewGroup
 import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import data.ProjectViewAdapter
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.firestore.ktx.toObject
+import com.google.firebase.ktx.Firebase
+import data.ProjectViewModel
 import data.TaskViewModel
-import java.io.Serializable
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_TASK = "task"
+private const val ARG_PROJECTID = "projectId"
 private const val ARG_PARAM2 = "param2"
 
 /**
@@ -26,16 +30,19 @@ private const val ARG_PARAM2 = "param2"
  */
 class ViewTask : Fragment() {
     // TODO: Rename and change types of parameters
-    private var tasks: MutableList<TaskViewModel>? = null
-    private var param2: String? = null
+    private var projectId: String? = null
     private lateinit var recyclerView: RecyclerView
+    private lateinit var auth: FirebaseAuth
+    private var db = Firebase.firestore
+    private lateinit var project: ProjectViewModel
+    private lateinit var tasks: MutableList<TaskViewModel>
 
     @RequiresApi(Build.VERSION_CODES.TIRAMISU)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
-            tasks = it.getSerializable(ARG_TASK) as MutableList<TaskViewModel>
-            param2 = it.getString(ARG_PARAM2)
+            projectId = it.getString(ARG_PROJECTID)
+
         }
     }
 
@@ -46,11 +53,25 @@ class ViewTask : Fragment() {
         // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_view_task, container, false)
 
-        if (tasks != null) {
-            recyclerView = view.findViewById(R.id.task_view)
-            recyclerView.layoutManager = LinearLayoutManager(context)
-            val adapter = TaskViewAdapter(tasks!!)
-            recyclerView.adapter = adapter
+        auth = Firebase.auth
+
+        val uid = auth.uid!!
+
+        val docRef =  db.collection("users").document(uid).collection("projects").document(projectId!!)
+        docRef.get().addOnCompleteListener() {
+            if (it.isSuccessful) {
+                var docSnap = it.result
+                project = docSnap.toObject<ProjectViewModel>()!!
+                tasks = project.tasks!!
+
+                recyclerView = view.findViewById<RecyclerView>(R.id.task_view)
+                recyclerView.layoutManager = LinearLayoutManager(context)
+                val adapter = TaskViewAdapter(tasks)
+                recyclerView.adapter = adapter
+            }
+            else {
+                //TODO
+            }
         }
 
         return view
@@ -67,10 +88,10 @@ class ViewTask : Fragment() {
          */
         // TODO: Rename and change types and number of parameters
         @JvmStatic
-        fun newInstance(tasks: MutableList<TaskViewModel>) =
+        fun newInstance(projectId: String) =
             ViewTask().apply {
                 arguments = Bundle().apply {
-                    putSerializable(ARG_TASK, tasks as Serializable)
+                    putString(ARG_PROJECTID, projectId)
                 }
             }
     }
