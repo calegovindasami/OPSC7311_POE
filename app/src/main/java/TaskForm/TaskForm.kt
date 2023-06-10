@@ -1,9 +1,12 @@
 package TaskForm
 
+import android.app.Activity
 import data.ProjectViewModel
 import android.app.TimePickerDialog
+import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.provider.MediaStore
 import android.text.format.DateFormat
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -27,11 +30,15 @@ import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
+import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.ktx.storage
 import data.TaskViewModel
+import java.io.File
+import java.io.FileInputStream
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Date
+import java.util.Locale
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -45,15 +52,22 @@ private const val ARG_PARAM2 = "param2"
  * create an instance of this fragment.
  */
 class TaskForm : Fragment() {
-    lateinit var imgUri: String
+    private lateinit var imgUri: Uri
+    private lateinit var uploadedImgUri: Uri
     lateinit var startTime: Date
 
     private lateinit var auth: FirebaseAuth
 
-    private val contract = registerForActivityResult(ActivityResultContracts.GetContent()) {
 
-        imgUri = it.toString()
-    }
+    private val changeImage =
+        registerForActivityResult(
+            ActivityResultContracts.StartActivityForResult()
+        ) {
+            if (it.resultCode == Activity.RESULT_OK) {
+                    imgUri = it.data?.data!!
+                }
+
+            }
     // TODO: Rename and change types of parameters
     private var projectId: String? = null
     private var param2: String? = null
@@ -86,7 +100,21 @@ class TaskForm : Fragment() {
         }
         val btnSubmit = view.findViewById<Button>(R.id.btnTaskSubmit)
         btnSubmit.setOnClickListener() {
-            uploadData(getFormData(view), view)
+            auth = Firebase.auth
+            val uid = auth.uid.toString()
+            val formatter = SimpleDateFormat("dd-MM-yyyy HH:mm:ss", Locale.getDefault())
+            val now = Date()
+            val fileName = formatter.format(now)
+            val storageRef = FirebaseStorage.getInstance().getReference("$uid/$fileName")
+            storageRef.putFile(imgUri).addOnCompleteListener() {
+                if (it.isSuccessful) {
+                    storageRef.downloadUrl.addOnSuccessListener {uri ->
+                        uploadedImgUri = uri
+                        uploadData(getFormData(view), view)
+                    }
+                }
+            }
+
         }
 
         val btnTaskBack = view.findViewById<ImageButton>(R.id.btnTaskBack)
@@ -100,7 +128,9 @@ class TaskForm : Fragment() {
     }
 
     private fun showImageSelector() {
-        contract.launch("image/*")
+        //contract.launch("image/*")
+        val pickImg = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.INTERNAL_CONTENT_URI)
+        changeImage.launch(pickImg)
     }
 
     private fun getFormData(view: View): TaskViewModel {
@@ -109,7 +139,8 @@ class TaskForm : Fragment() {
         var desc = view.findViewById<TextInputEditText>(R.id.edtTaskDescriptionInput).text.toString()
         var numHours = view.findViewById<Slider>(R.id.rangeTaskNumHours).value.toInt()
 
-        return TaskViewModel(name, desc, startTime, numHours, imgUri)
+
+        return TaskViewModel(name, desc, startTime, numHours, uploadedImgUri.toString())
     }
 
     private fun createTimePicker(button: Button){

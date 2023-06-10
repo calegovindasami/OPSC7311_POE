@@ -28,9 +28,9 @@
 
             <ImageView
                 android:id="@+id/imgTask"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="150dp"
-
+                android:scaleType="fitXY"
 
                 android:layout_marginTop="10dp"
 
