@@ -34,6 +34,7 @@ class ViewProject : Fragment() {
     private var param1: String? = null
     private var param2: String? = null
     private var db: FirebaseFirestore = Firebase.firestore
+    private var projectIds = mutableListOf<String>()
 
     private lateinit var auth: FirebaseAuth
     private lateinit var recyclerView: RecyclerView
@@ -73,12 +74,19 @@ class ViewProject : Fragment() {
                 for (p in projects) {
                     var project = p.toObject<ProjectViewModel>()
                     projectList.add(project!!)
+                    projectIds.add(p.id)
                 }
                 recyclerView = view.findViewById<RecyclerView>(R.id.project_view)
                 recyclerView.layoutManager = LinearLayoutManager(context)
                 val adapter = ProjectViewAdapter(projectList)
+                adapter.setOnItemClickListener(object: ProjectViewAdapter.OnItemClickListener {
+                    override fun onItemClick(position: Int) {
+                        val viewTask = ViewTask.newInstance(projectIds[position])
+                        requireActivity().supportFragmentManager.beginTransaction().replace(R.id.auth_view, viewTask).commit()
+                    }
+                })
                 recyclerView.adapter = adapter
-                val x = "hit"
+
             }
 
             else if (it.isCanceled) {

@@ -1,14 +1,15 @@
 package data
 
+import android.net.Uri
 import java.io.Serializable
 import java.util.Date
 
 data class TaskViewModel(
-    val name: String,
-    val description: String,
-    val startTime: Date?,
-    val numberOfHours: Int,
-    val photoUrl: String): Serializable {
-    constructor() : this("", "", null, -1, "")
+    var name: String,
+    var description: String,
+    var startTime: Date?,
+    var numberOfHours: Int,
+    var photoUrl: String?): Serializable {
+    constructor() : this("", "", null, -1, null)
 }
 
