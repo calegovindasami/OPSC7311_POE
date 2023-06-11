@@ -1,7 +1,11 @@
 package ProjectForm
 
 import data.ProjectViewModel
+import data.TaskViewModel
+import android.app.DatePickerDialog
+import android.content.ContentValues.TAG
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -11,12 +15,22 @@ import android.widget.EditText
 import android.widget.Toast
 import androidx.core.util.Pair
 import com.example.opsc7311_poe.R
+import com.google.android.gms.tasks.Task
 import com.google.android.material.datepicker.MaterialDatePicker
 import com.google.android.material.slider.RangeSlider
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
+import java.lang.Exception
+import java.net.URL
+import java.text.DateFormat
+import java.text.SimpleDateFormat
+import java.time.LocalDate
+import java.time.LocalDateTime
+import java.time.Period
+import java.util.Calendar
 import java.util.Date
+import kotlin.math.min
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER

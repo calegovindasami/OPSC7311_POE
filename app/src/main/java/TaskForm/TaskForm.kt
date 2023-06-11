@@ -2,6 +2,8 @@ package TaskForm
 
 import data.ProjectViewModel
 import data.TaskViewModel
+import android.app.TimePickerDialog
+import android.net.Uri
 import android.os.Bundle
 import android.text.format.DateFormat
 import androidx.fragment.app.Fragment
@@ -9,10 +11,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.EditText
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import com.example.opsc7311_poe.R
 import com.google.android.material.slider.Slider
+import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.timepicker.MaterialTimePicker
 import com.google.android.material.timepicker.MaterialTimePicker.INPUT_MODE_CLOCK
@@ -20,6 +24,7 @@ import com.google.android.material.timepicker.TimeFormat
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
+import com.google.firebase.storage.ktx.storage
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Date
