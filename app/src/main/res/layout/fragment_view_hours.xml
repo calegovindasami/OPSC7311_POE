@@ -16,7 +16,7 @@
             android:padding="16dp">
 
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/project_view"
+                android:id="@+id/project_hours_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:clickable="true"

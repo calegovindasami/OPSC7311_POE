@@ -1,17 +1,18 @@
 package com.example.opsc7311_poe
 
 import ProjectForm.ProjectForm
-import Services.DatePickerPopUp
+//import ProjectForm.endDate
+//import ProjectForm.startDate
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.Toast
+import androidx.core.util.Pair
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.appbar.MaterialToolbar
+import com.google.android.material.datepicker.MaterialDatePicker
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
@@ -34,6 +35,11 @@ private const val ARG_PARAM2 = "param2"
  * Use the [ViewProject.newInstance] factory method to
  * create an instance of this fragment.
  */
+
+private var startDate: Date = Date()
+private var endDate: Date = Date()
+
+
 class ViewProject : Fragment() {
     // TODO: Rename and change types of parameters
     private var param1: String? = null
@@ -53,6 +59,34 @@ class ViewProject : Fragment() {
         }
     }
 
+    private fun createDatePicker(){
+        val dateRangePicker =
+            MaterialDatePicker.Builder.dateRangePicker()
+                .setTitleText("Select dates").setSelection(
+                    Pair(
+                        MaterialDatePicker.thisMonthInUtcMilliseconds(),
+                        MaterialDatePicker.todayInUtcMilliseconds())
+                )
+                .build()
+
+        dateRangePicker.addOnPositiveButtonClickListener {
+            var firstDate = it.first
+            var secondDate = it.second
+            startDate = Date(firstDate)
+            endDate = Date(secondDate)
+
+        }
+        dateRangePicker.show(parentFragmentManager, "Tag")
+        val destinationFragment = ViewHours()
+        val args = Bundle()
+        args.putLong("startDate", startDate.time)
+        args.putLong("endDate", endDate.time)
+        destinationFragment.arguments = args
+
+        requireActivity().supportFragmentManager.beginTransaction().replace(R.id.auth_view, destinationFragment).commit()
+
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -63,21 +97,15 @@ class ViewProject : Fragment() {
         topAppBar = view.findViewById(R.id.toolbar)
 
 
-        //When user clicks search datePickers show up
+
         topAppBar.setOnMenuItemClickListener {
-
-            //We need to get the values from the datePickers
-            val startDate = DatePickerPopUp()
-            startDate.show(childFragmentManager, "DatePickerDialogFragment")
-
-
-            val endDate = DatePickerPopUp()
-            endDate.show(childFragmentManager, "DatePickerDialogFragment")
-
+            createDatePicker()
 
 
             true
         }
+
+
 
         val btnAddProject = view.findViewById<FloatingActionButton>(R.id.btnAddProject)
 

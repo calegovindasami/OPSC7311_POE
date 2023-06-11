@@ -5,6 +5,10 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.recyclerview.widget.RecyclerView
+import data.HoursViewAdapter
+import data.HoursViewModel
+import data.TaskViewAdapter
 import java.util.Date
 
 // TODO: Rename parameter arguments, choose names that match
@@ -27,6 +31,8 @@ class ViewHours : Fragment() {
         arguments?.let {
             param1 = it.getString(ARG_PARAM1)
             param2 = it.getString(ARG_PARAM2)
+
+
         }
     }
 
@@ -35,7 +41,22 @@ class ViewHours : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_view_hours, container, false)
+        val view = inflater.inflate(R.layout.fragment_view_hours, container, false)
+
+
+        var hours : MutableList<HoursViewModel> = mutableListOf()
+
+        hours.add(HoursViewModel("demo",20,10))
+        val recyclerView = view.findViewById<RecyclerView>(R.id.project_hours_view)
+        val adapter = HoursViewAdapter(hours)
+        recyclerView.adapter = adapter
+
+        /*val args = arguments
+        if (args != null && args.containsKey("startDate") || args!!.containsKey("endDate")) {
+            val startDate = Date(args.getLong("startDate")) // Retrieve the date
+            val endDate = Date(args.getLong("endDate"))
+        } */
+        return view
     }
 
 
