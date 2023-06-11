@@ -1,13 +1,17 @@
 package com.example.opsc7311_poe
 
 import ProjectForm.ProjectForm
+import Services.DatePickerPopUp
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
+import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.appbar.MaterialToolbar
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
@@ -18,6 +22,7 @@ import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
 import data.ProjectViewAdapter
 import data.ProjectViewModel
+import java.util.Date
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -39,6 +44,7 @@ class ViewProject : Fragment() {
     private lateinit var auth: FirebaseAuth
     private lateinit var recyclerView: RecyclerView
 
+    private lateinit var topAppBar: MaterialToolbar
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
@@ -54,7 +60,24 @@ class ViewProject : Fragment() {
         // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_view_project, container, false)
 
+        topAppBar = view.findViewById(R.id.toolbar)
 
+
+        //When user clicks search datePickers show up
+        topAppBar.setOnMenuItemClickListener {
+
+            //We need to get the values from the datePickers
+            val startDate = DatePickerPopUp()
+            startDate.show(childFragmentManager, "DatePickerDialogFragment")
+
+
+            val endDate = DatePickerPopUp()
+            endDate.show(childFragmentManager, "DatePickerDialogFragment")
+
+
+
+            true
+        }
 
         val btnAddProject = view.findViewById<FloatingActionButton>(R.id.btnAddProject)
 
@@ -91,6 +114,7 @@ class ViewProject : Fragment() {
 
             else if (it.isCanceled) {
                 Snackbar.make(requireView(), it.exception!!.message.toString(), Snackbar.LENGTH_LONG).show()
+
             }
 
 
