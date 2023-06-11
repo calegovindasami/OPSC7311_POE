@@ -1,9 +1,6 @@
-package Data
+package data
 
-import com.google.android.gms.tasks.Task
-import Data.TaskViewModel
 import java.util.Date
-import java.util.logging.SimpleFormatter
 
 data class ProjectViewModel(
     var name: String,
