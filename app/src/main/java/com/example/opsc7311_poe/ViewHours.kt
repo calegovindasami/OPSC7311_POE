@@ -5,9 +5,16 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.firestore.ktx.toObject
+import com.google.firebase.ktx.Firebase
 import data.HoursViewAdapter
 import data.HoursViewModel
+import data.ProjectViewAdapter
+import data.ProjectViewModel
 import data.TaskViewAdapter
 import java.util.Date
 
@@ -25,6 +32,8 @@ class ViewHours : Fragment() {
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
+    private lateinit var uid: String
+    private var db: FirebaseFirestore = Firebase.firestore
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -43,20 +52,79 @@ class ViewHours : Fragment() {
         // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_view_hours, container, false)
 
+        var projectList: MutableList<ProjectViewModel> = mutableListOf()
+        var hours: MutableList<HoursViewModel> = mutableListOf()
 
-        var hours : MutableList<HoursViewModel> = mutableListOf()
-
-        hours.add(HoursViewModel("demo",20,10))
-        val recyclerView = view.findViewById<RecyclerView>(R.id.project_hours_view)
-        val adapter = HoursViewAdapter(hours)
-        recyclerView.adapter = adapter
-
-        /*val args = arguments
+        hours.add(HoursViewModel("demo", 20, 10))
+//        val recyclerView = view.findViewById<RecyclerView>(R.id.project_hours_view)
+//        recyclerView.layoutManager = LinearLayoutManager(context)
+//        val adapter = HoursViewAdapter(hours)
+//        recyclerView.adapter = adapter
+        val args = arguments
         if (args != null && args.containsKey("startDate") || args!!.containsKey("endDate")) {
             val startDate = Date(args.getLong("startDate")) // Retrieve the date
             val endDate = Date(args.getLong("endDate"))
-        } */
+            uid = args.getString("uid")!!
+
+
+            val docRef = db.collection("users").document(uid).collection("projects")
+            docRef.get().addOnCompleteListener() {
+                if (it.isSuccessful) {
+                    var projects = it.result.documents
+
+                    for (p in projects) {
+                        projectList.add(p.toObject<ProjectViewModel>()!!)
+                    }
+
+
+                    var filteredProjects = filterProjects(startDate, endDate, projectList)
+
+                    var hours = getHours(filteredProjects)
+
+                    val recyclerView = view.findViewById<RecyclerView>(R.id.project_hours_view)
+                    recyclerView.layoutManager = LinearLayoutManager(context)
+                    val adapter = HoursViewAdapter(hours)
+                    recyclerView.adapter = adapter
+
+                }
+            }
+
+        }
         return view
+    }
+
+    private fun filterProjects(start: Date, end: Date, projectList: MutableList<ProjectViewModel>): MutableList<ProjectViewModel> {
+        val filteredList: MutableList<ProjectViewModel> = mutableListOf()
+
+        for (proj in projectList) {
+            if (proj.startDate!!.compareTo(start) >= 1 && proj.endDate!!.compareTo(end) < 1) {
+                filteredList.add(proj)
+            }
+        }
+
+        return filteredList
+
+    }
+
+    private fun getHours(projects:MutableList<ProjectViewModel>) : MutableList<HoursViewModel>
+    {
+        var totalHours = mutableListOf<HoursViewModel>()
+
+        for (proj in projects)
+        {
+            var hours = 0
+
+                var tasks = proj.tasks
+
+                tasks!!.forEach {
+                        t ->
+                    hours += t.numberOfHours
+                }
+
+                totalHours.add(HoursViewModel(proj.name,hours, proj.tasks!!.size))
+        }
+
+        return totalHours
     }
 
 

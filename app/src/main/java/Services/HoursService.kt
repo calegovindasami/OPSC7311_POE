@@ -11,18 +11,7 @@ class HoursService {
 
     private var db: FirebaseFirestore = Firebase.firestore
 
-    private fun filterProjects(start: Date, end: Date, projectList: MutableList<ProjectViewModel>): MutableList<ProjectViewModel> {
-        val filteredList: MutableList<ProjectViewModel> = mutableListOf()
 
-        for (proj in projectList) {
-            if (proj.startDate!!.compareTo(start) >= 1 && proj.endDate!!.compareTo(end) < 1) {
-                filteredList.add(proj)
-            }
-        }
-
-        return filteredList
-
-    }
 
     private fun getHours(projects:MutableList<ProjectViewModel>,startDate:Date,endDate:Date) : MutableList<HoursViewModel>
     {

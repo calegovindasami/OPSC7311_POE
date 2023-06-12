@@ -59,7 +59,7 @@ class ViewProject : Fragment() {
         }
     }
 
-    private fun createDatePicker(){
+    private fun createDatePicker(uid: String){
         val dateRangePicker =
             MaterialDatePicker.Builder.dateRangePicker()
                 .setTitleText("Select dates").setSelection(
@@ -75,15 +75,18 @@ class ViewProject : Fragment() {
             startDate = Date(firstDate)
             endDate = Date(secondDate)
 
+            val destinationFragment = ViewHours()
+            val args = Bundle()
+            args.putLong("startDate", startDate.time)
+            args.putLong("endDate", endDate.time)
+            args.putString("uid", uid)
+            destinationFragment.arguments = args
+            requireActivity().supportFragmentManager.beginTransaction().replace(R.id.auth_view, destinationFragment).commit()
         }
         dateRangePicker.show(parentFragmentManager, "Tag")
-        val destinationFragment = ViewHours()
-        val args = Bundle()
-        args.putLong("startDate", startDate.time)
-        args.putLong("endDate", endDate.time)
-        destinationFragment.arguments = args
 
-        requireActivity().supportFragmentManager.beginTransaction().replace(R.id.auth_view, destinationFragment).commit()
+
+
 
     }
 
@@ -94,12 +97,14 @@ class ViewProject : Fragment() {
         // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_view_project, container, false)
 
+        auth = Firebase.auth
+        val uid = auth.uid!!
         topAppBar = view.findViewById(R.id.toolbar)
 
 
 
         topAppBar.setOnMenuItemClickListener {
-            createDatePicker()
+            createDatePicker(uid)
 
 
             true
@@ -115,8 +120,6 @@ class ViewProject : Fragment() {
         }
 
 
-        auth = Firebase.auth
-        val uid = auth.uid!!
         var projectList: MutableList<ProjectViewModel> = mutableListOf()
         val docRef =  db.collection("users").document(uid).collection("projects")
         docRef.get().addOnCompleteListener() {
