@@ -93,7 +93,7 @@
                         android:id="@+id/outlinedTextField2"
                         android:layout_width="100dp"
                         android:layout_height="wrap_content"
-                        android:hint="End Time"
+                        android:hint="Hours"
                         android:enabled="false"
                         android:textColorHint="@color/black">
 

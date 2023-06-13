@@ -41,8 +41,8 @@ private const val ARG_PARAM2 = "param2"
  * create an instance of this fragment.
  */
 
-private var startDate: Date = Date()
-private var endDate: Date = Date()
+private var startDate: Date? = null
+private var endDate: Date? = null
 
 
 
@@ -100,16 +100,34 @@ class ProjectForm : Fragment() {
     }
 
     private fun addProject(project: ProjectViewModel) {
+        val snackbarMessage: String? = when {
+            project.name.isBlank() -> "Project Name Required"
+            project.description.isBlank() -> "Project Description Required"
+            project.maximumDailyHours == 0 -> "Project Maximum Daily Hours Required"
+            project.minimumDailyHours == 0 -> "Project Minimum Hours Required"
+            project.startDate == null -> "Project Start Date Required"
+            project.endDate == null -> "Project End Date Required"
+            else -> null
+        }
+
+        if (snackbarMessage != null)
+        {
+            Snackbar.make(requireView(), snackbarMessage, Snackbar.LENGTH_LONG).show()
+        }
+        else
+        {
+
         val db = Firebase.firestore
         var auth = Firebase.auth
         var uid = auth.uid
         db.collection("users").document(uid.toString()).collection("projects").add(project).addOnCompleteListener() {
             if (it.isSuccessful) {
-                Snackbar.make(requireView(), "Project added.", Snackbar.LENGTH_LONG)
-            }
-            else {
+                val projectView = ViewProject.newInstance()
+                requireActivity().supportFragmentManager.beginTransaction().replace(R.id.auth_view, projectView).commit()
+            } else {
                 Snackbar.make(requireView(), it.exception?.message.toString(), Snackbar.LENGTH_LONG)
             }
+        }
         }
     }
 

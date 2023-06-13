@@ -47,13 +47,12 @@ class RegisterFragment : Fragment() {
         // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_register, container, false)
 
-        val email = view.findViewById<EditText>(R.id.tiRegisterEmail).text.toString()
-        val password = view.findViewById<EditText>(R.id.tiRegisterPassword).text.toString()
 
         val btnRegister = view.findViewById<Button>(R.id.btnRegisterSubmit)
         btnRegister.setOnClickListener() {
             auth = Firebase.auth
-
+            val email = view.findViewById<EditText>(R.id.tiRegisterEmail).text.toString()
+            val password = view.findViewById<EditText>(R.id.tiRegisterPassword).text.toString()
             auth.createUserWithEmailAndPassword(email.trim(), password)
                 .addOnCompleteListener() {
                     if (it.isSuccessful) {

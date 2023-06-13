@@ -104,7 +104,7 @@ class ViewHours : Fragment() {
         val filteredList: MutableList<ProjectViewModel> = mutableListOf()
 
         for (proj in projectList) {
-            if (proj.startDate!!.compareTo(start) >= 1 && proj.endDate!!.compareTo(end) < 1) {
+            if (proj.startDate!!.compareTo(start) > 1 || proj.startDate!!.compareTo(start) == 0 && proj.endDate!!.compareTo(end) < 1 || proj.endDate!!.compareTo(end) == 0) {
                 filteredList.add(proj)
             }
         }
