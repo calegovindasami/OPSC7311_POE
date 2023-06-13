@@ -21,20 +21,20 @@
             android:textSize="32sp"
             android:textAppearance="?attr/textAppearanceCaption"
             android:textColor="@color/white"/>
+
+        <ImageView
+            android:id="@+id/imgTask"
+            android:layout_gravity="center"
+            android:layout_width="match_parent"
+            android:layout_height="250dp"
+            android:scaleType="fitXY"
+            android:src="@mipmap/ic_default"
+
+            />
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
-
-            <ImageView
-                android:id="@+id/imgTask"
-                android:layout_width="wrap_content"
-                android:layout_height="150dp"
-                android:scaleType="fitXY"
-
-                android:layout_marginTop="10dp"
-
-                />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -93,7 +93,7 @@
                         android:id="@+id/outlinedTextField2"
                         android:layout_width="100dp"
                         android:layout_height="wrap_content"
-                        android:hint="End Time"
+                        android:hint="Hours"
                         android:enabled="false"
                         android:textColorHint="@color/black">
 

@@ -3,96 +3,120 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:padding="16dp"
+
     tools:context="ProjectForm.ProjectForm">
+
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_height="match_parent">
 
-        android:orientation="vertical">
-
-        <ImageButton
-            android:id="@+id/btnProjectBack"
-            android:layout_width="50dp"
-            android:background="@color/white"
-            android:src="@drawable/baseline_arrow_back_24"
-            android:layout_height="wrap_content"/>
-
-        <com.google.android.material.textview.MaterialTextView
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
+            android:layout_height="64dp"
+            android:layout_marginBottom="8dp"
+            android:background="@color/primary">
 
-            android:textSize="48dp"
-            android:gravity="center"
+            <ImageButton
+                android:id="@+id/btnProjectBack"
+                android:layout_width="50dp"
+                android:layout_height="wrap_content"
+                android:background="@color/primary"
+                android:src="@drawable/baseline_arrow_back_24"
+                app:layout_constraintStart_toStartOf="@+id/materialTextView3"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/materialTextView3"
+
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="Add Project"
+                android:textColor="@color/white"
+                android:textStyle="bold"
+                android:textSize="40dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/btnProjectBack" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Add Project"
-            android:layout_marginBottom="16dp"/>
+            android:padding="16dp"
+            android:orientation="vertical">
 
-<!--darker-->
-        <com.google.android.material.textfield.TextInputLayout
-            android:layout_width="match_parent"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-            android:hint="Project Name"
 
-            android:layout_marginBottom="16dp"
-            android:layout_height="wrap_content">
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/edtProjectNameInput"
-
+            <!--darker-->
+            <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:layout_width="match_parent"
-            android:hint="Description"
-            android:layout_marginBottom="16dp"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-            android:layout_height="wrap_content">
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/edtProjectDescriptionInput"
-                android:layout_width="match_parent"
-                android:inputType="textMultiLine"
-                android:minLines="2"
-                android:textAlignment="textStart"
-                android:maxLines="4"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                android:layout_height="wrap_content"/>
-        </com.google.android.material.textfield.TextInputLayout>
+                android:hint="Project Name"
 
-        <Button
-            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-            android:id="@+id/btnProjectDateRange"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp"
-            android:text="Start and End Date"/>
+                android:layout_marginBottom="16dp"
+                android:layout_height="wrap_content">
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/edtProjectNameInput"
 
-        <com.google.android.material.textview.MaterialTextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Daily Required Hours"/>
-        <com.google.android.material.slider.RangeSlider
-            android:id="@+id/rangeProjectDailyHours"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:valueFrom="0"
-            app:tickVisible="false"
-            android:layout_marginBottom="16dp"
-            app:values="@array/task_range_slider"
-            android:valueTo="23"
-            android:stepSize="1"
-            />
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+            </com.google.android.material.textfield.TextInputLayout>
 
-        <Button
-            android:id="@+id/btnProjectSubmit"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp"
-            android:text="SUBMIT"/>
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:hint="Description"
+                android:layout_marginBottom="16dp"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_height="wrap_content">
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/edtProjectDescriptionInput"
+                    android:layout_width="match_parent"
+                    android:inputType="textMultiLine"
+                    android:minLines="2"
+                    android:textAlignment="textStart"
+                    android:maxLines="4"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:layout_height="wrap_content"/>
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <Button
+                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                android:id="@+id/btnProjectDateRange"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                android:text="Start and End Date"/>
+
+            <com.google.android.material.textview.MaterialTextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Daily Required Hours"/>
+            <com.google.android.material.slider.RangeSlider
+                android:id="@+id/rangeProjectDailyHours"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:valueFrom="0"
+                app:tickVisible="false"
+                android:layout_marginBottom="16dp"
+                app:values="@array/task_range_slider"
+                android:valueTo="23"
+                android:stepSize="1"
+                />
+
+            <Button
+                android:id="@+id/btnProjectSubmit"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                android:text="SUBMIT"/>
 
 
 
+        </LinearLayout>
     </LinearLayout>
+
+
 
 </FrameLayout>

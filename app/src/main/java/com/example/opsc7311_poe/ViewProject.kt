@@ -1,13 +1,18 @@
 package com.example.opsc7311_poe
 
 import ProjectForm.ProjectForm
+//import ProjectForm.endDate
+//import ProjectForm.startDate
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.util.Pair
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.appbar.MaterialToolbar
+import com.google.android.material.datepicker.MaterialDatePicker
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
@@ -18,6 +23,7 @@ import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
 import data.ProjectViewAdapter
 import data.ProjectViewModel
+import java.util.Date
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -29,6 +35,11 @@ private const val ARG_PARAM2 = "param2"
  * Use the [ViewProject.newInstance] factory method to
  * create an instance of this fragment.
  */
+
+private var startDate: Date = Date()
+private var endDate: Date = Date()
+
+
 class ViewProject : Fragment() {
     // TODO: Rename and change types of parameters
     private var param1: String? = null
@@ -39,6 +50,7 @@ class ViewProject : Fragment() {
     private lateinit var auth: FirebaseAuth
     private lateinit var recyclerView: RecyclerView
 
+    private lateinit var topAppBar: MaterialToolbar
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
@@ -47,12 +59,56 @@ class ViewProject : Fragment() {
         }
     }
 
+    private fun createDatePicker(uid: String){
+        val dateRangePicker =
+            MaterialDatePicker.Builder.dateRangePicker()
+                .setTitleText("Select dates").setSelection(
+                    Pair(
+                        MaterialDatePicker.thisMonthInUtcMilliseconds(),
+                        MaterialDatePicker.todayInUtcMilliseconds())
+                )
+                .build()
+
+        dateRangePicker.addOnPositiveButtonClickListener {
+            var firstDate = it.first
+            var secondDate = it.second
+            startDate = Date(firstDate)
+            endDate = Date(secondDate)
+
+            val destinationFragment = ViewHours()
+            val args = Bundle()
+            args.putLong("startDate", startDate.time)
+            args.putLong("endDate", endDate.time)
+            args.putString("uid", uid)
+            destinationFragment.arguments = args
+            requireActivity().supportFragmentManager.beginTransaction().replace(R.id.auth_view, destinationFragment).commit()
+        }
+        dateRangePicker.show(parentFragmentManager, "Tag")
+
+
+
+
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_view_project, container, false)
+
+        auth = Firebase.auth
+        val uid = auth.uid!!
+        topAppBar = view.findViewById(R.id.toolbar)
+
+
+
+        topAppBar.setOnMenuItemClickListener {
+            createDatePicker(uid)
+
+
+            true
+        }
 
 
 
@@ -64,8 +120,6 @@ class ViewProject : Fragment() {
         }
 
 
-        auth = Firebase.auth
-        val uid = auth.uid!!
         var projectList: MutableList<ProjectViewModel> = mutableListOf()
         val docRef =  db.collection("users").document(uid).collection("projects")
         docRef.get().addOnCompleteListener() {
@@ -91,6 +145,7 @@ class ViewProject : Fragment() {
 
             else if (it.isCanceled) {
                 Snackbar.make(requireView(), it.exception!!.message.toString(), Snackbar.LENGTH_LONG).show()
+
             }
 
 

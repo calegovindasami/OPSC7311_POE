@@ -52,9 +52,9 @@ private const val ARG_PARAM2 = "param2"
  * create an instance of this fragment.
  */
 class TaskForm : Fragment() {
-    private lateinit var imgUri: Uri
-    private lateinit var uploadedImgUri: Uri
-    lateinit var startTime: Date
+    private var imgUri: Uri? = null
+    private var uploadedImgUri: Uri? = null
+    private lateinit var startTime: Date
 
     private lateinit var auth: FirebaseAuth
 
@@ -103,16 +103,21 @@ class TaskForm : Fragment() {
             auth = Firebase.auth
             val uid = auth.uid.toString()
             val formatter = SimpleDateFormat("dd-MM-yyyy HH:mm:ss", Locale.getDefault())
-            val now = Date()
-            val fileName = formatter.format(now)
-            val storageRef = FirebaseStorage.getInstance().getReference("$uid/$fileName")
-            storageRef.putFile(imgUri).addOnCompleteListener() {
-                if (it.isSuccessful) {
-                    storageRef.downloadUrl.addOnSuccessListener {uri ->
-                        uploadedImgUri = uri
-                        uploadData(getFormData(view), view)
+            if (imgUri != null) {
+                val now = Date()
+                val fileName = formatter.format(now)
+                val storageRef = FirebaseStorage.getInstance().getReference("$uid/$fileName")
+                storageRef.putFile(imgUri!!).addOnCompleteListener() {
+                    if (it.isSuccessful) {
+                        storageRef.downloadUrl.addOnSuccessListener {uri ->
+                            uploadedImgUri = uri
+                            uploadData(getFormData(view), view)
+                        }
                     }
                 }
+            }
+            else {
+                Snackbar.make(requireView(), "No image was selected.", Snackbar.LENGTH_LONG).show()
             }
 
         }
@@ -133,12 +138,26 @@ class TaskForm : Fragment() {
         changeImage.launch(pickImg)
     }
 
-    private fun getFormData(view: View): TaskViewModel {
+    private fun getFormData(view: View): TaskViewModel? {
 
         var name = view.findViewById<TextInputEditText>(R.id.edtTaskNameInput).text.toString()
         var desc = view.findViewById<TextInputEditText>(R.id.edtTaskDescriptionInput).text.toString()
         var numHours = view.findViewById<Slider>(R.id.rangeTaskNumHours).value.toInt()
 
+
+        val snackbarMessage: String? = when {
+            name.isBlank() -> "Task Name Required"
+            desc.isBlank() -> "Task Description Required"
+            !this::startTime.isInitialized -> "Task Start Time Required"
+            numHours == 0 -> "Task Hours Required"
+            else -> null
+        }
+
+        if (snackbarMessage != null)
+        {
+            Snackbar.make(requireView(), snackbarMessage, Snackbar.LENGTH_LONG).show()
+            return null
+        }
 
         return TaskViewModel(name, desc, startTime, numHours, uploadedImgUri.toString())
     }
@@ -168,22 +187,34 @@ class TaskForm : Fragment() {
         picker.show(parentFragmentManager, "tag")
     }
 
-    private fun uploadData(task: TaskViewModel, contextView: View) {
-        val db = Firebase.firestore
-        auth = Firebase.auth
-        val uid = auth.uid!!
-        val docRef =  db.collection("users").document(uid).collection("projects").document(projectId!!)
-        docRef.get().addOnSuccessListener { documentSnapshot ->
-            val project = documentSnapshot.toObject<ProjectViewModel>()
-            project!!.tasks!!.add(task)
-            docRef.update("tasks", project!!.tasks!!).addOnSuccessListener {
-                Toast.makeText(activity?.let{it}, "Task has been added!", Toast.LENGTH_LONG)
-            }
-                .addOnFailureListener() {
-                    Toast.makeText(activity?.let{it}, "There has been an error", Toast.LENGTH_LONG)
-                }
+    private fun uploadData(task: TaskViewModel?, contextView: View) {
 
+
+        if (task != null)
+        {
+            val db = Firebase.firestore
+            auth = Firebase.auth
+            val uid = auth.uid!!
+            val docRef =  db.collection("users").document(uid).collection("projects").document(projectId!!)
+            docRef.get().addOnSuccessListener { documentSnapshot ->
+                val project = documentSnapshot.toObject<ProjectViewModel>()
+
+                if (startTime.compareTo(project!!.startDate) >= 0 && startTime.compareTo(project!!.endDate) < 0 || task.numberOfHours >= project.minimumDailyHours && task.numberOfHours < project.maximumDailyHours) {
+                    project!!.tasks!!.add(task)
+                    docRef.update("tasks", project!!.tasks!!).addOnSuccessListener {
+                        Snackbar.make(requireView(), "Task added.", Snackbar.LENGTH_LONG).show()
+                    }
+                        .addOnFailureListener() {
+                            Snackbar.make(requireView(), "Error adding task.", Snackbar.LENGTH_LONG).show()
+
+                        }
+                }
+                else {
+                    Snackbar.make(requireView(), "Invalid fields", Snackbar.LENGTH_LONG).show()
+                }
+            }
         }
+
     }
 
 
