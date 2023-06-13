@@ -6,6 +6,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.EditText
+import android.widget.TextView
 import com.example.opsc7311_poe.R
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputEditText
@@ -45,8 +47,8 @@ class RegisterFragment : Fragment() {
         // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_register, container, false)
 
-        val email = view.findViewById<TextInputEditText>(R.id.tiRegisterEmail).text.toString()
-        val password = view.findViewById<TextInputEditText>(R.id.tiRegisterPassword).text.toString()
+        val email = view.findViewById<EditText>(R.id.tiRegisterEmail).text.toString()
+        val password = view.findViewById<EditText>(R.id.tiRegisterPassword).text.toString()
 
         val btnRegister = view.findViewById<Button>(R.id.btnRegisterSubmit)
         btnRegister.setOnClickListener() {
@@ -64,7 +66,7 @@ class RegisterFragment : Fragment() {
         }
 
 
-        val btnLogin = view.findViewById<MaterialTextView>(R.id.txtGoToLogin)
+        val btnLogin = view.findViewById<TextView>(R.id.txtGoToLogin)
         btnLogin.setOnClickListener() {
             navigateToLogin()
         }

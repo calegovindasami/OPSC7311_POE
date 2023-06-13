@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:padding="8dp"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -12,43 +11,70 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <ImageButton
-            android:id="@+id/btnTaskViewBack"
-            android:layout_width="50dp"
-            android:background="@color/white"
-            android:src="@drawable/baseline_arrow_back_24"
-            android:layout_height="wrap_content"/>
-
-        <com.google.android.material.textview.MaterialTextView
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:layout_marginBottom="32dp"
-            android:textSize="32dp"
-            android:text="Projects"/>
+            android:layout_height="64dp"
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/task_view"
+            android:background="@color/primary">
+
+            <ImageButton
+                android:id="@+id/btnTaskViewBack"
+                android:layout_width="50dp"
+
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:background="@color/primary"
+                android:src="@drawable/baseline_arrow_back_24"
+                app:layout_constraintStart_toStartOf="@+id/materialTextView"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/materialTextView"
+                android:layout_width="0dp"
+
+                android:textStyle="bold"
+                android:textColor="@color/white"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="Projects"
+                android:textSize="40dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:clickable="true"
-            tools:listitem="@layout/task_card"
-            android:isScrollContainer="true"
-            android:focusable="true">
-        </androidx.recyclerview.widget.RecyclerView>
+            android:padding="8dp"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/task_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:clickable="true"
+                tools:listitem="@layout/task_card"
+                android:isScrollContainer="true"
+                android:focusable="true">
+            </androidx.recyclerview.widget.RecyclerView>
+
+
+        </LinearLayout>
 
     </LinearLayout>
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/btnAddTask"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom|end"
+            android:layout_margin="8dp"
             android:backgroundTint="@color/primary"
-            android:layout_margin="16dp"
             android:contentDescription="+"
-            app:srcCompat="@drawable/baseline_add_24_white"/>
+            app:srcCompat="@drawable/baseline_add_24_white" />
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </FrameLayout>
