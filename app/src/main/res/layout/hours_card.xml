@@ -103,13 +103,6 @@
             android:layout_gravity="center"
             android:orientation="horizontal">
 
-            <com.google.android.material.button.MaterialButton
-                android:layout_width="150dp"
-                android:layout_height="50dp"
-                android:backgroundTint="@color/primary"
-                android:text="View"
-
-                />
         </LinearLayout>
 
     </LinearLayout>

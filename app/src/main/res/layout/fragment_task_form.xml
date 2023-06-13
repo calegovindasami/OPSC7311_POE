@@ -3,31 +3,51 @@
 
     android:layout_width="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:padding="16dp"
     android:layout_height="match_parent"
     tools:context="TaskForm.TaskForm">
 
+
     <LinearLayout
         android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="64dp"
+            android:layout_marginBottom="8dp"
+            android:background="@color/primary">
+
+            <ImageButton
+                android:id="@+id/btnTaskBack"
+                android:layout_width="50dp"
+                android:background="@color/primary"
+                android:layout_height="wrap_content"
+                android:src="@drawable/baseline_arrow_back_24"
+                app:layout_constraintStart_toStartOf="@+id/materialTextView2"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/materialTextView2"
+
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="Add Task"
+                android:textColor="@color/white"
+                android:textStyle="bold"
+                android:textSize="40dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/btnTaskBack" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+        <LinearLayout
+        android:layout_width="match_parent"
+            android:padding="16dp"
         android:layout_height="wrap_content"
         android:id="@+id/task_context"
         android:orientation="vertical">
-
-        <ImageButton
-            android:id="@+id/btnTaskBack"
-            android:layout_width="50dp"
-            android:background="@color/white"
-            android:src="@drawable/baseline_arrow_back_24"
-            android:layout_height="wrap_content"/>
-
-        <com.google.android.material.textview.MaterialTextView
-            android:layout_width="match_parent"
-
-            android:textSize="48dp"
-            android:gravity="center"
-            android:layout_height="wrap_content"
-            android:text="Add Task"
-            android:layout_marginBottom="16dp"/>
 
 
         <com.google.android.material.textfield.TextInputLayout
@@ -101,6 +121,7 @@
             android:text="SUBMIT"/>
 
 
-    </LinearLayout>
+    </LinearLayout></LinearLayout>
+
 
 </FrameLayout>

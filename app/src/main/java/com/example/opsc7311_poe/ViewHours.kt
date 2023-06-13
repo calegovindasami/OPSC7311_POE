@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageButton
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.firestore.FirebaseFirestore
@@ -89,6 +90,12 @@ class ViewHours : Fragment() {
                 }
             }
 
+        }
+
+        val btnBack = view.findViewById<ImageButton>(R.id.btnHoursBack)
+        btnBack.setOnClickListener() {
+            val projectView = ViewProject.newInstance()
+            requireActivity().supportFragmentManager.beginTransaction().replace(R.id.auth_view, projectView).commit()
         }
         return view
     }

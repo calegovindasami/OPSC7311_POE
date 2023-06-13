@@ -45,7 +45,8 @@ class TaskViewAdapter(private val taskList: MutableList<TaskViewModel>) : Recycl
         holder.taskDescription.text = current.description
 
         val formatter = SimpleDateFormat("dd-MM-yyyy HH:mm:ss", Locale.getDefault())
-        holder.taskStartTime.text = current.startTime.toString()
+        var startTime = formatter.format(current.startTime)
+        holder.taskStartTime.text = startTime
         holder.taskNumberOfHours.text = current.numberOfHours.toString()
 
         val executor = Executors.newSingleThreadExecutor()
