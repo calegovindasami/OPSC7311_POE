@@ -7,18 +7,26 @@
     android:layout_height="match_parent"
     tools:context=".ViewProject">
 
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <com.google.android.material.textview.MaterialTextView
+        <com.google.android.material.appbar.AppBarLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center"
-            android:layout_marginBottom="32dp"
-            android:textSize="32dp"
-            android:text="Projects"/>
+            android:background="@color/primary"
+            android:layout_marginBottom="10dp">
+            <com.google.android.material.appbar.MaterialToolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                app:title="PROJECTS"
+                app:titleTextColor="@color/white"
+                app:menu="@menu/project_view_menu"/>
+        </com.google.android.material.appbar.AppBarLayout>
+
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/project_view"
