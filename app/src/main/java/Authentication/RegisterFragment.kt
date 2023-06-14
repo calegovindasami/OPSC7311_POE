@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
+import android.widget.Toast
 import com.example.opsc7311_poe.R
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputEditText
@@ -53,15 +54,20 @@ class RegisterFragment : Fragment() {
             auth = Firebase.auth
             val email = view.findViewById<EditText>(R.id.tiRegisterEmail).text.toString()
             val password = view.findViewById<EditText>(R.id.tiRegisterPassword).text.toString()
-            auth.createUserWithEmailAndPassword(email.trim(), password)
-                .addOnCompleteListener() {
-                    if (it.isSuccessful) {
-                        Snackbar.make(requireView(), "Successfully registered!", Snackbar.LENGTH_LONG)
+            if (email.isNullOrEmpty() || password.isNullOrEmpty()) {
+                Toast.makeText(context, "Invalid fields", Toast.LENGTH_LONG)
+            }
+            else   {
+                auth.createUserWithEmailAndPassword(email.trim(), password)
+                    .addOnCompleteListener() {
+                        if (it.isSuccessful) {
+                            Snackbar.make(requireView(), "Successfully registered!", Snackbar.LENGTH_LONG)
+                        }
+                        else if(it.isCanceled) {
+                            Snackbar.make(requireView(), it.exception?.message.toString(), Snackbar.LENGTH_LONG)
+                        }
                     }
-                    else if(it.isCanceled) {
-                        Snackbar.make(requireView(), it.exception?.message.toString(), Snackbar.LENGTH_LONG)
-                    }
-                }
+            }
         }
 
 
