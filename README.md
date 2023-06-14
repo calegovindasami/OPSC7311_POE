@@ -3,7 +3,11 @@
 Title: POE OPSC Part 2
 
 Version: 1.0.0
-
+Members:
+ - ST10083941
+ - ST10083954
+ - ST10083422
+ - ST10083200
 Table of Contents:
  A - Pre-Requisites
  B - Description.
@@ -68,9 +72,7 @@ F) What I would like to add:
 2) Improve UI 
 3) Fix small UI bugs
 
-G) Video Tut link: 
-
-Paste link!!!
+G) Video Tut link: [https://github.com/cgov-0406/OPSC7311_POE](https://www.youtube.com/watch?v=-PBK7cLDIJ0)
 
 
 
