@@ -75,7 +75,7 @@ F) What I would like to add:
 2) Improve UI 
 3) Fix small UI bugs
 
-G) Video Tut link: [https://github.com/cgov-0406/OPSC7311_POE](https://www.youtube.com/watch?v=-PBK7cLDIJ0)
+G) Video Tut link: [YouTube Video](https://www.youtube.com/watch?v=-PBK7cLDIJ0)
 
 
 
