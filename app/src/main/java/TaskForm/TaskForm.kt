@@ -162,9 +162,11 @@ class TaskForm : Fragment() {
         return TaskViewModel(name, desc, startTime, numHours, uploadedImgUri.toString())
     }
 
+
     private fun createTimePicker(button: Button){
         val isSystem24Hour = DateFormat.is24HourFormat(activity?.let{it})
         val clockFormat = if(isSystem24Hour) TimeFormat.CLOCK_24H else TimeFormat.CLOCK_12H
+        //Creates timepicker
         val picker =
             MaterialTimePicker.Builder()
                 .setTimeFormat(clockFormat)
@@ -173,6 +175,8 @@ class TaskForm : Fragment() {
                 .setTitleText("Select start time")
                 .setInputMode(INPUT_MODE_CLOCK)
                 .build()
+
+        //On submit click listener, sets date to today and reassigns the time based on the selected value.
         picker.addOnPositiveButtonClickListener {
             val hour = picker.hour
             val minute = picker.minute
@@ -187,6 +191,7 @@ class TaskForm : Fragment() {
         picker.show(parentFragmentManager, "tag")
     }
 
+    //Uploads data to firestore
     private fun uploadData(task: TaskViewModel?, contextView: View) {
 
 
@@ -195,6 +200,8 @@ class TaskForm : Fragment() {
             val db = Firebase.firestore
             auth = Firebase.auth
             val uid = auth.uid!!
+
+            //Gets project for which the task will be added to.
             val docRef =  db.collection("users").document(uid).collection("projects").document(projectId!!)
             docRef.get().addOnSuccessListener { documentSnapshot ->
                 val project = documentSnapshot.toObject<ProjectViewModel>()

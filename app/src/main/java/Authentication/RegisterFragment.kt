@@ -51,9 +51,11 @@ class RegisterFragment : Fragment() {
 
         val btnRegister = view.findViewById<Button>(R.id.btnRegisterSubmit)
         btnRegister.setOnClickListener() {
+            //Registers user
             auth = Firebase.auth
             val email = view.findViewById<EditText>(R.id.tiRegisterEmail).text.toString()
             val password = view.findViewById<EditText>(R.id.tiRegisterPassword).text.toString()
+            //Validates
             if (email.isNullOrEmpty() || password.isNullOrEmpty()) {
                 Toast.makeText(context, "Invalid fields", Toast.LENGTH_LONG)
             }

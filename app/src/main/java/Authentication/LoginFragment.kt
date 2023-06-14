@@ -58,7 +58,7 @@ class LoginFragment : Fragment() {
             val email = view.findViewById<EditText>(R.id.tiLoginEmail).text.toString()
             val password = view.findViewById<EditText>(R.id.tiLoginPassword).text.toString()
 
-
+            //Checks if fields are valid.
             if (email =="" || password == "") {
                 Snackbar.make(requireView(), "Invalid fields", Snackbar.LENGTH_LONG).show()
             }

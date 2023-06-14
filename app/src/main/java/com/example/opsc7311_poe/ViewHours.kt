@@ -56,11 +56,8 @@ class ViewHours : Fragment() {
         var projectList: MutableList<ProjectViewModel> = mutableListOf()
         var hours: MutableList<HoursViewModel> = mutableListOf()
 
-        hours.add(HoursViewModel("demo", 20, 10))
-//        val recyclerView = view.findViewById<RecyclerView>(R.id.project_hours_view)
-//        recyclerView.layoutManager = LinearLayoutManager(context)
-//        val adapter = HoursViewAdapter(hours)
-//        recyclerView.adapter = adapter
+
+
         val args = arguments
         if (args != null && args.containsKey("startDate") || args!!.containsKey("endDate")) {
             val startDate = Date(args.getLong("startDate")) // Retrieve the date
@@ -68,6 +65,7 @@ class ViewHours : Fragment() {
             uid = args.getString("uid")!!
 
 
+            //Gets document snapshot of all user projects.
             val docRef = db.collection("users").document(uid).collection("projects")
             docRef.get().addOnCompleteListener() {
                 if (it.isSuccessful) {
@@ -77,11 +75,11 @@ class ViewHours : Fragment() {
                         projectList.add(p.toObject<ProjectViewModel>()!!)
                     }
 
-
+                    //Filters projects by date.
                     var filteredProjects = filterProjects(startDate, endDate, projectList)
 
                     var hours = getHours(filteredProjects)
-
+                    //Assigns adapter to recyclerview
                     val recyclerView = view.findViewById<RecyclerView>(R.id.project_hours_view)
                     recyclerView.layoutManager = LinearLayoutManager(context)
                     val adapter = HoursViewAdapter(hours)
@@ -94,6 +92,7 @@ class ViewHours : Fragment() {
 
         val btnBack = view.findViewById<ImageButton>(R.id.btnHoursBack)
         btnBack.setOnClickListener() {
+            //Switches view back to projects list
             val projectView = ViewProject.newInstance()
             requireActivity().supportFragmentManager.beginTransaction().replace(R.id.auth_view, projectView).commit()
         }
@@ -113,6 +112,7 @@ class ViewHours : Fragment() {
 
     }
 
+    //Calculates total hours for each project.
     private fun getHours(projects:MutableList<ProjectViewModel>) : MutableList<HoursViewModel>
     {
         var totalHours = mutableListOf<HoursViewModel>()
