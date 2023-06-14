@@ -70,6 +70,7 @@ class ViewProject : Fragment() {
                 .build()
 
         dateRangePicker.addOnPositiveButtonClickListener {
+            //Converts long to date
             var firstDate = it.first
             var secondDate = it.second
             startDate = Date(firstDate)
@@ -114,12 +115,13 @@ class ViewProject : Fragment() {
 
         val btnAddProject = view.findViewById<FloatingActionButton>(R.id.btnAddProject)
 
+        //Navigates to project form
         btnAddProject.setOnClickListener() {
             val projectForm = ProjectForm.newInstance()
             requireActivity().supportFragmentManager.beginTransaction().replace(R.id.auth_view, projectForm).commit()
         }
 
-
+        //Retrieves and displays list of projects
         var projectList: MutableList<ProjectViewModel> = mutableListOf()
         val docRef =  db.collection("users").document(uid).collection("projects")
         docRef.get().addOnCompleteListener() {

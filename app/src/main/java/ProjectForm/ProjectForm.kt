@@ -87,6 +87,7 @@ class ProjectForm : Fragment() {
         return view
     }
 
+    //Retrieves form data from corresponding components
     private fun getFormData(view: View): ProjectViewModel {
         val projectName = view.findViewById<EditText>(R.id.edtProjectNameInput).text.toString()
         val description = view.findViewById<EditText>(R.id.edtProjectDescriptionInput).text.toString()
@@ -100,6 +101,7 @@ class ProjectForm : Fragment() {
     }
 
     private fun addProject(project: ProjectViewModel) {
+        //Performs validation.
         val snackbarMessage: String? = when {
             project.name.isBlank() -> "Project Name Required"
             project.description.isBlank() -> "Project Description Required"
@@ -116,7 +118,7 @@ class ProjectForm : Fragment() {
         }
         else
         {
-
+        //Adds project to firestore.
         val db = Firebase.firestore
         var auth = Firebase.auth
         var uid = auth.uid

@@ -61,7 +61,7 @@ class ViewTask : Fragment() {
 
         val uid = auth.uid!!
 
-
+        //Gets tasks from selected user project
         val docRef =  db.collection("users").document(uid).collection("projects").document(projectId!!)
         docRef.get().addOnCompleteListener() {
             if (it.isSuccessful) {
@@ -82,7 +82,7 @@ class ViewTask : Fragment() {
         }
 
         val btnAddTask = view.findViewById<FloatingActionButton>(R.id.btnAddTask)
-
+        //Adds a task for specified project
         btnAddTask.setOnClickListener() {
             val taskForm = TaskForm.newInstance(projectId!!)
             requireActivity().supportFragmentManager.beginTransaction().replace(R.id.auth_view, taskForm).commit()

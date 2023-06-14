@@ -51,18 +51,15 @@
 
 </LinearLayout>
 
-    <androidx.coordinatorlayout.widget.CoordinatorLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/btnAddProject"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="bottom|end"
+            android:layout_gravity="bottom|right"
             android:backgroundTint="@color/primary"
             android:layout_margin="12dp"
             android:contentDescription="+"
             app:srcCompat="@drawable/baseline_add_24_white"/>
-    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
 
 </FrameLayout>
