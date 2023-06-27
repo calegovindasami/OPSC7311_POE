@@ -7,6 +7,7 @@ import data.HoursViewModel
 import data.ProjectViewModel
 import data.TaskViewModel
 import java.time.LocalDate
+import java.time.format.DateTimeFormatter
 import java.util.*
 
 class HoursService {
@@ -40,17 +41,20 @@ class HoursService {
     }
 
     //Method will take in the project that was selected as the parameter
-    private fun getMonthlyTasks(project: ProjectViewModel): MutableList<TaskViewModel>
+    fun getMonthlyTasks(project: ProjectViewModel): MutableList<TaskViewModel>
     {
         var tasks = project.tasks
         var monthlyTasks : MutableList<TaskViewModel> = mutableListOf(TaskViewModel())
 
+        val formatter = DateTimeFormatter.ofPattern("EEE MMM d H:mm:ss 'GMT'xxx yyyy", Locale.ENGLISH)
+      //  val localDate = LocalDate.parse(task.date, formatter)
         val current = LocalDate.now()
 
         tasks!!.forEach{
             t ->
 
-            var date = LocalDate.parse(t.startTime.toString())
+
+            var date = LocalDate.parse(t.startTime.toString(),formatter)
             var month = date.month
 
             if (month == current.month){
@@ -64,7 +68,7 @@ class HoursService {
     }
 
 
-    private fun calcAverage(tasks : MutableList<TaskViewModel>)
+    fun calcAverage(tasks : MutableList<TaskViewModel>)
     {
 
     }

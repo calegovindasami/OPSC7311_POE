@@ -182,7 +182,7 @@ class TaskForm : Fragment() {
             val minute = picker.minute
             val cal = Calendar.getInstance()
             val day = cal.get(Calendar.DAY_OF_MONTH)
-            val month = cal.get(Calendar.MONTH)
+            val month = cal.get(Calendar.MONTH) + 1
             val year = cal.get(Calendar.YEAR)
             val date = "$day/$month/${year}T$hour:$minute"
             startTime = SimpleDateFormat("dd/MM/yyyy'T'HH:mm").parse(date)

@@ -1,6 +1,7 @@
 package com.example.opsc7311_poe
 
 import ProjectForm.ProjectForm
+import Services.HoursService
 //import ProjectForm.endDate
 //import ProjectForm.startDate
 import android.os.Bundle
@@ -8,6 +9,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import androidx.core.util.Pair
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -98,6 +100,8 @@ class ViewProject : Fragment() {
         // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_view_project, container, false)
 
+
+
         auth = Firebase.auth
         val uid = auth.uid!!
         topAppBar = view.findViewById(R.id.toolbar)
@@ -110,6 +114,10 @@ class ViewProject : Fragment() {
 
             true
         }
+
+        val cardView = inflater.inflate(R.layout.project_card, container, false)
+        val btnGetTasks = cardView.findViewById<Button>(R.id.btnGetTasks)
+
 
 
 
@@ -137,10 +145,16 @@ class ViewProject : Fragment() {
                 val adapter = ProjectViewAdapter(projectList)
                 adapter.setOnItemClickListener(object: ProjectViewAdapter.OnItemClickListener {
                     override fun onItemClick(position: Int) {
+
+                        val service = HoursService()
+                        service.getMonthlyTasks(projectList[position])
+
                         val viewTask = ViewTask.newInstance(projectIds[position])
                         requireActivity().supportFragmentManager.beginTransaction().replace(R.id.auth_view, viewTask).commit()
                     }
                 })
+
+
                 recyclerView.adapter = adapter
 
             }
@@ -152,6 +166,8 @@ class ViewProject : Fragment() {
 
 
         }
+
+
 
 
         return view
