@@ -146,8 +146,11 @@ class ViewProject : Fragment() {
                 adapter.setOnItemClickListener(object: ProjectViewAdapter.OnItemClickListener {
                     override fun onItemClick(position: Int) {
 
-                        val service = HoursService()
-                        service.getMonthlyTasks(projectList[position])
+                        //Navigation for going to the graph
+                       /*  val service = HoursService()
+                        val tasks = service.getMonthlyTasks(projectList[position])
+
+                        service.calcAverage(tasks) */
 
                         val viewTask = ViewTask.newInstance(projectIds[position])
                         requireActivity().supportFragmentManager.beginTransaction().replace(R.id.auth_view, viewTask).commit()
