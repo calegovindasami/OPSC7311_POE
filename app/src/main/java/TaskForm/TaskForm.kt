@@ -182,7 +182,7 @@ class TaskForm : Fragment() {
             val minute = picker.minute
             val cal = Calendar.getInstance()
             val day = cal.get(Calendar.DAY_OF_MONTH)
-            val month = cal.get(Calendar.MONTH)
+            val month = cal.get(Calendar.MONTH) + 1
             val year = cal.get(Calendar.YEAR)
             val date = "$day/$month/${year}T$hour:$minute"
             startTime = SimpleDateFormat("dd/MM/yyyy'T'HH:mm").parse(date)
@@ -206,7 +206,7 @@ class TaskForm : Fragment() {
             docRef.get().addOnSuccessListener { documentSnapshot ->
                 val project = documentSnapshot.toObject<ProjectViewModel>()
 
-                if (startTime.compareTo(project!!.startDate) >= 0 && startTime.compareTo(project!!.endDate) < 0 || task.numberOfHours >= project.minimumDailyHours && task.numberOfHours < project.maximumDailyHours) {
+                if (startTime.compareTo(project!!.startDate) >= 0 && startTime.compareTo(project!!.endDate) < 0 || task.numberOfHours >= project.minimumDailyHours && task.numberOfHours <= project.maximumDailyHours) {
                     project!!.tasks!!.add(task)
                     docRef.update("tasks", project!!.tasks!!).addOnSuccessListener {
                         Snackbar.make(requireView(), "Task added.", Snackbar.LENGTH_LONG).show()
