@@ -82,7 +82,7 @@ class ViewProject : Fragment() {
             args.putLong("endDate", endDate.time)
             args.putString("uid", uid)
             destinationFragment.arguments = args
-            requireActivity().supportFragmentManager.beginTransaction().replace(R.id.auth_view, destinationFragment).commit()
+            requireActivity().supportFragmentManager.beginTransaction().replace(R.id.flNavigation, destinationFragment).commit()
         }
         dateRangePicker.show(parentFragmentManager, "Tag")
 
@@ -118,7 +118,7 @@ class ViewProject : Fragment() {
         //Navigates to project form
         btnAddProject.setOnClickListener() {
             val projectForm = ProjectForm.newInstance()
-            requireActivity().supportFragmentManager.beginTransaction().replace(R.id.auth_view, projectForm).commit()
+            requireActivity().supportFragmentManager.beginTransaction().replace(R.id.flNavigation, projectForm).commit()
         }
 
         //Retrieves and displays list of projects
@@ -138,7 +138,7 @@ class ViewProject : Fragment() {
                 adapter.setOnItemClickListener(object: ProjectViewAdapter.OnItemClickListener {
                     override fun onItemClick(position: Int) {
                         val viewTask = ViewTask.newInstance(projectIds[position])
-                        requireActivity().supportFragmentManager.beginTransaction().replace(R.id.auth_view, viewTask).commit()
+                        requireActivity().supportFragmentManager.beginTransaction().replace(R.id.flNavigation, viewTask).commit()
                     }
                 })
                 recyclerView.adapter = adapter

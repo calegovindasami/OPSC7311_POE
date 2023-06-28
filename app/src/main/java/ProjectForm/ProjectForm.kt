@@ -77,7 +77,7 @@ class ProjectForm : Fragment() {
         val btnBack = view.findViewById<ImageButton>(R.id.btnProjectBack)
         btnBack.setOnClickListener() {
             val projectView = ViewProject.newInstance()
-            requireActivity().supportFragmentManager.beginTransaction().replace(R.id.auth_view, projectView).commit()
+            requireActivity().supportFragmentManager.beginTransaction().replace(R.id.flNavigation, projectView).commit()
         }
 
         btnSubmit.setOnClickListener {
@@ -125,7 +125,7 @@ class ProjectForm : Fragment() {
         db.collection("users").document(uid.toString()).collection("projects").add(project).addOnCompleteListener() {
             if (it.isSuccessful) {
                 val projectView = ViewProject.newInstance()
-                requireActivity().supportFragmentManager.beginTransaction().replace(R.id.auth_view, projectView).commit()
+                requireActivity().supportFragmentManager.beginTransaction().replace(R.id.flNavigation, projectView).commit()
             } else {
                 Snackbar.make(requireView(), it.exception?.message.toString(), Snackbar.LENGTH_LONG)
             }

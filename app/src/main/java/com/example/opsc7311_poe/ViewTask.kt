@@ -85,7 +85,7 @@ class ViewTask : Fragment() {
         //Adds a task for specified project
         btnAddTask.setOnClickListener() {
             val taskForm = TaskForm.newInstance(projectId!!)
-            requireActivity().supportFragmentManager.beginTransaction().replace(R.id.auth_view, taskForm).commit()
+            requireActivity().supportFragmentManager.beginTransaction().replace(R.id.flNavigation, taskForm).commit()
 
         }
 
@@ -93,7 +93,7 @@ class ViewTask : Fragment() {
 
         btnTaskBack.setOnClickListener() {
             val projectView = ViewProject.newInstance()
-            requireActivity().supportFragmentManager.beginTransaction().replace(R.id.auth_view, projectView).commit()
+            requireActivity().supportFragmentManager.beginTransaction().replace(R.id.flNavigation, projectView).commit()
         }
 
         return view

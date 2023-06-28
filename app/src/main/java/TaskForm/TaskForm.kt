@@ -126,7 +126,7 @@ class TaskForm : Fragment() {
 
         btnTaskBack.setOnClickListener() {
             val viewTask = ViewTask.newInstance(projectId!!)
-            requireActivity().supportFragmentManager.beginTransaction().replace(R.id.auth_view, viewTask).commit()
+            requireActivity().supportFragmentManager.beginTransaction().replace(R.id.flNavigation, viewTask).commit()
         }
 
         return view
