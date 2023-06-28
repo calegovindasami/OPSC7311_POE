@@ -17,6 +17,7 @@ import android.widget.EditText
 import android.widget.ImageButton
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.fragment.app.commit
 import com.example.opsc7311_poe.R
 import com.example.opsc7311_poe.ViewTask
 import com.google.android.material.slider.Slider
@@ -126,7 +127,14 @@ class TaskForm : Fragment() {
 
         btnTaskBack.setOnClickListener() {
             val viewTask = ViewTask.newInstance(projectId!!)
-            requireActivity().supportFragmentManager.beginTransaction().replace(R.id.flNavigation, viewTask).commit()
+            requireActivity().supportFragmentManager.commit {
+                setCustomAnimations(
+                    R.anim.fade_in,
+                    R.anim.fade_out
+                )
+                replace(R.id.flNavigation, viewTask)
+                addToBackStack(null)
+            }
         }
 
         return view

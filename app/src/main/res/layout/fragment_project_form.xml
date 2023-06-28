@@ -22,9 +22,11 @@
                 android:id="@+id/btnProjectBack"
                 android:layout_width="50dp"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
                 android:background="@color/primary"
                 android:src="@drawable/baseline_arrow_back_24"
-                app:layout_constraintStart_toStartOf="@+id/materialTextView3"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <com.google.android.material.textview.MaterialTextView
@@ -32,14 +34,16 @@
 
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="4dp"
                 android:gravity="center"
                 android:text="Add Project"
                 android:textColor="@color/white"
-                android:textStyle="bold"
                 android:textSize="40dp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/btnProjectBack" />
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <LinearLayout

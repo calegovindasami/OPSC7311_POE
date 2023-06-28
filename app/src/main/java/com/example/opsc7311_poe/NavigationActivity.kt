@@ -7,6 +7,9 @@ import androidx.fragment.app.commit
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class NavigationActivity : AppCompatActivity() {
+    private val homeFragment = HomeFragment()
+    private val projectFragment = ViewProject()
+    var fragments = mutableListOf<Fragment>(homeFragment, projectFragment)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_navigation)
@@ -22,7 +25,7 @@ class NavigationActivity : AppCompatActivity() {
 
         val navigation = findViewById<BottomNavigationView>(R.id.bottomNavigationView)
 
-        navigation.setOnItemReselectedListener {
+        navigation.setOnItemSelectedListener {
             when(it.itemId) {
                 R.id.home -> setCurrentFragment(homeFragment)
                 R.id.project -> setCurrentFragment(projectFragment)
@@ -31,10 +34,29 @@ class NavigationActivity : AppCompatActivity() {
         }
     }
 
-    private fun setCurrentFragment(fragment: Fragment) =
-        supportFragmentManager.commit {
-            setCustomAnimations(R.anim.from_right, R.anim.to_left, R.anim.from_left, R.anim.to_right)
-            replace(R.id.flNavigation, fragment)
-            addToBackStack(null)
+    private fun setCurrentFragment(fragment: Fragment) {
+        if (fragment is HomeFragment) {
+            supportFragmentManager.commit {
+                setCustomAnimations(
+                    R.anim.from_left,
+                    R.anim.to_right,
+                    R.anim.from_right,
+                    R.anim.to_left
+                )
+                replace(R.id.flNavigation, fragment)
+                addToBackStack(null)
+            }
+        } else if (fragment is ViewProject) {
+                supportFragmentManager.commit {
+                    setCustomAnimations(
+                        R.anim.from_right,
+                        R.anim.to_left,
+                        R.anim.from_left,
+                        R.anim.to_right
+                    )
+                    replace(R.id.flNavigation, fragment)
+                    addToBackStack(null)
+                }
+            }
         }
 }

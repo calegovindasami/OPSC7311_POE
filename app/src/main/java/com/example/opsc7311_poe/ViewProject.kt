@@ -9,6 +9,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.util.Pair
+import androidx.fragment.app.commit
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.appbar.MaterialToolbar
@@ -118,7 +119,14 @@ class ViewProject : Fragment() {
         //Navigates to project form
         btnAddProject.setOnClickListener() {
             val projectForm = ProjectForm.newInstance()
-            requireActivity().supportFragmentManager.beginTransaction().replace(R.id.flNavigation, projectForm).commit()
+            requireActivity().supportFragmentManager.commit {
+                setCustomAnimations(
+                    R.anim.fade_in,
+                    R.anim.fade_out
+                )
+                replace(R.id.flNavigation, projectForm)
+                addToBackStack(null)
+            }
         }
 
         //Retrieves and displays list of projects
@@ -138,7 +146,14 @@ class ViewProject : Fragment() {
                 adapter.setOnItemClickListener(object: ProjectViewAdapter.OnItemClickListener {
                     override fun onItemClick(position: Int) {
                         val viewTask = ViewTask.newInstance(projectIds[position])
-                        requireActivity().supportFragmentManager.beginTransaction().replace(R.id.flNavigation, viewTask).commit()
+                        requireActivity().supportFragmentManager.commit {
+                            setCustomAnimations(
+                                R.anim.fade_in,
+                                R.anim.fade_out
+                            )
+                            replace(R.id.flNavigation, viewTask)
+                            addToBackStack(null)
+                        }
                     }
                 })
                 recyclerView.adapter = adapter
