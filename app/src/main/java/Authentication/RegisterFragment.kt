@@ -51,6 +51,7 @@ class RegisterFragment : Fragment() {
 
         val btnRegister = view.findViewById<Button>(R.id.btnRegisterSubmit)
         btnRegister.setOnClickListener() {
+
             //Registers user
             auth = Firebase.auth
             val email = view.findViewById<EditText>(R.id.tiRegisterEmail).text.toString()
@@ -64,9 +65,12 @@ class RegisterFragment : Fragment() {
                     .addOnCompleteListener() {
                         if (it.isSuccessful) {
                             Snackbar.make(requireView(), "Successfully registered!", Snackbar.LENGTH_LONG)
+                            clearFields(view)
                         }
                         else if(it.isCanceled) {
                             Snackbar.make(requireView(), it.exception?.message.toString(), Snackbar.LENGTH_LONG)
+
+
                         }
                     }
             }
@@ -85,6 +89,10 @@ class RegisterFragment : Fragment() {
     private fun navigateToLogin() {
         val loginFragment = LoginFragment.newInstance()
         requireActivity().supportFragmentManager.beginTransaction().replace(R.id.auth_view, loginFragment).commit()
+    }
+    private fun clearFields(view: View) {
+        view.findViewById<EditText>(R.id.tiRegisterEmail).text.clear()
+        view.findViewById<EditText>(R.id.tiRegisterPassword).text.clear()
     }
 
     companion object {
