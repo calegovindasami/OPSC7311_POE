@@ -151,7 +151,7 @@ class ViewProject : Fragment() {
                         val service = HoursService()
                         val tasks = service.getMonthlyTasks(projectList[position])
 
-                        service.calcBarAverage(tasks,4)
+                        service.calcBarAverage(tasks,2)
 
                        val taskForm = GraphView.newInstance("","")
                         requireActivity().supportFragmentManager.beginTransaction().replace(R.id.auth_view, taskForm).commit()
