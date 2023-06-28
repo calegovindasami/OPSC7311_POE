@@ -2,6 +2,7 @@ package com.example.opsc7311_poe
 
 import ProjectForm.ProjectForm
 import Services.HoursService
+import TaskForm.TaskForm
 //import ProjectForm.endDate
 //import ProjectForm.startDate
 import android.os.Bundle
@@ -147,13 +148,17 @@ class ViewProject : Fragment() {
                     override fun onItemClick(position: Int) {
 
                         //Navigation for going to the graph
-                       /*  val service = HoursService()
+                        val service = HoursService()
                         val tasks = service.getMonthlyTasks(projectList[position])
 
-                        service.calcAverage(tasks) */
+                        service.calcBarAverage(tasks,4)
 
-                        val viewTask = ViewTask.newInstance(projectIds[position])
-                        requireActivity().supportFragmentManager.beginTransaction().replace(R.id.auth_view, viewTask).commit()
+                       val taskForm = GraphView.newInstance("","")
+                        requireActivity().supportFragmentManager.beginTransaction().replace(R.id.auth_view, taskForm).commit()
+
+
+                       /* val viewTask = ViewTask.newInstance(projectIds[position])
+                        requireActivity().supportFragmentManager.beginTransaction().replace(R.id.auth_view, viewTask).commit()*/
                     }
                 })
 

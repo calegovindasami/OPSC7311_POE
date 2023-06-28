@@ -141,6 +141,7 @@ class HoursService {
         //Store the weekly tasks in a list
         var array = mutableListOf(weekOne,weekTwo,weekThree,weekFour)
 
+
         //loop through the 2D list and get the hours completed for each task
         for (week in array)
         {
@@ -154,6 +155,127 @@ class HoursService {
 
 
         return stats
+
+    }
+
+    fun calcBarAverage(tasks : MutableList<TaskViewModel>,week: Int) : MutableList<Int>
+    {
+        //Gets total number of days from current month
+        val c = Calendar.getInstance()
+        val monthMaxDays = c.getActualMaximum(Calendar.DAY_OF_MONTH)
+
+        val formatter = DateTimeFormatter.ofPattern("EEE MMM d H:mm:ss 'GMT'xxx yyyy", Locale.ENGLISH)
+
+        val weekOne: MutableList<TaskViewModel> = mutableListOf()
+        val weekTwo: MutableList<TaskViewModel> = mutableListOf()
+        val weekThree: MutableList<TaskViewModel> = mutableListOf()
+        val weekFour: MutableList<TaskViewModel> = mutableListOf()
+
+
+        var stats = mutableListOf<Int>()
+
+        //Running through all the tasks from the project
+        tasks!!.forEach{
+                t ->
+            //Get the day of each task
+            var date = LocalDate.parse(t.startTime.toString(),formatter)
+            var day = date.dayOfMonth
+
+            //Check what week the task falls under
+            if (day <= 7)
+            {
+                weekOne.add(t)
+            }
+            else
+            {
+                if (day>7 && day<=14)
+                {
+                    weekTwo.add(t)
+                }
+                else
+                {
+                    if (day > 14 && day <= 21)
+                    {
+                        weekThree.add(t)
+                    }
+                    else
+                    {
+                        weekFour.add(t)
+                    }
+                }
+            }//End All Ifs
+
+        }//End For Each
+
+
+
+        when (week) {
+            1 -> {
+                var hours = 0
+                for (task in weekOne)
+                {
+                    getDay(task,1,6)
+                    hours += task.numberOfHours
+
+                }
+                stats.add(hours)
+            }
+            2 -> {
+                var hours = 0
+                for (task in weekTwo)
+                {
+                    getDay(task,7,13)
+                    hours += task.numberOfHours
+                }
+                stats.add(hours)
+            }
+            3 ->{
+                var hours = 0
+                for (task in weekThree)
+                {
+                    getDay(task,14,20)
+                    hours += task.numberOfHours
+                }
+                stats.add(hours)
+            }
+            else -> {
+                var hours = 0
+                for (task in weekFour)
+                {
+                    getDay(task,21,monthMaxDays)
+                    hours += task.numberOfHours
+                }
+                stats.add(hours)
+            }
+        }
+
+        return stats
+
+    }
+
+    private fun getDay(task:TaskViewModel,start: Int, end: Int):MutableList<Int>
+    {
+        val formatter = DateTimeFormatter.ofPattern("EEE MMM d H:mm:ss 'GMT'xxx yyyy", Locale.ENGLISH)
+        var date = LocalDate.parse(task.startTime.toString(),formatter)
+        var day = date.dayOfMonth
+
+        //Array will store each of the days
+        var days = mutableListOf<Int>()
+
+        //Runs from 0 to 6
+        for (i in start until end+1)
+        {
+          if (day == i)
+          {
+            days.add(i)
+          }
+          else
+          {
+              days.add(0)
+          }
+        }
+
+        return days
 
     }
 
