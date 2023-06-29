@@ -94,7 +94,7 @@ class ViewHours : Fragment() {
         btnBack.setOnClickListener() {
             //Switches view back to projects list
             val projectView = ViewProject.newInstance()
-            requireActivity().supportFragmentManager.beginTransaction().replace(R.id.auth_view, projectView).commit()
+            requireActivity().supportFragmentManager.beginTransaction().replace(R.id.flNavigation, projectView).commit()
         }
         return view
     }

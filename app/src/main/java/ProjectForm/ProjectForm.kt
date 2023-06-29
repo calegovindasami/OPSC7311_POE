@@ -11,6 +11,7 @@ import android.widget.ImageButton
 import android.widget.Toast
 import androidx.core.util.Pair
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.commit
 import com.example.opsc7311_poe.R
 import com.example.opsc7311_poe.ViewProject
 import com.google.android.material.datepicker.MaterialDatePicker
@@ -77,7 +78,14 @@ class ProjectForm : Fragment() {
         val btnBack = view.findViewById<ImageButton>(R.id.btnProjectBack)
         btnBack.setOnClickListener() {
             val projectView = ViewProject.newInstance()
-            requireActivity().supportFragmentManager.beginTransaction().replace(R.id.auth_view, projectView).commit()
+            requireActivity().supportFragmentManager.commit {
+                setCustomAnimations(
+                    R.anim.fade_in,
+                    R.anim.fade_out
+                )
+                replace(R.id.flNavigation, projectView)
+                addToBackStack(null)
+            }
         }
 
         btnSubmit.setOnClickListener {
@@ -125,7 +133,14 @@ class ProjectForm : Fragment() {
         db.collection("users").document(uid.toString()).collection("projects").add(project).addOnCompleteListener() {
             if (it.isSuccessful) {
                 val projectView = ViewProject.newInstance()
-                requireActivity().supportFragmentManager.beginTransaction().replace(R.id.auth_view, projectView).commit()
+                requireActivity().supportFragmentManager.commit {
+                    setCustomAnimations(
+                        R.anim.fade_in,
+                        R.anim.fade_out
+                    )
+                    replace(R.id.flNavigation, projectView)
+                    addToBackStack(null)
+                }
             } else {
                 Snackbar.make(requireView(), it.exception?.message.toString(), Snackbar.LENGTH_LONG)
             }

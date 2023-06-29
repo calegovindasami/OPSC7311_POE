@@ -11,6 +11,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import androidx.core.util.Pair
+import androidx.fragment.app.commit
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.appbar.MaterialToolbar
@@ -84,7 +85,7 @@ class ViewProject : Fragment() {
             args.putLong("endDate", endDate.time)
             args.putString("uid", uid)
             destinationFragment.arguments = args
-            requireActivity().supportFragmentManager.beginTransaction().replace(R.id.auth_view, destinationFragment).commit()
+            requireActivity().supportFragmentManager.beginTransaction().replace(R.id.flNavigation, destinationFragment).commit()
         }
         dateRangePicker.show(parentFragmentManager, "Tag")
 
@@ -126,7 +127,14 @@ class ViewProject : Fragment() {
         //Navigates to project form
         btnAddProject.setOnClickListener() {
             val projectForm = ProjectForm.newInstance()
-            requireActivity().supportFragmentManager.beginTransaction().replace(R.id.auth_view, projectForm).commit()
+            requireActivity().supportFragmentManager.commit {
+                setCustomAnimations(
+                    R.anim.fade_in,
+                    R.anim.fade_out
+                )
+                replace(R.id.flNavigation, projectForm)
+                addToBackStack(null)
+            }
         }
 
         //Retrieves and displays list of projects
@@ -145,24 +153,15 @@ class ViewProject : Fragment() {
                 val adapter = ProjectViewAdapter(projectList)
                 adapter.setOnItemClickListener(object: ProjectViewAdapter.OnItemClickListener {
                     override fun onItemClick(position: Int) {
-
-                        //Navigation for going to the graph
-                        val service = HoursService()
-                        val tasks = service.getMonthlyTasks(projectList[position])
-
-                     //   service.calcBarAverage(tasks, 2)
-
-                        val taskForm = GraphView.newInstance("", "")
-                        val args = Bundle()
-                        args.putSerializable("tasks",ArrayList(tasks))
-                        args.putInt("Weeks", 4)
-
-                        taskForm.arguments = args
-                        requireActivity().supportFragmentManager.beginTransaction()
-                            .replace(R.id.auth_view, taskForm).commit()
-
-                        /* val viewTask = ViewTask.newInstance(projectIds[position])
-                        requireActivity().supportFragmentManager.beginTransaction().replace(R.id.auth_view, viewTask).commit()*/
+                        val viewTask = ViewTask.newInstance(projectIds[position])
+                        requireActivity().supportFragmentManager.commit {
+                            setCustomAnimations(
+                                R.anim.fade_in,
+                                R.anim.fade_out
+                            )
+                            replace(R.id.flNavigation, viewTask)
+                            addToBackStack(null)
+                        }
                     }
                 })
 

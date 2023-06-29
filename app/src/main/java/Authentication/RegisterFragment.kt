@@ -9,6 +9,7 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
+import androidx.fragment.app.commit
 import com.example.opsc7311_poe.R
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputEditText
@@ -84,7 +85,16 @@ class RegisterFragment : Fragment() {
 
     private fun navigateToLogin() {
         val loginFragment = LoginFragment.newInstance()
-        requireActivity().supportFragmentManager.beginTransaction().replace(R.id.auth_view, loginFragment).commit()
+        requireActivity().supportFragmentManager.commit {
+            setCustomAnimations(
+                R.anim.from_left,
+                R.anim.to_right,
+                R.anim.from_right,
+                R.anim.to_left
+            )
+            replace(R.id.auth_view, loginFragment)
+            addToBackStack(null)
+        }
     }
 
     companion object {

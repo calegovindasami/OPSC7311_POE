@@ -17,6 +17,7 @@ import android.widget.EditText
 import android.widget.ImageButton
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.fragment.app.commit
 import com.example.opsc7311_poe.R
 import com.example.opsc7311_poe.ViewTask
 import com.google.android.material.slider.Slider
@@ -126,7 +127,14 @@ class TaskForm : Fragment() {
 
         btnTaskBack.setOnClickListener() {
             val viewTask = ViewTask.newInstance(projectId!!)
-            requireActivity().supportFragmentManager.beginTransaction().replace(R.id.auth_view, viewTask).commit()
+            requireActivity().supportFragmentManager.commit {
+                setCustomAnimations(
+                    R.anim.fade_in,
+                    R.anim.fade_out
+                )
+                replace(R.id.flNavigation, viewTask)
+                addToBackStack(null)
+            }
         }
 
         return view
@@ -206,7 +214,7 @@ class TaskForm : Fragment() {
             docRef.get().addOnSuccessListener { documentSnapshot ->
                 val project = documentSnapshot.toObject<ProjectViewModel>()
 
-                if (startTime.compareTo(project!!.startDate) >= 0 && startTime.compareTo(project!!.endDate) < 0 || task.numberOfHours >= project.minimumDailyHours && task.numberOfHours < project.maximumDailyHours) {
+                if (startTime.compareTo(project!!.startDate) >= 0 && startTime.compareTo(project!!.endDate) < 0 || task.numberOfHours >= project.minimumDailyHours && task.numberOfHours <= project.maximumDailyHours) {
                     project!!.tasks!!.add(task)
                     docRef.update("tasks", project!!.tasks!!).addOnSuccessListener {
                         Snackbar.make(requireView(), "Task added.", Snackbar.LENGTH_LONG).show()

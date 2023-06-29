@@ -11,6 +11,7 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ImageButton
 import androidx.annotation.RequiresApi
+import androidx.fragment.app.commit
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -85,7 +86,14 @@ class ViewTask : Fragment() {
         //Adds a task for specified project
         btnAddTask.setOnClickListener() {
             val taskForm = TaskForm.newInstance(projectId!!)
-            requireActivity().supportFragmentManager.beginTransaction().replace(R.id.auth_view, taskForm).commit()
+            requireActivity().supportFragmentManager.commit {
+                setCustomAnimations(
+                    R.anim.fade_in,
+                    R.anim.fade_out
+                )
+                replace(R.id.flNavigation, taskForm)
+                addToBackStack(null)
+            }
 
         }
 
@@ -93,7 +101,14 @@ class ViewTask : Fragment() {
 
         btnTaskBack.setOnClickListener() {
             val projectView = ViewProject.newInstance()
-            requireActivity().supportFragmentManager.beginTransaction().replace(R.id.auth_view, projectView).commit()
+            requireActivity().supportFragmentManager.commit {
+                setCustomAnimations(
+                    R.anim.fade_in,
+                    R.anim.fade_out
+                )
+                replace(R.id.flNavigation, projectView)
+                addToBackStack(null)
+            }
         }
 
         return view

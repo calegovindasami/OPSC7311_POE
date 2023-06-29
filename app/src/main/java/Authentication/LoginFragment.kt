@@ -9,7 +9,9 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
+import androidx.fragment.app.commit
 import com.example.opsc7311_poe.MainActivity
+import com.example.opsc7311_poe.NavigationActivity
 import com.example.opsc7311_poe.R
 import com.example.opsc7311_poe.ViewProject
 import com.google.android.material.snackbar.Snackbar
@@ -65,9 +67,8 @@ class LoginFragment : Fragment() {
             else {
                 auth.signInWithEmailAndPassword(email, password).addOnCompleteListener() {
                     if (it.isSuccessful) {
-                        val projectFragment = ViewProject.newInstance()
-                        requireActivity().supportFragmentManager.beginTransaction().replace(R.id.auth_view, projectFragment).commit()
-
+                        val intent = Intent(requireActivity(), NavigationActivity::class.java)
+                        startActivity(intent)
                     }
                     else {
                         Snackbar.make(requireView(), it.exception!!.message.toString(), Snackbar.LENGTH_LONG).show()
@@ -79,7 +80,11 @@ class LoginFragment : Fragment() {
         val btnSignUp = view.findViewById<TextView>(R.id.txtGoToSignUp)
         btnSignUp.setOnClickListener() {
             val registerFragment = RegisterFragment.newInstance()
-            requireActivity().supportFragmentManager.beginTransaction().replace(R.id.auth_view, registerFragment).commit()
+            requireActivity().supportFragmentManager.commit {
+                setCustomAnimations(R.anim.from_right, R.anim.to_left, R.anim.from_left, R.anim.to_right)
+                replace(R.id.auth_view, registerFragment)
+                addToBackStack(null)
+            }
         }
         return view
     }
