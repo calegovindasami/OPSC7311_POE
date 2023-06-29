@@ -1,7 +1,9 @@
 package ProjectForm
 
+import android.content.ContentValues.TAG
 import data.ProjectViewModel
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -19,17 +21,10 @@ import com.google.android.material.slider.RangeSlider
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.ktx.firestore
-import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
+import com.google.firebase.messaging.ktx.messaging
 import data.TaskViewModel
-import java.text.DateFormat
-import java.text.SimpleDateFormat
-import java.time.LocalDateTime
-import java.time.format.DateTimeFormatter
-import java.util.Calendar
 import java.util.Date
-import java.util.Locale
-import kotlin.time.Duration.Companion.days
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -44,6 +39,9 @@ private const val ARG_PARAM2 = "param2"
 
 private var startDate: Date? = null
 private var endDate: Date? = null
+
+//User needs to select one of these values for their preferred time. These times are limited to two hour intervals as Firebase allows a maximum of 10 messages per app (free).
+private var notificationTimes = mutableListOf(6, 8, 10, 12, 14, 16, 18, 20, 22, 24)
 
 
 
@@ -168,6 +166,19 @@ class ProjectForm : Fragment() {
         dateRangePicker.show(parentFragmentManager, "Tag")
     }
 
+
+    //Notify hour must be a value from the notificationTimes list
+    private fun subscribeToNotification(notifyHour: Int) {
+        Firebase.messaging.subscribeToTopic(notifyHour.toString())
+            .addOnCompleteListener { task ->
+                var msg = "Subscribed"
+                if (!task.isSuccessful) {
+                    msg = "Subscribe failed"
+                }
+                Log.d(TAG, msg)
+                Toast.makeText(requireContext(), msg, Toast.LENGTH_SHORT).show()
+            }
+    }
 
 
 
