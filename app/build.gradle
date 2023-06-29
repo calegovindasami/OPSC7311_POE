@@ -60,4 +60,7 @@ dependencies {
 
     implementation 'com.google.firebase:firebase-firestore-ktx'
     implementation 'com.google.firebase:firebase-storage-ktx'
+
+    //Graph
+    implementation 'com.github.Philjay:MPAndroidChart:v3.1.0'
 }
