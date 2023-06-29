@@ -2,7 +2,6 @@ package com.example.opsc7311_poe
 
 import ProjectForm.ProjectForm
 import Services.HoursService
-import TaskForm.TaskForm
 //import ProjectForm.endDate
 //import ProjectForm.startDate
 import android.os.Bundle
@@ -151,13 +150,18 @@ class ViewProject : Fragment() {
                         val service = HoursService()
                         val tasks = service.getMonthlyTasks(projectList[position])
 
-                        service.calcBarAverage(tasks,2)
+                     //   service.calcBarAverage(tasks, 2)
 
-                       val taskForm = GraphView.newInstance("","")
-                        requireActivity().supportFragmentManager.beginTransaction().replace(R.id.auth_view, taskForm).commit()
+                        val taskForm = GraphView.newInstance("", "")
+                        val args = Bundle()
+                        args.putSerializable("tasks",ArrayList(tasks))
+                        args.putInt("Weeks", 4)
 
+                        taskForm.arguments = args
+                        requireActivity().supportFragmentManager.beginTransaction()
+                            .replace(R.id.auth_view, taskForm).commit()
 
-                       /* val viewTask = ViewTask.newInstance(projectIds[position])
+                        /* val viewTask = ViewTask.newInstance(projectIds[position])
                         requireActivity().supportFragmentManager.beginTransaction().replace(R.id.auth_view, viewTask).commit()*/
                     }
                 })

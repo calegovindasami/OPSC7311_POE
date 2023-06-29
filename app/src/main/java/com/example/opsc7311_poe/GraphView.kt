@@ -1,5 +1,6 @@
 package com.example.opsc7311_poe
 
+import Services.HoursService
 import android.graphics.Color
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -12,6 +13,7 @@ import com.github.mikephil.charting.data.BarDataSet
 import com.github.mikephil.charting.data.BarEntry
 import com.github.mikephil.charting.utils.ColorTemplate
 import data.GraphViewModel
+import data.TaskViewModel
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -44,18 +46,29 @@ class GraphView : Fragment() {
 
         val view = inflater.inflate(R.layout.fragment_graph_view, container, false)
 
+        val args = arguments
+        val tasks: MutableList<TaskViewModel>? = args?.getSerializable("tasks") as? MutableList<TaskViewModel>
+        val weeks = args?.getInt("Weeks")
+
+        val service = HoursService()
+        var graphData :IntArray = IntArray(7)
+        if (tasks != null) {
+            graphData= weeks?.let { service.calcBarAverage(tasks, it) }!!
+        }
         barChart=view.findViewById(R.id.bar_chart)
 
 
         val graphViewModel = GraphViewModel()
 
-        graphViewModel.list.add(BarEntry(1f,100f))
-        graphViewModel.list.add(BarEntry(2f,200f))
-        graphViewModel.list.add(BarEntry(3f,300f))
-        graphViewModel.list.add(BarEntry(4f,400f))
-        /*graphViewModel.list.add(BarEntry(5f,500f))
-        graphViewModel.list.add(BarEntry(6f,500f))
-        graphViewModel.list.add(BarEntry(7f,500f))*/
+
+
+        graphViewModel.list.add(BarEntry(1f,graphData[0].toFloat()))
+        graphViewModel.list.add(BarEntry(2f,graphData[1].toFloat()))
+        graphViewModel.list.add(BarEntry(3f,graphData[2].toFloat()))
+        graphViewModel.list.add(BarEntry(4f,graphData[3].toFloat()))
+        graphViewModel.list.add(BarEntry(5f,graphData[4].toFloat()))
+        graphViewModel.list.add(BarEntry(6f,graphData[5].toFloat()))
+        graphViewModel.list.add(BarEntry(7f,graphData[6].toFloat()))
 
 
         val barDataSet= BarDataSet(graphViewModel.list,"List")
@@ -91,6 +104,7 @@ class GraphView : Fragment() {
                     arguments = Bundle().apply {
                         putString(ARG_PARAM1, param1)
                         putString(ARG_PARAM2, param2)
+
                     }
                 }
     }
