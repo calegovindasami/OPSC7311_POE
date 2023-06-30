@@ -62,21 +62,7 @@ class GraphView : Fragment() {
         val projectList: MutableList<ProjectViewModel> = sharedViewModel.projects
 
 
-        /*auth = Firebase.auth
-        val uid = auth.uid!!
 
-        var projectList: MutableList<ProjectViewModel> = mutableListOf()
-        val docRef =  db.collection("users").document(uid).collection("projects")
-        docRef.get().addOnCompleteListener() {
-            if (it.isSuccessful) {
-                var projects = it.result.documents
-                for (p in projects) {
-                    var project = p.toObject<ProjectViewModel>()
-                    projectList.add(project!!)
-                    //projectIds.add(p.id)
-                }
-            }
-        } */
 
         val args = arguments
        // val tasks: MutableList<TaskViewModel>? = args?.getSerializable("tasks") as? MutableList<TaskViewModel>

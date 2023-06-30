@@ -1,10 +1,32 @@
 package com.example.opsc7311_poe
 
+import Services.HoursService
+import android.graphics.Color
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.ViewModelProvider
+import com.github.mikephil.charting.charts.BarChart
+import com.github.mikephil.charting.data.BarData
+import com.github.mikephil.charting.data.BarDataSet
+import com.github.mikephil.charting.data.BarEntry
+import com.github.mikephil.charting.utils.ColorTemplate
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.firestore.ktx.toObject
+import com.google.firebase.ktx.Firebase
+import data.GraphViewModel
+import data.ProjectViewModel
+import data.TaskViewModel
+import data.graphData
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
+import java.util.*
+
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -21,6 +43,8 @@ class HomeFragment : Fragment() {
     private var param1: String? = null
     private var param2: String? = null
 
+    lateinit var barChart:BarChart
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
@@ -34,7 +58,86 @@ class HomeFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_home, container, false)
+
+        val view = inflater.inflate(R.layout.fragment_home, container, false)
+
+        val c = Calendar.getInstance()
+        val monthMaxDays = c.getActualMaximum(Calendar.DAY_OF_MONTH)
+
+        val formatter = DateTimeFormatter.ofPattern("EEE MMM d H:mm:ss 'GMT'xxx yyyy", Locale.ENGLISH)
+
+        val sharedViewModel = ViewModelProvider(requireActivity()).get(graphData::class.java)
+        val projectList: MutableList<ProjectViewModel> = sharedViewModel.projects
+
+        var date = LocalDate.now()
+        var day = date.dayOfMonth
+
+        var week = 1
+        //Check what week the task falls under
+        if (day <= 7)
+        {
+            week = 1
+        }
+        else
+        {
+            if (day>7 && day<=14)
+            {
+                week = 2
+            }
+            else
+            {
+                if (day > 14 && day <= 21)
+                {
+                    week = 3
+                }
+                else
+                {
+                    week = 4
+                }
+            }
+        }//End All Ifs
+
+
+        val service = HoursService()
+        val tasks = service.getTasks(projectList)
+
+        var graphData :IntArray = IntArray(7)
+        if (tasks != null) {
+            //  graphData= weeks?.let { service.calcBarAverage(tasks, it) }!!
+            graphData = service.calcBarAverage(tasks,week)
+        }
+        barChart=view.findViewById(R.id.home_bar_chart)
+
+
+        val graphViewModel = GraphViewModel()
+
+
+
+        graphViewModel.list.add(BarEntry(1f,graphData[0].toFloat()))
+        graphViewModel.list.add(BarEntry(2f,graphData[1].toFloat()))
+        graphViewModel.list.add(BarEntry(3f,graphData[2].toFloat()))
+        graphViewModel.list.add(BarEntry(4f,graphData[3].toFloat()))
+        graphViewModel.list.add(BarEntry(5f,graphData[4].toFloat()))
+        graphViewModel.list.add(BarEntry(6f,graphData[5].toFloat()))
+        graphViewModel.list.add(BarEntry(7f,graphData[6].toFloat()))
+
+
+        val barDataSet= BarDataSet(graphViewModel.list,"List")
+
+        barDataSet.setColors(ColorTemplate.MATERIAL_COLORS,255)
+        barDataSet.valueTextColor= Color.BLACK
+
+        val barData= BarData(barDataSet)
+
+        barChart.setFitBars(true)
+
+        barChart.data= barData
+
+        barChart.description.text= "Bar Chart"
+
+        barChart.animateY(2000)
+
+        return view
     }
 
     companion object {
