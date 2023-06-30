@@ -26,7 +26,7 @@ class MainActivity : AppCompatActivity() {
 
 
         val projectF = ProjectForm.newInstance()
-        supportFragmentManager.beginTransaction().replace(R.id.auth_view,loginFragment).commitAllowingStateLoss()
+        supportFragmentManager.beginTransaction().replace(R.id.auth_view,projectF).commitAllowingStateLoss()
     }
 
 

@@ -1,6 +1,8 @@
 package ProjectForm
 
 import android.content.ContentValues.TAG
+import android.content.Intent
+import android.icu.util.Calendar
 import data.ProjectViewModel
 import android.os.Bundle
 import android.util.Log
@@ -69,6 +71,11 @@ class ProjectForm : Fragment() {
 
         btnDateRange.setOnClickListener() {
             createDatePicker(btnDateRange)
+        }
+
+        val btnAddReminder = view.findViewById<Button>(R.id.btnAddReminder)
+        btnAddReminder.setOnClickListener() {
+            addCalendarEvent(view)
         }
 
         val btnSubmit = view.findViewById<Button>(R.id.btnProjectSubmit)
@@ -166,18 +173,16 @@ class ProjectForm : Fragment() {
         dateRangePicker.show(parentFragmentManager, "Tag")
     }
 
-
-    //Notify hour must be a value from the notificationTimes list
-    private fun subscribeToNotification(notifyHour: Int) {
-        Firebase.messaging.subscribeToTopic(notifyHour.toString())
-            .addOnCompleteListener { task ->
-                var msg = "Subscribed"
-                if (!task.isSuccessful) {
-                    msg = "Subscribe failed"
-                }
-                Log.d(TAG, msg)
-                Toast.makeText(requireContext(), msg, Toast.LENGTH_SHORT).show()
-            }
+    fun addCalendarEvent(view: View) {
+        val calendarEvent: Calendar = Calendar.getInstance()
+        val intent = Intent(Intent.ACTION_EDIT)
+        intent.type = "vnd.android.cursor.item/event"
+        intent.putExtra("beginTime", calendarEvent.timeInMillis)
+        intent.putExtra("allDay", true)
+        intent.putExtra("rule", "FREQ=YEARLY")
+        intent.putExtra("endTime", calendarEvent.timeInMillis + 60 * 60 * 1000)
+        intent.putExtra("title", "Calendar Event")
+        startActivity(intent)
     }
 
 
