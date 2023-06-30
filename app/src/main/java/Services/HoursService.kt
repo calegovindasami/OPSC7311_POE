@@ -1,5 +1,6 @@
 package Services
 
+import android.annotation.SuppressLint
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
@@ -23,7 +24,7 @@ class HoursService {
         for (proj in projects)
         {
             var hours = 0
-            if (proj.startDate!!.compareTo(startDate) >= 1 && proj.endDate!!.compareTo(endDate) <= 1 )
+            if (proj.startDate!!.compareTo(startDate) >1 && proj.endDate!!.compareTo(endDate) <= 1 )
             {
                 var tasks = proj.tasks
 
@@ -39,6 +40,8 @@ class HoursService {
 
         return totalHours
     }
+
+
 
     //Method will take in the project that was selected as the parameter
     fun getMonthlyTasks(project: ProjectViewModel): MutableList<TaskViewModel>
@@ -68,27 +71,26 @@ class HoursService {
     }
 
 
- /*   fun getTasksByWeekOfMonth(tasks: List<TaskViewModel>): Map<Int, List<TaskViewModel>> {
-        val formatter = DateTimeFormatter.ofPattern("EEE MMM d H:mm:ss 'GMT'xxx yyyy", Locale.ENGLISH)
-        val currentMonth = LocalDate.now().monthValue
+    //Gets all of the tasks for every project that a user has
+    @SuppressLint("SuspiciousIndentation")
+    fun getTasks(projects: MutableList<ProjectViewModel>): MutableList<TaskViewModel>
+    {
+        var tasks = mutableListOf<TaskViewModel>()
 
-        // Group tasks by week of the month
-        val tasksByWeekOfMonth = tasks.groupBy { task ->
-            val localDate = LocalDate.parse(task.startTime.toString(), formatter)
-            val weekOfMonth = localDate.get(java.time.temporal.IsoFields.WEEK_OF_MONTH)
-            weekOfMonth
+        projects.forEach(){
+                proj ->
+                var projTasks = proj.tasks
+
+                    if (projTasks != null) {
+                        projTasks.forEach {
+                                t->
+                                tasks.add(t)
+                        }
+                    }
         }
 
-        // Filter tasks for the current month
-        val filteredTasksByWeekOfMonth = tasksByWeekOfMonth.filterKeys { weekOfMonth ->
-            val firstTask = tasksByWeekOfMonth[weekOfMonth]?.firstOrNull()
-            val taskMonth = LocalDate.parse(firstTask?.startTime.toString(), formatter).monthValue
-            taskMonth == currentMonth
-        }
-
-        return filteredTasksByWeekOfMonth
+        return tasks
     }
-    */
 
     //Gets total hours for every week in the month
     fun calcAverage(tasks : MutableList<TaskViewModel>) : MutableList<Int>

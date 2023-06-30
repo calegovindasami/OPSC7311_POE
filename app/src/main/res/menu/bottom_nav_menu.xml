@@ -6,4 +6,7 @@
     <item
         android:id="@+id/project"
         android:title="Projects"/>
+    <item
+        android:id="@+id/graph"
+        android:title="Graph"/>
 </menu>

@@ -7,13 +7,22 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.ViewModelProvider
 import com.github.mikephil.charting.charts.BarChart
 import com.github.mikephil.charting.data.BarData
 import com.github.mikephil.charting.data.BarDataSet
 import com.github.mikephil.charting.data.BarEntry
 import com.github.mikephil.charting.utils.ColorTemplate
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.firestore.ktx.toObject
+import com.google.firebase.ktx.Firebase
 import data.GraphViewModel
+import data.ProjectViewModel
 import data.TaskViewModel
+import data.graphData
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -29,6 +38,9 @@ class GraphView : Fragment() {
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
+    private lateinit var auth: FirebaseAuth
+
+    private var db: FirebaseFirestore = Firebase.firestore
 
     lateinit var barChart:BarChart
 
@@ -46,14 +58,39 @@ class GraphView : Fragment() {
 
         val view = inflater.inflate(R.layout.fragment_graph_view, container, false)
 
+        val sharedViewModel = ViewModelProvider(requireActivity()).get(graphData::class.java)
+        val projectList: MutableList<ProjectViewModel> = sharedViewModel.projects
+
+
+        /*auth = Firebase.auth
+        val uid = auth.uid!!
+
+        var projectList: MutableList<ProjectViewModel> = mutableListOf()
+        val docRef =  db.collection("users").document(uid).collection("projects")
+        docRef.get().addOnCompleteListener() {
+            if (it.isSuccessful) {
+                var projects = it.result.documents
+                for (p in projects) {
+                    var project = p.toObject<ProjectViewModel>()
+                    projectList.add(project!!)
+                    //projectIds.add(p.id)
+                }
+            }
+        } */
+
         val args = arguments
-        val tasks: MutableList<TaskViewModel>? = args?.getSerializable("tasks") as? MutableList<TaskViewModel>
+       // val tasks: MutableList<TaskViewModel>? = args?.getSerializable("tasks") as? MutableList<TaskViewModel>
         val weeks = args?.getInt("Weeks")
 
+
+
         val service = HoursService()
+        val tasks = service.getTasks(projectList)
+
         var graphData :IntArray = IntArray(7)
         if (tasks != null) {
-            graphData= weeks?.let { service.calcBarAverage(tasks, it) }!!
+          //  graphData= weeks?.let { service.calcBarAverage(tasks, it) }!!
+            graphData = service.calcBarAverage(tasks,4)
         }
         barChart=view.findViewById(R.id.bar_chart)
 

@@ -12,6 +12,7 @@ import android.view.ViewGroup
 import android.widget.Button
 import androidx.core.util.Pair
 import androidx.fragment.app.commit
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.appbar.MaterialToolbar
@@ -26,6 +27,7 @@ import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
 import data.ProjectViewAdapter
 import data.ProjectViewModel
+import data.graphData
 import java.util.Date
 
 // TODO: Rename parameter arguments, choose names that match
@@ -153,7 +155,8 @@ class ViewProject : Fragment() {
                 val adapter = ProjectViewAdapter(projectList)
                 adapter.setOnItemClickListener(object: ProjectViewAdapter.OnItemClickListener {
                     override fun onItemClick(position: Int) {
-                        val viewTask = ViewTask.newInstance(projectIds[position])
+                        //val viewTask = ViewTask.newInstance(projectIds[position])
+                        val viewTask = GraphView.newInstance("","")
                         requireActivity().supportFragmentManager.commit {
                             setCustomAnimations(
                                 R.anim.fade_in,
@@ -164,7 +167,8 @@ class ViewProject : Fragment() {
                         }
                     }
                 })
-
+                val sharedViewModel = ViewModelProvider(requireActivity()).get(graphData::class.java)
+                sharedViewModel.projects.addAll(projectList)
 
                 recyclerView.adapter = adapter
 
