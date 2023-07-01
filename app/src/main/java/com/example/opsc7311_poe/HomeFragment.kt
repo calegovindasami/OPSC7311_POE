@@ -7,12 +7,14 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.cardview.widget.CardView
 import androidx.lifecycle.ViewModelProvider
 import com.github.mikephil.charting.charts.BarChart
 import com.github.mikephil.charting.data.BarData
 import com.github.mikephil.charting.data.BarDataSet
 import com.github.mikephil.charting.data.BarEntry
 import com.github.mikephil.charting.utils.ColorTemplate
+import com.google.android.material.card.MaterialCardView
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.FirebaseFirestore
@@ -23,6 +25,7 @@ import data.GraphViewModel
 import data.ProjectViewModel
 import data.TaskViewModel
 import data.graphData
+import java.text.SimpleDateFormat
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 import java.util.*
@@ -61,6 +64,11 @@ class HomeFragment : Fragment() {
 
         val view = inflater.inflate(R.layout.fragment_home, container, false)
 
+        val dateFormat = SimpleDateFormat("yyyy-MM-dd")
+
+        val start = dateFormat.parse("2023-06-01")
+        val end = dateFormat.parse("2023-06-30")
+
         val c = Calendar.getInstance()
         val monthMaxDays = c.getActualMaximum(Calendar.DAY_OF_MONTH)
 
@@ -68,6 +76,9 @@ class HomeFragment : Fragment() {
 
         val sharedViewModel = ViewModelProvider(requireActivity()).get(graphData::class.java)
         val projectList: MutableList<ProjectViewModel> = sharedViewModel.projects
+
+        val filteredProjects = filterProjects(start,end,projectList)
+
 
         var date = LocalDate.now()
         var day = date.dayOfMonth
@@ -99,9 +110,19 @@ class HomeFragment : Fragment() {
 
 
         val service = HoursService()
-        val tasks = service.getTasks(projectList)
+        val tasks = service.getTasks(filteredProjects)
 
-        var graphData :IntArray = IntArray(7)
+        var gData = service.getGraphData(tasks,start, end)
+        val graphViewModel = GraphViewModel()
+
+        var i = 1f
+        gData.forEach(){
+            g->
+            graphViewModel.list.add(BarEntry(i,g.toFloat()))
+            i++
+        }
+
+       /* var graphData :IntArray = IntArray(7)
         if (tasks != null) {
             //  graphData= weeks?.let { service.calcBarAverage(tasks, it) }!!
             graphData = service.calcBarAverage(tasks,week)
@@ -109,7 +130,6 @@ class HomeFragment : Fragment() {
         barChart=view.findViewById(R.id.home_bar_chart)
 
 
-        val graphViewModel = GraphViewModel()
 
 
 
@@ -119,7 +139,7 @@ class HomeFragment : Fragment() {
         graphViewModel.list.add(BarEntry(4f,graphData[3].toFloat()))
         graphViewModel.list.add(BarEntry(5f,graphData[4].toFloat()))
         graphViewModel.list.add(BarEntry(6f,graphData[5].toFloat()))
-        graphViewModel.list.add(BarEntry(7f,graphData[6].toFloat()))
+        graphViewModel.list.add(BarEntry(7f,graphData[6].toFloat())) */
 
 
         val barDataSet= BarDataSet(graphViewModel.list,"List")
@@ -137,7 +157,27 @@ class HomeFragment : Fragment() {
 
         barChart.animateY(2000)
 
+        val card = view.findViewById<MaterialCardView>(R.id.homeGraphCard)
+
+        //Navigation to go to Filtered Graph view
+        card.setOnClickListener(){
+
+        }
+
         return view
+    }
+
+    private fun filterProjects(start: Date, end: Date, projectList: MutableList<ProjectViewModel>): MutableList<ProjectViewModel> {
+        val filteredList: MutableList<ProjectViewModel> = mutableListOf()
+
+        for (proj in projectList) {
+            if (proj.startDate!!.compareTo(start) > 1 || proj.startDate!!.compareTo(start) == 0 && proj.endDate!!.compareTo(end) < 1 || proj.endDate!!.compareTo(end) == 0) {
+                filteredList.add(proj)
+            }
+        }
+
+        return filteredList
+
     }
 
     companion object {

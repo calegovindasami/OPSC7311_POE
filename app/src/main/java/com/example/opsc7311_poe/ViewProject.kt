@@ -155,8 +155,8 @@ class ViewProject : Fragment() {
                 val adapter = ProjectViewAdapter(projectList)
                 adapter.setOnItemClickListener(object: ProjectViewAdapter.OnItemClickListener {
                     override fun onItemClick(position: Int) {
-                        //val viewTask = ViewTask.newInstance(projectIds[position])
-                        val viewTask = GraphView.newInstance("","")
+                        val viewTask = ViewTask.newInstance(projectIds[position])
+                       // val viewTask = GraphView.newInstance("","")
                         requireActivity().supportFragmentManager.commit {
                             setCustomAnimations(
                                 R.anim.fade_in,
@@ -167,6 +167,8 @@ class ViewProject : Fragment() {
                         }
                     }
                 })
+
+                //Populate the sharedList
                 val sharedViewModel = ViewModelProvider(requireActivity()).get(graphData::class.java)
                 sharedViewModel.projects.addAll(projectList)
 

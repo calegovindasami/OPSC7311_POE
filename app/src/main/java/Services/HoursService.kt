@@ -7,6 +7,7 @@ import com.google.firebase.ktx.Firebase
 import data.HoursViewModel
 import data.ProjectViewModel
 import data.TaskViewModel
+import java.text.SimpleDateFormat
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 import java.util.*
@@ -80,6 +81,7 @@ class HoursService {
         projects.forEach(){
                 proj ->
                 var projTasks = proj.tasks
+
 
                     if (projTasks != null) {
                         projTasks.forEach {
@@ -162,13 +164,15 @@ class HoursService {
 
     }
 
-    fun calcBarAverage(tasks : MutableList<TaskViewModel>,week: Int) : IntArray
+    fun calcBarAverage(tasks : MutableList<TaskViewModel>,week: Int,start: Date, end: Date) : IntArray
     {
         //Gets total number of days from current month
         val c = Calendar.getInstance()
         val monthMaxDays = c.getActualMaximum(Calendar.DAY_OF_MONTH)
 
         val formatter = DateTimeFormatter.ofPattern("EEE MMM d H:mm:ss 'GMT'xxx yyyy", Locale.ENGLISH)
+
+        val graphTaskList : MutableList<TaskViewModel> = mutableListOf()
 
         val weekOne: MutableList<TaskViewModel> = mutableListOf()
         val weekTwo: MutableList<TaskViewModel> = mutableListOf()
@@ -184,6 +188,12 @@ class HoursService {
             //Get the day of each task
             var date = LocalDate.parse(t.startTime.toString(),formatter)
             var day = date.dayOfMonth
+
+
+            if (t.startTime!!.compareTo(start) > 1 || t.startTime!!.compareTo(start) == 0 && t.startTime!!.compareTo(end) < 1 || t.startTime!!.compareTo(end) == 0) {
+                graphTaskList.add(t)
+            }
+
 
             //Check what week the task falls under
             if (day <= 7)
@@ -304,6 +314,43 @@ class HoursService {
 
         return stats
 
+    }
+
+
+    fun getGraphData(tasks : MutableList<TaskViewModel>,start: Date, end: Date): MutableList<Int>{
+
+        var current = start
+        var hours = mutableListOf<Int>()
+
+
+        val dateFormat = SimpleDateFormat("yyyy-MM-dd")
+        val calendar = Calendar.getInstance()
+
+        while(current.compareTo(end) <= 0 )
+        {
+            current = dateFormat.parse(current.toString())
+            var total = 0
+            tasks.forEach(){
+                t->
+
+                var startDate =  dateFormat.parse(t.startTime.toString())
+                if (startDate.compareTo(current) == 0)
+                {
+                    total += t.numberOfHours
+                }
+            }
+
+            hours.add(total)
+
+            // Increment current by 1 day
+            calendar.time = current
+            calendar.add(Calendar.DAY_OF_MONTH, 1)
+            current = calendar.time
+            //Increment current here:
+           // current = LocalDate.from(current).plusDays(1)
+        }
+
+        return hours
     }
 
 

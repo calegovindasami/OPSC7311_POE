@@ -23,6 +23,8 @@ import data.GraphViewModel
 import data.ProjectViewModel
 import data.TaskViewModel
 import data.graphData
+import java.text.SimpleDateFormat
+import java.util.*
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -61,7 +63,7 @@ class GraphView : Fragment() {
         val sharedViewModel = ViewModelProvider(requireActivity()).get(graphData::class.java)
         val projectList: MutableList<ProjectViewModel> = sharedViewModel.projects
 
-
+        val filteredProjects = mutableListOf<Int>()
 
 
         val args = arguments
@@ -70,8 +72,9 @@ class GraphView : Fragment() {
 
 
 
-        val service = HoursService()
-        val tasks = service.getTasks(projectList)
+
+       /* val service = HoursService()
+        val tasks = service.getGraphData()
 
         var graphData :IntArray = IntArray(7)
         if (tasks != null) {
@@ -84,7 +87,11 @@ class GraphView : Fragment() {
         val graphViewModel = GraphViewModel()
 
 
-
+        graphData.forEach()
+        {
+            graphViewModel.list.add(BarEntry(1f,graphData[0].toFloat()))
+        }
+        //Pass in
         graphViewModel.list.add(BarEntry(1f,graphData[0].toFloat()))
         graphViewModel.list.add(BarEntry(2f,graphData[1].toFloat()))
         graphViewModel.list.add(BarEntry(3f,graphData[2].toFloat()))
@@ -107,10 +114,12 @@ class GraphView : Fragment() {
 
         barChart.description.text= "Bar Chart"
 
-        barChart.animateY(2000)
+        barChart.animateY(2000) */
 
         return view
     }
+
+
 
     companion object {
         /**
