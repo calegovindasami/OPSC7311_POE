@@ -5,14 +5,20 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Environment
 import androidx.core.content.ContentProviderCompat.requireContext
+import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
+import com.example.opsc7311_poe.R
 import data.TaskViewModel
+import org.apache.poi.hssf.usermodel.HSSFEvaluationWorkbook
+import org.apache.poi.hssf.usermodel.HSSFFont
 import org.apache.poi.hssf.usermodel.HSSFWorkbook
+import org.apache.poi.hssf.util.HSSFColor
 import org.apache.poi.ss.usermodel.*
 import org.apache.poi.xssf.usermodel.XSSFWorkbook
 import java.io.File
 import java.io.FileOutputStream
 import java.io.IOException
+import java.util.Calendar
 
 class ExportService(private val context: Context) {
 
@@ -21,15 +27,13 @@ class ExportService(private val context: Context) {
         val workbook: Workbook = HSSFWorkbook()
         val sheet: Sheet = workbook.createSheet("Sheet 1")
 
-        var r = 0
+        var r = 1
 
-        val HeadingRow: Row = sheet.createRow(r)
-        val HeadingCell: Cell = HeadingRow.createCell(0)
-
-        HeadingCell.setCellValue("Task Name")
-        HeadingRow.createCell( 1).setCellValue("Task Date")
-        HeadingRow.createCell(2).setCellValue("Hours Worked")
-
+        val headingRow = sheet.createRow(0)
+        val headingCell = headingRow.createCell(0)
+        headingCell.setCellValue("Task Name")
+        headingRow.createCell( 1).setCellValue("Date")
+        headingRow.createCell(2).setCellValue("Hours Worked")
 
         tasks.forEach() { t ->
             var c = 0
@@ -38,7 +42,10 @@ class ExportService(private val context: Context) {
             val cell: Cell = row.createCell(c)
 
             cell.setCellValue(t.name)
-            row.createCell(c + 1).setCellValue(t.startTime)
+            val calendar = Calendar.getInstance()
+            calendar.time = t.startTime
+            val taskDate = calendar.get(Calendar.DAY_OF_MONTH).toString() + "-" + (calendar.get(Calendar.MONTH) + 1) + "-" + calendar.get(Calendar.YEAR)
+            row.createCell(c + 1).setCellValue(taskDate)
             row.createCell(c + 2).setCellValue(t.numberOfHours.toString())
 
             r++
