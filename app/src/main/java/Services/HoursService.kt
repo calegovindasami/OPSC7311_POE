@@ -321,26 +321,37 @@ class HoursService {
 
         var current = start
         var hours = mutableListOf<Int>()
-
-
-        val dateFormat = SimpleDateFormat("yyyy-MM-dd")
+        val dateFormat = SimpleDateFormat("dd-MM-yyyy", Locale.getDefault())
         val calendar = Calendar.getInstance()
-
-        while(current.compareTo(end) <= 0 )
+//        current = dateFormat.parse(current.toString()) as Date
+//        var endDate = dateFormat.parse(end.toString())
+        while(current <= end)
         {
-            current = dateFormat.parse(current.toString())
+            //current = dateFormat.parse(current.toString())
             var total = 0
             tasks.forEach(){
                 t->
 
-                var startDate =  dateFormat.parse(t.startTime.toString())
-                if (startDate.compareTo(current) == 0)
+                //var startDate =  dateFormat.parse(t.startTime.toString())
+                var taskCal = Calendar.getInstance()
+                taskCal.time = t.startTime!!
+                val taskDateString = taskCal.get(Calendar.DAY_OF_MONTH).toString() + "-" + (taskCal.get(Calendar.MONTH) + 1) + "-" + taskCal.get(Calendar.YEAR)
+                val taskDate = dateFormat.parse(taskDateString)
+
+                val currentCal = Calendar.getInstance()
+                currentCal.time = current
+                val currentDateString = currentCal.get(Calendar.DAY_OF_MONTH).toString() + "-" + (currentCal.get(Calendar.MONTH) + 1) + "-" + currentCal.get(Calendar.YEAR)
+                val currentDate = dateFormat.parse(currentDateString)
+
+                if (taskDate == currentDate)
                 {
                     total += t.numberOfHours
                 }
             }
 
-            hours.add(total)
+            if (total > 0) {
+                hours.add(total)
+            }
 
             // Increment current by 1 day
             calendar.time = current

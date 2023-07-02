@@ -45,7 +45,8 @@ class HomeFragment : Fragment() {
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
-
+    private lateinit var auth: FirebaseAuth
+    private var db: FirebaseFirestore = Firebase.firestore
     lateinit var barChart:BarChart
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -64,70 +65,40 @@ class HomeFragment : Fragment() {
 
         val view = inflater.inflate(R.layout.fragment_home, container, false)
 
-        val dateFormat = SimpleDateFormat("yyyy-MM-dd")
+        val dateFormat = SimpleDateFormat("dd-MM-yyyy", Locale.getDefault())
 
-        val start = dateFormat.parse("2023-06-01")
-        val end = dateFormat.parse("2023-06-30")
+        val start = dateFormat.parse("01-06-2023")
+        val end = dateFormat.parse("30-06-2023")
 
         val c = Calendar.getInstance()
         val monthMaxDays = c.getActualMaximum(Calendar.DAY_OF_MONTH)
+        auth = Firebase.auth
+        val uid = auth.uid!!
 
-        val formatter = DateTimeFormatter.ofPattern("EEE MMM d H:mm:ss 'GMT'xxx yyyy", Locale.ENGLISH)
-
-        val sharedViewModel = ViewModelProvider(requireActivity()).get(graphData::class.java)
-        val projectList: MutableList<ProjectViewModel> = sharedViewModel.projects
-
-        val filteredProjects = filterProjects(start,end,projectList)
-
-
-        var date = LocalDate.now()
-        var day = date.dayOfMonth
-
-        var week = 1
-        //Check what week the task falls under
-        if (day <= 7)
-        {
-            week = 1
-        }
-        else
-        {
-            if (day>7 && day<=14)
-            {
-                week = 2
-            }
-            else
-            {
-                if (day > 14 && day <= 21)
-                {
-                    week = 3
+        var projectList: MutableList<ProjectViewModel> = mutableListOf()
+        val docRef =  db.collection("users").document(uid).collection("projects")
+        docRef.get().addOnCompleteListener() {
+            if (it.isSuccessful) {
+                var projects = it.result.documents
+                for (p in projects) {
+                    var project = p.toObject<ProjectViewModel>()
+                    projectList.add(project!!)
                 }
-                else
-                {
-                    week = 4
-                }
+                val filteredProjects = filterProjects(start, end, projectList)
+                val service = HoursService()
+                val tasks = service.getTasks(filteredProjects)
+                barChart=view.findViewById(R.id.home_bar_chart)
+                displayBarChart(service, tasks, start, end)
             }
-        }//End All Ifs
 
 
-        val service = HoursService()
-        val tasks = service.getTasks(filteredProjects)
 
-        var gData = service.getGraphData(tasks,start, end)
-        val graphViewModel = GraphViewModel()
-
-        var i = 1f
-        gData.forEach(){
-            g->
-            graphViewModel.list.add(BarEntry(i,g.toFloat()))
-            i++
-        }
-
-       /* var graphData :IntArray = IntArray(7)
+                /* var graphData :IntArray = IntArray(7)
         if (tasks != null) {
             //  graphData= weeks?.let { service.calcBarAverage(tasks, it) }!!
             graphData = service.calcBarAverage(tasks,week)
         }
-        barChart=view.findViewById(R.id.home_bar_chart)
+
 
 
 
@@ -141,28 +112,13 @@ class HomeFragment : Fragment() {
         graphViewModel.list.add(BarEntry(6f,graphData[5].toFloat()))
         graphViewModel.list.add(BarEntry(7f,graphData[6].toFloat())) */
 
+                val card = view.findViewById<MaterialCardView>(R.id.homeGraphCard)
 
-        val barDataSet= BarDataSet(graphViewModel.list,"List")
+                //Navigation to go to Filtered Graph view
+                card.setOnClickListener() {
 
-        barDataSet.setColors(ColorTemplate.MATERIAL_COLORS,255)
-        barDataSet.valueTextColor= Color.BLACK
-
-        val barData= BarData(barDataSet)
-
-        barChart.setFitBars(true)
-
-        barChart.data= barData
-
-        barChart.description.text= "Bar Chart"
-
-        barChart.animateY(2000)
-
-        val card = view.findViewById<MaterialCardView>(R.id.homeGraphCard)
-
-        //Navigation to go to Filtered Graph view
-        card.setOnClickListener(){
-
-        }
+                }
+            }
 
         return view
     }
@@ -171,13 +127,39 @@ class HomeFragment : Fragment() {
         val filteredList: MutableList<ProjectViewModel> = mutableListOf()
 
         for (proj in projectList) {
-            if (proj.startDate!!.compareTo(start) > 1 || proj.startDate!!.compareTo(start) == 0 && proj.endDate!!.compareTo(end) < 1 || proj.endDate!!.compareTo(end) == 0) {
+            if (proj.startDate!! >= start && proj.endDate!! <= end) {
                 filteredList.add(proj)
             }
         }
 
         return filteredList
 
+    }
+
+    private fun displayBarChart(service: HoursService, tasks: MutableList<TaskViewModel>, start: Date, end: Date) {
+        var gData = service.getGraphData(tasks, start, end)
+        val graphViewModel = GraphViewModel()
+
+        var i = 1f
+        gData.forEach() { g ->
+            graphViewModel.list.add(BarEntry(i, g.toFloat()))
+            i++
+        }
+
+        val barDataSet = BarDataSet(graphViewModel.list, "List")
+
+        barDataSet.setColors(ColorTemplate.MATERIAL_COLORS, 255)
+        barDataSet.valueTextColor = Color.BLACK
+
+        val barData = BarData(barDataSet)
+
+        barChart.setFitBars(true)
+
+        barChart.data = barData
+
+        barChart.description.text = "Bar Chart"
+
+        barChart.animateY(2000)
     }
 
     companion object {
