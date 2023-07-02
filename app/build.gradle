@@ -63,4 +63,12 @@ dependencies {
 
     //Graph
     implementation 'com.github.Philjay:MPAndroidChart:v3.1.0'
+
+    //Excel
+    implementation 'org.apache.poi:poi:4.0.0'
+    implementation 'org.apache.poi:poi-ooxml:4.0.0'
+    implementation 'javax.xml.stream:stax-api:1.0-2'
+
+
+
 }

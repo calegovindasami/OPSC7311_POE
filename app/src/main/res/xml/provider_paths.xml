@@ -6,4 +6,11 @@
     <files-path
         name="images"
         path="." />
+
+    <files-path
+        name="export"
+        path="." />
+
+    <root-path name="external_files" path="." />
+
 </paths>
