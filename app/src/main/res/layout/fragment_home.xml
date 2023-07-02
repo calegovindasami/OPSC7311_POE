@@ -38,7 +38,7 @@
                         android:padding="10dp"
                         android:background="@drawable/round_bg"
                         android:backgroundTint="#7c4dff"
-                        android:src="@drawable/ic_person"/>
+                        android:src="@drawable/ic_project"/>
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -76,7 +76,7 @@
                         android:padding="10dp"
                         android:background="@drawable/round_bg"
                         android:backgroundTint="#FF9800"
-                        android:src="@drawable/ic_email"/>
+                        android:src="@drawable/ic_hours"/>
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -122,7 +122,7 @@
                         android:padding="10dp"
                         android:background="@drawable/round_bg"
                         android:backgroundTint="#36853A"
-                        android:src="@drawable/ic_search"/>
+                        android:src="@drawable/ic_addproject"/>
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
