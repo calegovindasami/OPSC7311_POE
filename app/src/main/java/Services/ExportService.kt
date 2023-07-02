@@ -23,6 +23,13 @@ class ExportService(private val context: Context) {
 
         var r = 0
 
+        val HeadingRow: Row = sheet.createRow(r)
+        val HeadingCell: Cell = HeadingRow.createCell(0)
+
+        HeadingCell.setCellValue("Task Name")
+        HeadingRow.createCell( 1).setCellValue("Task Date")
+        HeadingRow.createCell(2).setCellValue("Hours Worked")
+
 
         tasks.forEach() { t ->
             var c = 0
