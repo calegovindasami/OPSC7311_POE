@@ -6,6 +6,7 @@ import Services.ExportService
 import Services.HoursService
 import android.content.Intent
 import android.content.res.ColorStateList
+import android.graphics.Color
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -15,6 +16,11 @@ import android.widget.Button
 import androidx.cardview.widget.CardView
 import androidx.fragment.app.commit
 import androidx.lifecycle.ViewModelProvider
+import com.github.mikephil.charting.charts.BarChart
+import com.github.mikephil.charting.data.BarData
+import com.github.mikephil.charting.data.BarDataSet
+import com.github.mikephil.charting.data.BarEntry
+import com.github.mikephil.charting.utils.ColorTemplate
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
@@ -22,8 +28,14 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
+import data.GraphViewModel
 import data.ProjectViewModel
+import data.TaskViewModel
 import data.graphData
+import java.text.SimpleDateFormat
+import java.time.LocalDate
+import java.util.Date
+import java.util.Locale
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -40,6 +52,7 @@ class HomeFragment : Fragment() {
     private var param1: String? = null
     private var param2: String? = null
     private var db: FirebaseFirestore = Firebase.firestore
+    private lateinit var barChart: BarChart
 
     private lateinit var auth: FirebaseAuth
 
@@ -61,6 +74,17 @@ class HomeFragment : Fragment() {
         val btnViewProjects = view.findViewById<CardView>(R.id.btnViewProjects)
         auth = Firebase.auth
         val uid = auth.uid!!
+
+        val dateFormat = SimpleDateFormat("dd-MM-yyyy", Locale.getDefault())
+
+        val previousMonth = LocalDate.now().minusMonths(1)
+        val numberOfDays = previousMonth.lengthOfMonth()
+        val year = previousMonth.year
+        val month = previousMonth.monthValue
+
+        val start = dateFormat.parse("01-${month}-$year")
+        val end = dateFormat.parse("$numberOfDays-${month}-$year")
+
         val projectList: MutableList<ProjectViewModel> = mutableListOf()
 
         val docRef =  db.collection("users").document(uid).collection("projects")
@@ -71,6 +95,10 @@ class HomeFragment : Fragment() {
                     var project = p.toObject<ProjectViewModel>()
                     projectList.add(project!!)
                 }
+                val service = HoursService()
+                val tasks = service.getTasks(projectList)
+                barChart=view.findViewById(R.id.home_bar_chart)
+                displayBarChart(service, tasks, start, end)
             }
         }
 
@@ -121,6 +149,46 @@ class HomeFragment : Fragment() {
         }
 
         return view
+    }
+
+    private fun filterProjects(start: Date, end: Date, projectList: MutableList<ProjectViewModel>): MutableList<ProjectViewModel> {
+        val filteredList: MutableList<ProjectViewModel> = mutableListOf()
+
+        for (proj in projectList) {
+            val isTrue = proj.startDate!! >= start && proj.endDate!! <= end
+            if (proj.startDate!! >= start && proj.endDate!! <= end) {
+                filteredList.add(proj)
+            }
+        }
+
+        return filteredList
+
+    }
+
+    private fun displayBarChart(service: HoursService, tasks: MutableList<TaskViewModel>, start: Date, end: Date) {
+        var gData = service.getGraphData(tasks, start, end)
+        val graphViewModel = GraphViewModel()
+
+        var i = 1f
+        gData.forEach() { g ->
+            graphViewModel.list.add(BarEntry(i, g.toFloat()))
+            i++
+        }
+
+        val barDataSet = BarDataSet(graphViewModel.list, "List")
+
+        barDataSet.setColors(ColorTemplate.MATERIAL_COLORS, 255)
+        barDataSet.valueTextColor = Color.BLACK
+
+        val barData = BarData(barDataSet)
+
+        barChart.setFitBars(true)
+
+        barChart.data = barData
+
+        barChart.description.text = "Bar Chart"
+
+        barChart.animateY(2000)
     }
 
     companion object {

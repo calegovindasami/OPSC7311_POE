@@ -158,12 +158,13 @@
                     android:layout_height="match_parent"
                     android:orientation="vertical"
                     android:gravity="center">
-                    <com.github.mikephil.charting.charts.PieChart
-                        android:id="@+id/pie_chart"
+                    <com.github.mikephil.charting.charts.BarChart
+                        android:id="@+id/home_bar_chart"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
+                        android:layout_height="200dp">
 
-                    </com.github.mikephil.charting.charts.PieChart>
+                    </com.github.mikephil.charting.charts.BarChart>
+
 
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
