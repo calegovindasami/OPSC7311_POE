@@ -10,6 +10,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.ImageButton
 import androidx.core.util.Pair
 import androidx.fragment.app.commit
 import androidx.lifecycle.ViewModelProvider
@@ -122,7 +123,18 @@ class ViewProject : Fragment() {
         val btnGetTasks = cardView.findViewById<Button>(R.id.btnGetTasks)
 
 
-
+        val btnBack = view.findViewById<ImageButton>(R.id.btnBackFromProjects)
+        btnBack.setOnClickListener {
+            val home = HomeFragment()
+            requireActivity().supportFragmentManager.commit {
+                setCustomAnimations(
+                    R.anim.fade_in,
+                    R.anim.fade_out
+                )
+                replace(R.id.flNavigation, home)
+                addToBackStack(null)
+            }
+        }
 
         val btnAddProject = view.findViewById<FloatingActionButton>(R.id.btnAddProject)
 
