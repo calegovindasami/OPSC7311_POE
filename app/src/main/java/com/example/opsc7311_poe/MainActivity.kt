@@ -17,7 +17,6 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         val loginFragment = LoginFragment.newInstance()
-        val projectF = ProjectForm.newInstance()
         supportFragmentManager.beginTransaction().replace(R.id.auth_view,loginFragment).commitAllowingStateLoss()
     }
 

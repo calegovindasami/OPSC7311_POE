@@ -23,40 +23,8 @@ class NavigationActivity : AppCompatActivity() {
             addToBackStack(null)
         }
 
-        val navigation = findViewById<BottomNavigationView>(R.id.bottomNavigationView)
 
-        navigation.setOnItemSelectedListener {
-            when(it.itemId) {
-                R.id.home -> setCurrentFragment(homeFragment)
-                R.id.project -> setCurrentFragment(projectFragment)
-            }
-            true
-        }
     }
 
-    private fun setCurrentFragment(fragment: Fragment) {
-        if (fragment is HomeFragment) {
-            supportFragmentManager.commit {
-                setCustomAnimations(
-                    R.anim.from_left,
-                    R.anim.to_right,
-                    R.anim.from_right,
-                    R.anim.to_left
-                )
-                replace(R.id.flNavigation, fragment)
-                addToBackStack(null)
-            }
-        } else if (fragment is ViewProject) {
-                supportFragmentManager.commit {
-                    setCustomAnimations(
-                        R.anim.from_right,
-                        R.anim.to_left,
-                        R.anim.from_left,
-                        R.anim.to_right
-                    )
-                    replace(R.id.flNavigation, fragment)
-                    addToBackStack(null)
-                }
-            }
-        }
+
 }
