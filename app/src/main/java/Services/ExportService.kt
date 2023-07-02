@@ -40,6 +40,7 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Environment
 import data.TaskViewModel
+import org.apache.poi.hssf.usermodel.HSSFWorkbook
 import org.apache.poi.ss.usermodel.*
 import org.apache.poi.xssf.usermodel.XSSFWorkbook
 import java.io.FileOutputStream
@@ -48,12 +49,13 @@ import java.io.IOException
 class ExportService(private val context: Context) {
 
     fun createFile(tasks:MutableList<TaskViewModel>){
-        val workbook: Workbook = XSSFWorkbook()
+
+        val workbook: Workbook = HSSFWorkbook()
         val sheet: Sheet = workbook.createSheet("Sheet 1")
 
         var r = 0
 
-        while (r < tasks.size){
+
        tasks.forEach(){
            t->
            var c = 0
@@ -65,9 +67,11 @@ class ExportService(private val context: Context) {
            row.createCell(c+1).setCellValue(t.startTime)
            row.createCell(c+2).setCellValue(t.numberOfHours.toString())
 
+           r++
+
        }
-            r++
-        }
+
+
 
         // Write data to cells
 

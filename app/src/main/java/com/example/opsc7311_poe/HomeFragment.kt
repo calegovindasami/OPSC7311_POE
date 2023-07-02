@@ -1,12 +1,17 @@
 package com.example.opsc7311_poe
 
 //import Services.ExportService
+import Services.ExportService
+import Services.HoursService
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import androidx.lifecycle.ViewModelProvider
+import data.ProjectViewModel
+import data.graphData
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -39,10 +44,16 @@ class HomeFragment : Fragment() {
         val view = inflater.inflate(R.layout.fragment_home, container, false)
         val btnExcel = view.findViewById<Button>(R.id.btnExcelTest)
 
-        btnExcel.setOnClickListener(){
-          //  val service = ExportService(requireContext())
+        val sharedViewModel = ViewModelProvider(requireActivity()).get(graphData::class.java)
+        val projectList: MutableList<ProjectViewModel> = sharedViewModel.projects
 
-            //service.createFile()
+        val getTasks = HoursService()
+        val tasks = getTasks.getTasks(projectList)
+
+        btnExcel.setOnClickListener(){
+           val service = ExportService(requireContext())
+
+            service.createFile(tasks)
         }
 
         return view

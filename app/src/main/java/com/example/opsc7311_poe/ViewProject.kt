@@ -12,6 +12,7 @@ import android.view.ViewGroup
 import android.widget.Button
 import androidx.core.util.Pair
 import androidx.fragment.app.commit
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.appbar.MaterialToolbar
@@ -26,6 +27,7 @@ import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
 import data.ProjectViewAdapter
 import data.ProjectViewModel
+import data.graphData
 import java.util.Date
 
 // TODO: Rename parameter arguments, choose names that match
@@ -165,6 +167,9 @@ class ViewProject : Fragment() {
                     }
                 })
 
+                //Populate the sharedList
+                val sharedViewModel = ViewModelProvider(requireActivity()).get(graphData::class.java)
+                sharedViewModel.projects.addAll(projectList)
 
                 recyclerView.adapter = adapter
 

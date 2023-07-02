@@ -1,5 +1,6 @@
 package Services
 
+import android.annotation.SuppressLint
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
@@ -67,6 +68,27 @@ class HoursService {
 
     }
 
+    //Gets all of the tasks for every project that a user has
+    @SuppressLint("SuspiciousIndentation")
+    fun getTasks(projects: MutableList<ProjectViewModel>): MutableList<TaskViewModel>
+    {
+        var tasks = mutableListOf<TaskViewModel>()
+
+        projects.forEach(){
+                proj ->
+            var projTasks = proj.tasks
+
+
+            if (projTasks != null) {
+                projTasks.forEach {
+                        t->
+                    tasks.add(t)
+                }
+            }
+        }
+
+        return tasks
+    }
 
  /*   fun getTasksByWeekOfMonth(tasks: List<TaskViewModel>): Map<Int, List<TaskViewModel>> {
         val formatter = DateTimeFormatter.ofPattern("EEE MMM d H:mm:ss 'GMT'xxx yyyy", Locale.ENGLISH)
