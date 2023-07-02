@@ -148,9 +148,10 @@
             android:clipToPadding="false"
             android:orientation="horizontal"
             android:gravity="center">
+
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
-                android:layout_height="250dp"
+                android:layout_height="wrap_content"
                 android:layout_margin="25dp"
                 android:foreground="?android:attr/selectableItemBackground">
                 <LinearLayout
@@ -158,6 +159,14 @@
                     android:layout_height="match_parent"
                     android:orientation="vertical"
                     android:gravity="center">
+
+                    <TextView
+                        android:id="@+id/txtUseGoals"
+                        android:text="User Goals: "
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        />
+
                     <com.github.mikephil.charting.charts.BarChart
                         android:id="@+id/home_bar_chart"
                         android:layout_width="match_parent"
@@ -165,9 +174,21 @@
 
                     </com.github.mikephil.charting.charts.BarChart>
 
+                    <Button
+                        android:id="@+id/btnGraphFilter"
+                        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                        android:text="Filter Graph"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"/>
 
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
+
+
+
         </LinearLayout>
+
+
+
     </LinearLayout>
 </FrameLayout>
