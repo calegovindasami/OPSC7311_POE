@@ -173,7 +173,7 @@ class ViewProject : Fragment() {
                         val tasks = service.getMonthlyTasks(projectList[position])
                         val fragment: Fragment
                         if (tasks.size == 0) {
-                            val taskForm = TaskForm()
+                            val taskForm = TaskForm.newInstance(projectIds[position])
                             fragment = taskForm
                         }
                         else {
