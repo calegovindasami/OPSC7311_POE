@@ -1,6 +1,5 @@
 package ProjectForm
 
-import data.ProjectViewModel
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -8,7 +7,6 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageButton
-import android.widget.Toast
 import androidx.core.util.Pair
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.commit
@@ -19,17 +17,10 @@ import com.google.android.material.slider.RangeSlider
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.ktx.firestore
-import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
+import data.ProjectViewModel
 import data.TaskViewModel
-import java.text.DateFormat
-import java.text.SimpleDateFormat
-import java.time.LocalDateTime
-import java.time.format.DateTimeFormatter
-import java.util.Calendar
 import java.util.Date
-import java.util.Locale
-import kotlin.time.Duration.Companion.days
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -130,47 +121,56 @@ class ProjectForm : Fragment() {
         val db = Firebase.firestore
         var auth = Firebase.auth
         var uid = auth.uid
-        db.collection("users").document(uid.toString()).collection("projects").add(project).addOnCompleteListener() {
-            if (it.isSuccessful) {
-                val projectView = ViewProject.newInstance()
-                requireActivity().supportFragmentManager.commit {
-                    setCustomAnimations(
-                        R.anim.fade_in,
-                        R.anim.fade_out
-                    )
-                    replace(R.id.flNavigation, projectView)
-                    addToBackStack(null)
+            db.collection("users").document(uid.toString()).collection("projects")
+                .whereEqualTo("name", project.name)
+                .get()
+                .addOnCompleteListener { task ->
+                    if (task.isSuccessful) {
+                        val existingProjects = task.result?.documents ?: emptyList()
+                        if (existingProjects.isNotEmpty()) {
+                            Snackbar.make(requireView(), "A project with the same name already exists.", Snackbar.LENGTH_LONG).show()
+                        } else {
+                            // Adds project to Firestore
+                            db.collection("users").document(uid.toString()).collection("projects")
+                                .add(project)
+                                .addOnCompleteListener { addTask ->
+                                    if (addTask.isSuccessful) {
+                                        val projectView = ViewProject.newInstance()
+                                        requireActivity().supportFragmentManager.commit {
+                                            setCustomAnimations(
+                                                R.anim.fade_in,
+                                                R.anim.fade_out
+                                            )
+                                            replace(R.id.flNavigation, projectView)
+                                            addToBackStack(null)
+                                        }
+                                    } else {
+                                        Snackbar.make(requireView(), addTask.exception?.message.toString(), Snackbar.LENGTH_LONG).show()
+                                    }
+                                }
+                        }
+                    } else {
+                        Snackbar.make(requireView(), task.exception?.message.toString(), Snackbar.LENGTH_LONG).show()
+                    }
                 }
-            } else {
-                Snackbar.make(requireView(), it.exception?.message.toString(), Snackbar.LENGTH_LONG)
-            }
+
         }
-        }
+
     }
-
-
-
 
     private fun createDatePicker(button: Button){
         val dateRangePicker =
             MaterialDatePicker.Builder.dateRangePicker()
                 .setTitleText("Select dates").setSelection(Pair(MaterialDatePicker.thisMonthInUtcMilliseconds(),MaterialDatePicker.todayInUtcMilliseconds()))
                 .build()
-
         dateRangePicker.addOnPositiveButtonClickListener {
             var firstDate = it.first
             var secondDate = it.second
             startDate = Date(firstDate)
             endDate = Date(secondDate)
-
         }
-
         dateRangePicker.show(parentFragmentManager, "Tag")
     }
-
-
-
-
 
     companion object {
         /**
