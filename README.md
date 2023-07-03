@@ -96,33 +96,33 @@ I) Application Screenshots
  ![Login](https://github.com/cgov-0406/OPSC7311_POE/assets/101722512/48625d90-5feb-4858-b4f7-f5c2d5cdea53)
 
 
-
+## Create Account Screen
  ![Register](https://github.com/cgov-0406/OPSC7311_POE/assets/101722512/7226ab75-90fa-4a34-b916-df4fcc46d101)
 
 
-
+## Dashboard Screen
  ![Dashboard](https://github.com/cgov-0406/OPSC7311_POE/assets/101722512/385c970c-3aa8-41f4-9d52-b2317d35fa3e)
 
 
 
-
+## Add Project Screen
  ![Add project](https://github.com/cgov-0406/OPSC7311_POE/assets/101722512/7b5501ea-6380-4ecb-9fcf-ac1e7bf095f3)
 
 
 
-
+## View Projects Screen
  ![Projects](https://github.com/cgov-0406/OPSC7311_POE/assets/101722512/7b27b722-178b-4dfc-9716-495ddc53f397)
 
 
-
+## View Hours Worked Screen
 ![HoursRecycler](https://github.com/cgov-0406/OPSC7311_POE/assets/101722512/925adcd0-0cbf-41e3-9d28-87769fd5e802)
 
 
-
+## Add Task Screen
 ![Add task](https://github.com/cgov-0406/OPSC7311_POE/assets/101722512/334b8428-6b35-4cd8-a1ce-4406c86fc9c7)
 
 
-   
+  ## View Tasks Screen 
 ![TasksRecycler](https://github.com/cgov-0406/OPSC7311_POE/assets/101722512/92b890d9-28f6-4b55-bbf0-362a2a4e5e2b)
 
 
