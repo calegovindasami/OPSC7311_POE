@@ -29,7 +29,7 @@ import java.util.Locale
 */
 class ExportService(private val context: Context) {
 
-
+    //Method creates an excel file and stores all of the users tasks in it, and downloads file to their phone
     fun createFile(tasks: MutableList<TaskViewModel>) {
 
         val workbook: Workbook = HSSFWorkbook()
@@ -80,6 +80,7 @@ class ExportService(private val context: Context) {
 
     }
 
+    //Method will retrieve the download path for the users phone
     private fun getDownloadPath(context: Context): String? {
         val downloadFolder =
             Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS)
@@ -98,6 +99,7 @@ class ExportService(private val context: Context) {
     }
 
 
+    //Method creates a new unique file name for the new sheet that a user exports, based on the date
     fun createFileNameWithDateTime(): String {
         val sdf = SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault())
         val currentDateAndTime: String = sdf.format(Date())

@@ -43,7 +43,8 @@ import java.util.concurrent.TimeUnit
 import kotlin.math.roundToInt
 
 /*
-*
+* Code Attribution for Graph
+* Source: https://www.youtube.com/watch?v=AlhJNybYcHk&t=616s
 * */
 
 // TODO: Rename parameter arguments, choose names that match
@@ -173,6 +174,8 @@ class HomeFragment : Fragment() {
     private fun showSnackbar(message: String) {
         Snackbar.make(requireView(), message, Snackbar.LENGTH_LONG).show()
     }
+
+    //Method filters the projects within a user selectable period
     private fun filterProjects(start: Date, end: Date, projectList: MutableList<ProjectViewModel>): MutableList<ProjectViewModel> {
         val filteredList: MutableList<ProjectViewModel> = mutableListOf()
 
@@ -187,6 +190,7 @@ class HomeFragment : Fragment() {
 
     }
 
+    //Code to display the bar graph in home fragment
     private fun displayBarChart(service: HoursService, tasks: MutableList<TaskViewModel>, start: Date, end: Date) {
         var gData = service.getGraphData(tasks, start, end)
         val graphViewModel = GraphViewModel()
@@ -213,6 +217,8 @@ class HomeFragment : Fragment() {
         barChart.animateY(2000)
     }
 
+    //Method allows user to filter the date range that the graph will be displayed for, and the returns the graph back to home fragment, along with messagge
+    //of how well they are staying in between their goals
     private fun createDatePicker(textView:TextView){
         val dateRangePicker =
             MaterialDatePicker.Builder.dateRangePicker()
