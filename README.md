@@ -66,6 +66,14 @@ If you have Github Desktop follow these steps:
 4) Launch the project and you will be able to use the app
 
 D) How to use the project:
+1. Launch the app and enter your username and password to log in.
+2. Create categories for organizing your timesheet entries.
+3. Create timesheet entries by providing the required details, including date, start and end times, description, and task. Optionally, attach a photograph.
+4. Set your minimum and maximum daily goals for hours worked.
+5. View and filter timesheet entries within a specific period.
+6. Access photos associated with entries from the list view.
+7. Generate category reports to see the total hours spent on each category within a period.
+
 
 E) Challenges:
 
@@ -103,7 +111,8 @@ I) Application Screenshots
 ## Dashboard Screen
  ![Dashboard](https://github.com/cgov-0406/OPSC7311_POE/assets/101722512/385c970c-3aa8-41f4-9d52-b2317d35fa3e)
 
-
+## Filtered Graph
+![Tasks](https://github.com/cgov-0406/OPSC7311_POE/assets/101722512/97a0f9b1-ef96-41f3-aac2-f748b693418c)
 
 ## Add Project Screen
  ![Add project](https://github.com/cgov-0406/OPSC7311_POE/assets/101722512/7b5501ea-6380-4ecb-9fcf-ac1e7bf095f3)
