@@ -1,5 +1,6 @@
 package TaskForm
 
+import Services.HoursService
 import android.app.Activity
 import data.ProjectViewModel
 import android.app.TimePickerDialog
@@ -18,7 +19,10 @@ import android.widget.ImageButton
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.commit
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.opsc7311_poe.R
+import com.example.opsc7311_poe.ViewProject
 import com.example.opsc7311_poe.ViewTask
 import com.google.android.material.slider.Slider
 import com.google.android.material.snackbar.Snackbar
@@ -28,11 +32,13 @@ import com.google.android.material.timepicker.MaterialTimePicker.INPUT_MODE_CLOC
 import com.google.android.material.timepicker.TimeFormat
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
+import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.ktx.storage
+import data.TaskViewAdapter
 import data.TaskViewModel
 import java.io.File
 import java.io.FileInputStream
@@ -56,7 +62,7 @@ class TaskForm : Fragment() {
     private var imgUri: Uri? = null
     private var uploadedImgUri: Uri? = null
     private lateinit var startTime: Date
-
+    private var db: FirebaseFirestore = Firebase.firestore
     private lateinit var auth: FirebaseAuth
 
 
@@ -93,7 +99,39 @@ class TaskForm : Fragment() {
             createTimePicker(btnStartTime)
         }
 
+        val btnTaskBack = view.findViewById<ImageButton>(R.id.btnTaskBack)
 
+        auth = Firebase.auth
+        val uid = auth.uid.toString()
+
+        var projectList: MutableList<ProjectViewModel> = mutableListOf()
+        var tasks: MutableList<TaskViewModel> = mutableListOf()
+        val docRef =  db.collection("users").document(uid).collection("projects").document(projectId!!)
+        docRef.get().addOnCompleteListener() {
+            if (it.isSuccessful) {
+                var docSnap = it.result
+                val project = docSnap.toObject<ProjectViewModel>()!!
+                tasks = project.tasks!!
+                btnTaskBack.setOnClickListener() {
+
+
+                    var fragment = Fragment()
+                    if (tasks.size == 0) {
+                        fragment = ViewProject()
+                    } else {
+                        fragment = ViewTask.newInstance(projectId!!)
+                    }
+                    requireActivity().supportFragmentManager.commit {
+                        setCustomAnimations(
+                            R.anim.fade_in,
+                            R.anim.fade_out
+                        )
+                        replace(R.id.flNavigation, fragment)
+                        addToBackStack(null)
+                    }
+                }
+            }
+        }
 
         val btnUploadImg = view.findViewById<Button>(R.id.btnTaskUploadImg)
         btnUploadImg.setOnClickListener() {
@@ -101,8 +139,6 @@ class TaskForm : Fragment() {
         }
         val btnSubmit = view.findViewById<Button>(R.id.btnTaskSubmit)
         btnSubmit.setOnClickListener() {
-            auth = Firebase.auth
-            val uid = auth.uid.toString()
             val formatter = SimpleDateFormat("dd-MM-yyyy HH:mm:ss", Locale.getDefault())
             if (imgUri != null) {
                 val now = Date()
@@ -110,32 +146,18 @@ class TaskForm : Fragment() {
                 val storageRef = FirebaseStorage.getInstance().getReference("$uid/$fileName")
                 storageRef.putFile(imgUri!!).addOnCompleteListener() {
                     if (it.isSuccessful) {
-                        storageRef.downloadUrl.addOnSuccessListener {uri ->
+                        storageRef.downloadUrl.addOnSuccessListener { uri ->
                             uploadedImgUri = uri
                             uploadData(getFormData(view), view)
                         }
                     }
                 }
-            }
-            else {
+            } else {
                 Snackbar.make(requireView(), "No image was selected.", Snackbar.LENGTH_LONG).show()
             }
 
         }
 
-        val btnTaskBack = view.findViewById<ImageButton>(R.id.btnTaskBack)
-
-        btnTaskBack.setOnClickListener() {
-            val viewTask = ViewTask.newInstance(projectId!!)
-            requireActivity().supportFragmentManager.commit {
-                setCustomAnimations(
-                    R.anim.fade_in,
-                    R.anim.fade_out
-                )
-                replace(R.id.flNavigation, viewTask)
-                addToBackStack(null)
-            }
-        }
 
         return view
     }
