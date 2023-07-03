@@ -44,32 +44,7 @@ class HoursService {
 
 
 
-    //Method will take in the project that was selected as the parameter
-    fun getMonthlyTasks(project: ProjectViewModel): MutableList<TaskViewModel>
-    {
-        var tasks = project.tasks
-        var monthlyTasks : MutableList<TaskViewModel> = mutableListOf()
 
-        val formatter = DateTimeFormatter.ofPattern("EEE MMM d H:mm:ss 'GMT'xxx yyyy", Locale.ENGLISH)
-        //  val localDate = LocalDate.parse(task.date, formatter)
-        val current = LocalDate.now()
-
-        tasks!!.forEach{
-                t ->
-
-
-            var date = LocalDate.parse(t.startTime.toString(),formatter)
-            var month = date.month
-
-            if (month == current.month){
-                monthlyTasks.add(t)
-            }
-
-        }
-
-        return monthlyTasks
-
-    }
 
 
     //Gets all of the tasks for every project that a user has
@@ -314,6 +289,34 @@ class HoursService {
 
         return stats
 
+    }
+
+    fun getAverageHours(projects: MutableList<ProjectViewModel>,days: Int):Int
+    {
+        var maxHours  = 0
+        var minHours = 0
+
+        projects.forEach(){
+            p ->
+            maxHours += p.maximumDailyHours
+            minHours += p.minimumDailyHours
+        }
+
+        val averageHours = (maxHours-minHours)/days
+
+        return averageHours
+    }
+
+    fun checkUserHours(tasks: MutableList<TaskViewModel>):Int
+    {
+        var userHours = 0
+
+        tasks.forEach(){
+            t->
+            userHours += t.numberOfHours
+        }
+
+        return userHours
     }
 
 

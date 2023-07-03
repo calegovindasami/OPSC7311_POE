@@ -13,7 +13,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.TextView
 import androidx.cardview.widget.CardView
+import androidx.core.util.Pair
 import androidx.fragment.app.commit
 import androidx.lifecycle.ViewModelProvider
 import com.github.mikephil.charting.charts.BarChart
@@ -21,6 +23,7 @@ import com.github.mikephil.charting.data.BarData
 import com.github.mikephil.charting.data.BarDataSet
 import com.github.mikephil.charting.data.BarEntry
 import com.github.mikephil.charting.utils.ColorTemplate
+import com.google.android.material.datepicker.MaterialDatePicker
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
@@ -36,6 +39,7 @@ import java.text.SimpleDateFormat
 import java.time.LocalDate
 import java.util.Date
 import java.util.Locale
+import java.util.concurrent.TimeUnit
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -53,6 +57,7 @@ class HomeFragment : Fragment() {
     private var param2: String? = null
     private var db: FirebaseFirestore = Firebase.firestore
     private lateinit var barChart: BarChart
+    private lateinit var projectList: MutableList<ProjectViewModel>
 
     private lateinit var auth: FirebaseAuth
 
@@ -72,6 +77,9 @@ class HomeFragment : Fragment() {
         val view = inflater.inflate(R.layout.fragment_home, container, false)
         val btnExcel = view.findViewById<CardView>(R.id.btnExport)
         val btnViewProjects = view.findViewById<CardView>(R.id.btnViewProjects)
+        val btnFilterGraph = view.findViewById<Button>(R.id.btnGraphFilter)
+        val txtGoals = view.findViewById<TextView>(R.id.txtUseGoals)
+
         auth = Firebase.auth
         val uid = auth.uid!!
 
@@ -85,7 +93,7 @@ class HomeFragment : Fragment() {
         val start = dateFormat.parse("01-${month}-$year")
         val end = dateFormat.parse("$numberOfDays-${month}-$year")
 
-        val projectList: MutableList<ProjectViewModel> = mutableListOf()
+        projectList = mutableListOf()
 
         val docRef =  db.collection("users").document(uid).collection("projects")
         docRef.get().addOnCompleteListener() {
@@ -99,6 +107,10 @@ class HomeFragment : Fragment() {
                 val tasks = service.getTasks(projectList)
                 barChart=view.findViewById(R.id.home_bar_chart)
                 displayBarChart(service, tasks, start, end)
+
+                btnFilterGraph.setOnClickListener(){
+                    createDatePicker(txtGoals)
+                }
             }
         }
 
@@ -192,6 +204,62 @@ class HomeFragment : Fragment() {
         barChart.description.text = "Bar Chart"
 
         barChart.animateY(2000)
+    }
+
+    private fun createDatePicker(textView:TextView){
+        val dateRangePicker =
+            MaterialDatePicker.Builder.dateRangePicker()
+                .setTitleText("Select dates").setSelection(
+                    Pair(
+                        MaterialDatePicker.thisMonthInUtcMilliseconds(),
+                        MaterialDatePicker.todayInUtcMilliseconds())
+                )
+                .build()
+
+        dateRangePicker.addOnPositiveButtonClickListener {
+            var firstDate = it.first
+            var secondDate = it.second
+
+            var startDate = Date(firstDate)
+            var endDate = Date(secondDate)
+
+            var filteredProjects = filterProjects(startDate,endDate,projectList)
+            val service = HoursService()
+
+            val tasks = service.getTasks(filteredProjects)
+
+            displayBarChart(service,tasks,startDate,endDate)
+
+            var diff = endDate.time - startDate.time
+
+            val days = (TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS)).toInt()
+
+            val average = service.getAverageHours(filteredProjects,days)
+            val userHours = service.checkUserHours(tasks)
+
+            var message:String
+            if (userHours < average)
+            {
+                message = "You are below the monthly required hours of $average/Day"
+                textView.setTextColor(resources.getColor(R.color.graph_red))
+            }
+            else if (userHours > average)
+            {
+                message = "You are above the monthly required hours of $average/Day"
+                textView.setTextColor(resources.getColor(R.color.graph_green))
+            }
+            else
+            {
+                message = "You are meeting the monthly required hours of $average/Day"
+                textView.setTextColor(resources.getColor(R.color.graph_orange))
+            }
+
+            textView.text = message
+
+
+        }
+
+        dateRangePicker.show(parentFragmentManager, "Tag")
     }
 
     companion object {
