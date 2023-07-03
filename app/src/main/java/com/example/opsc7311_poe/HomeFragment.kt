@@ -42,6 +42,10 @@ import java.util.Locale
 import java.util.concurrent.TimeUnit
 import kotlin.math.roundToInt
 
+/*
+*
+* */
+
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
 private const val ARG_PARAM1 = "param1"
@@ -152,11 +156,13 @@ class HomeFragment : Fragment() {
             startActivity(intent)
         }
 
-        val getTasks = HoursService()
-        val tasks = getTasks.getTasks(projectList)
+
 
         btnExcel.setOnClickListener(){
            val service = ExportService(requireContext())
+
+            val getTasks = HoursService()
+            val tasks = getTasks.getTasks(projectList)
 
             service.createFile(tasks)
             showSnackbar("File created")

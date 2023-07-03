@@ -23,12 +23,17 @@ import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
 
+/*
+* Code Attribution for Excel Feature
+* Source: https://www.baeldung.com/kotlin/excel-read-write
+*/
 class ExportService(private val context: Context) {
+
 
     fun createFile(tasks: MutableList<TaskViewModel>) {
 
         val workbook: Workbook = HSSFWorkbook()
-        val sheet: Sheet = workbook.createSheet("Sheet 1")
+        val sheet: Sheet = workbook.createSheet("Task Sheet")
 
         var r = 1
 
@@ -55,8 +60,7 @@ class ExportService(private val context: Context) {
 
         }
 
-
-        val path2 = getDownloadPath(context) + "Sheet 1.xlsx"
+        val path2 = getDownloadPath(context) + createFileNameWithDateTime()
         // Write data to cells
 
 
@@ -97,7 +101,7 @@ class ExportService(private val context: Context) {
     fun createFileNameWithDateTime(): String {
         val sdf = SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault())
         val currentDateAndTime: String = sdf.format(Date())
-        return "Sheet_$currentDateAndTime.xlsx"
+        return "/Sheet_$currentDateAndTime.xlsx"
     }
 
 }

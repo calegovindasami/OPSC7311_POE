@@ -84,13 +84,13 @@ class HoursService {
             var projTasks = proj.tasks
 
 
-            if (projTasks != null) {
-                projTasks.forEach {
+
+                projTasks!!.forEach {
                         t->
                     tasks.add(t)
                 }
             }
-        }
+
 
         return tasks
     }
