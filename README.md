@@ -90,7 +90,7 @@ H) Changelog
 3)  Implementation of feedback received from Part 2
 
 I) Application Screenshots 
-Register
+
  ![Login](https://github.com/cgov-0406/OPSC7311_POE/assets/101722512/48625d90-5feb-4858-b4f7-f5c2d5cdea53)
 
 
@@ -113,21 +113,22 @@ Register
 
 
 
-
-
-    ![HoursRecycler](https://github.com/cgov-0406/OPSC7311_POE/assets/101722512/4250a825-79bb-4869-9b6e-83455ccacea6)
-
+![HoursRecycler](https://github.com/cgov-0406/OPSC7311_POE/assets/101722512/925adcd0-0cbf-41e3-9d28-87769fd5e802)
 
 
 
+![Add task](https://github.com/cgov-0406/OPSC7311_POE/assets/101722512/334b8428-6b35-4cd8-a1ce-4406c86fc9c7)
 
 
-     ![Add task](https://github.com/cgov-0406/OPSC7311_POE/assets/101722512/c8def7fd-b5e1-4aba-a33e-16b674488d34)
+   
+![TasksRecycler](https://github.com/cgov-0406/OPSC7311_POE/assets/101722512/92b890d9-28f6-4b55-bbf0-362a2a4e5e2b)
 
 
 
 
-     ![TasksRecycler](https://github.com/cgov-0406/OPSC7311_POE/assets/101722512/db02b07c-6874-417b-af3e-c0071c800d2d)
+
+
+    
 
  
 J) Video Tut link: [YouTube Video](https://www.youtube.com/watch?v=-PBK7cLDIJ0)
