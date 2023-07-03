@@ -2,6 +2,7 @@ package com.example.opsc7311_poe
 
 import ProjectForm.ProjectForm
 import Services.HoursService
+import TaskForm.TaskForm
 //import ProjectForm.endDate
 //import ProjectForm.startDate
 import android.os.Bundle
@@ -168,12 +169,23 @@ class ViewProject : Fragment() {
                 adapter.setOnItemClickListener(object: ProjectViewAdapter.OnItemClickListener {
                     override fun onItemClick(position: Int) {
                         val viewTask = ViewTask.newInstance(projectIds[position])
+                        val service = HoursService()
+                        val tasks = service.getMonthlyTasks(projectList[position])
+                        val fragment: Fragment
+                        if (tasks.size == 0) {
+                            val taskForm = TaskForm()
+                            fragment = taskForm
+                        }
+                        else {
+                            fragment = viewTask
+                        }
+
                         requireActivity().supportFragmentManager.commit {
                             setCustomAnimations(
                                 R.anim.fade_in,
                                 R.anim.fade_out
                             )
-                            replace(R.id.flNavigation, viewTask)
+                            replace(R.id.flNavigation, fragment)
                             addToBackStack(null)
                         }
                     }

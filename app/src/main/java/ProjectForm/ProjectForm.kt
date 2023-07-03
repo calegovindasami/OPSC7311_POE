@@ -10,13 +10,17 @@ import android.widget.ImageButton
 import androidx.core.util.Pair
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.commit
+import com.example.opsc7311_poe.HomeFragment
 import com.example.opsc7311_poe.R
 import com.example.opsc7311_poe.ViewProject
 import com.google.android.material.datepicker.MaterialDatePicker
 import com.google.android.material.slider.RangeSlider
 import com.google.android.material.snackbar.Snackbar
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
+import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
 import data.ProjectViewModel
 import data.TaskViewModel
@@ -42,7 +46,8 @@ class ProjectForm : Fragment() {
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
-
+    private var db: FirebaseFirestore = Firebase.firestore
+    private lateinit var auth: FirebaseAuth
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
@@ -64,20 +69,47 @@ class ProjectForm : Fragment() {
             createDatePicker(btnDateRange)
         }
 
-        val btnSubmit = view.findViewById<Button>(R.id.btnProjectSubmit)
-
         val btnBack = view.findViewById<ImageButton>(R.id.btnProjectBack)
-        btnBack.setOnClickListener() {
-            val projectView = ViewProject.newInstance()
-            requireActivity().supportFragmentManager.commit {
-                setCustomAnimations(
-                    R.anim.fade_in,
-                    R.anim.fade_out
-                )
-                replace(R.id.flNavigation, projectView)
-                addToBackStack(null)
+
+        val projectList: MutableList<ProjectViewModel> = mutableListOf()
+        val auth = Firebase.auth
+        val uid = auth.uid!!
+
+        val docRef =  db.collection("users").document(uid).collection("projects")
+        docRef.get().addOnCompleteListener() {
+            if (it.isSuccessful) {
+                var projects = it.result.documents
+                for (p in projects) {
+                    var project = p.toObject<ProjectViewModel>()
+                    projectList.add(project!!)
+                }
+                val fragment: Fragment
+
+                if (projectList.size == 0) {
+                    val homeFrag = HomeFragment()
+                    fragment = homeFrag
+                }
+                else {
+                    val viewProject = ViewProject()
+                    fragment = viewProject
+                }
+
+                btnBack.setOnClickListener() {
+                    requireActivity().supportFragmentManager.commit {
+                        setCustomAnimations(
+                            R.anim.fade_in,
+                            R.anim.fade_out
+                        )
+                        replace(R.id.flNavigation, fragment)
+                        addToBackStack(null)
+                    }
+                }
             }
         }
+
+        val btnSubmit = view.findViewById<Button>(R.id.btnProjectSubmit)
+
+
 
         btnSubmit.setOnClickListener {
             addProject(getFormData(view))
