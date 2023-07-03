@@ -317,7 +317,7 @@ class HoursService {
 
     }
 
-    fun getAverageHours(projects: MutableList<ProjectViewModel>, days: Int): Int {
+    fun getAverageHours(projects: MutableList<ProjectViewModel>, days: Int): Double {
         var maxHours = 0
         var minHours = 0
 
@@ -326,7 +326,7 @@ class HoursService {
             minHours += p.minimumDailyHours
         }
 
-        return ((maxHours as Float - minHours as Float) / days).roundToInt()
+        return ((maxHours.toDouble()- minHours.toDouble()) / days)
     }
 
     fun checkUserHours(tasks: MutableList<TaskViewModel>):Int

@@ -238,20 +238,22 @@ class HomeFragment : Fragment() {
             val average = service.getAverageHours(filteredProjects,days)
             val userHours = service.checkUserHours(tasks)
 
+            var averageString = String.format("%.1f",average)
+
             var message:String
             if (userHours < average)
             {
-                message = "You are below the monthly required hours of $average/Day"
+                message = "You are below the monthly required hours of $averageString/Day"
                 textView.setTextColor(resources.getColor(R.color.graph_red))
             }
             else if (userHours > average)
             {
-                message = "You are above the monthly required hours of $average/Day"
+                message = "You are above the monthly required hours of $averageString/Day"
                 textView.setTextColor(resources.getColor(R.color.graph_green))
             }
             else
             {
-                message = "You are meeting the monthly required hours of $average/Day"
+                message = "You are meeting the monthly required hours of $averageString/Day"
                 textView.setTextColor(resources.getColor(R.color.graph_orange))
             }
 

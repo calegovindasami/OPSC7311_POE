@@ -28,7 +28,7 @@ class ExportService(private val context: Context) {
     fun createFile(tasks: MutableList<TaskViewModel>) {
 
         val workbook: Workbook = HSSFWorkbook()
-        val sheet: Sheet = workbook.createSheet(createFileNameWithDateTime())
+        val sheet: Sheet = workbook.createSheet("Sheet 1")
 
         var r = 1
 
@@ -55,7 +55,8 @@ class ExportService(private val context: Context) {
 
         }
 
-        val path2 = getDownloadPath(context) + "/Sheet 1.xlsx"
+
+        val path2 = getDownloadPath(context) + "Sheet 1.xlsx"
         // Write data to cells
 
 
