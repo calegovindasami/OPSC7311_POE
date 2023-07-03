@@ -19,13 +19,16 @@ import java.io.File
 import java.io.FileOutputStream
 import java.io.IOException
 import java.util.Calendar
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
 
 class ExportService(private val context: Context) {
 
     fun createFile(tasks: MutableList<TaskViewModel>) {
 
         val workbook: Workbook = HSSFWorkbook()
-        val sheet: Sheet = workbook.createSheet("Sheet 1")
+        val sheet: Sheet = workbook.createSheet(createFileNameWithDateTime())
 
         var r = 1
 
@@ -87,6 +90,13 @@ class ExportService(private val context: Context) {
             }
         }
         return null
+    }
+
+
+    fun createFileNameWithDateTime(): String {
+        val sdf = SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault())
+        val currentDateAndTime: String = sdf.format(Date())
+        return "Sheet_$currentDateAndTime.xlsx"
     }
 
 }

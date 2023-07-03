@@ -146,11 +146,14 @@ class HomeFragment : Fragment() {
            val service = ExportService(requireContext())
 
             service.createFile(tasks)
+            showSnackbar("File created")
         }
 
         return view
     }
-
+    private fun showSnackbar(message: String) {
+        Snackbar.make(requireView(), message, Snackbar.LENGTH_LONG).show()
+    }
     private fun filterProjects(start: Date, end: Date, projectList: MutableList<ProjectViewModel>): MutableList<ProjectViewModel> {
         val filteredList: MutableList<ProjectViewModel> = mutableListOf()
 
