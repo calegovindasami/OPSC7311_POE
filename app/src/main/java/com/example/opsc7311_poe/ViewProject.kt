@@ -121,8 +121,6 @@ class ViewProject : Fragment() {
         }
 
         val cardView = inflater.inflate(R.layout.project_card, container, false)
-        val btnGetTasks = cardView.findViewById<Button>(R.id.btnGetTasks)
-
 
         val btnBack = view.findViewById<ImageButton>(R.id.btnBackFromProjects)
         btnBack.setOnClickListener {
@@ -170,7 +168,7 @@ class ViewProject : Fragment() {
                     override fun onItemClick(position: Int) {
                         val viewTask = ViewTask.newInstance(projectIds[position])
                         val service = HoursService()
-                        val tasks = service.getMonthlyTasks(projectList[position])
+                        val tasks = projectList[position].tasks!!
                         val fragment: Fragment
                         if (tasks.size == 0) {
                             val taskForm = TaskForm.newInstance(projectIds[position])

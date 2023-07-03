@@ -150,9 +150,8 @@ class ProjectForm : Fragment() {
         else
         {
         //Adds project to firestore.
-        val db = Firebase.firestore
         var auth = Firebase.auth
-        var uid = auth.uid
+        var uid = auth.uid!!
             db.collection("users").document(uid.toString()).collection("projects")
                 .whereEqualTo("name", project.name)
                 .get()
