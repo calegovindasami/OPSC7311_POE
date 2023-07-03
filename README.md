@@ -20,7 +20,8 @@ Table of Contents:
  F - Challenges.
  G - Additional features.
  H - Changelog.
- I - Video Tut link.
+ I - Application Screenshots.
+ J - Video Tut link.
 
 A) Pre-Requisites
 
@@ -88,7 +89,32 @@ H) Changelog
 2)  Home page
 3)  Implementation of feedback received from Part 2
 
-I) Video Tut link: [YouTube Video](https://www.youtube.com/watch?v=-PBK7cLDIJ0)
+I) Application Screenshots 
+1) Register
+![Login](https://github.com/cgov-0406/OPSC7311_POE/assets/101722512/48625d90-5feb-4858-b4f7-f5c2d5cdea53)
+
+2) Login
+![Register](https://github.com/cgov-0406/OPSC7311_POE/assets/101722512/7226ab75-90fa-4a34-b916-df4fcc46d101)
+
+3) Dashboard
+![Dashboard](https://github.com/cgov-0406/OPSC7311_POE/assets/101722512/385c970c-3aa8-41f4-9d52-b2317d35fa3e)
+
+4) Project form
+![Add project](https://github.com/cgov-0406/OPSC7311_POE/assets/101722512/7b5501ea-6380-4ecb-9fcf-ac1e7bf095f3)
+
+![Projects](https://github.com/cgov-0406/OPSC7311_POE/assets/101722512/7b27b722-178b-4dfc-9716-495ddc53f397)
+
+6) Project Hours form
+![HoursRecycler](https://github.com/cgov-0406/OPSC7311_POE/assets/101722512/4250a825-79bb-4869-9b6e-83455ccacea6)
+
+
+7) Task form
+![Add task](https://github.com/cgov-0406/OPSC7311_POE/assets/101722512/c8def7fd-b5e1-4aba-a33e-16b674488d34)
+
+![TasksRecycler](https://github.com/cgov-0406/OPSC7311_POE/assets/101722512/db02b07c-6874-417b-af3e-c0071c800d2d)
+
+ 
+J) Video Tut link: [YouTube Video](https://www.youtube.com/watch?v=-PBK7cLDIJ0)
 
 
 
