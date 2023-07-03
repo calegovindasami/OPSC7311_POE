@@ -49,40 +49,40 @@ class RegisterFragment : Fragment() {
         // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_register, container, false)
 
+        auth = Firebase.auth
 
         val btnRegister = view.findViewById<Button>(R.id.btnRegisterSubmit)
-        btnRegister.setOnClickListener() {
-            //Registers user
-            auth = Firebase.auth
+        btnRegister.setOnClickListener {
+            // Registers user
             val email = view.findViewById<EditText>(R.id.tiRegisterEmail).text.toString()
             val password = view.findViewById<EditText>(R.id.tiRegisterPassword).text.toString()
-            //Validates
+
+            // Validates
             if (email.isNullOrEmpty() || password.isNullOrEmpty()) {
-                Toast.makeText(context, "Invalid fields", Toast.LENGTH_LONG)
-            }
-            else   {
+                Toast.makeText(context, "Invalid fields", Toast.LENGTH_LONG).show()
+            } else {
                 auth.createUserWithEmailAndPassword(email.trim(), password)
-                    .addOnCompleteListener() {
-                        if (it.isSuccessful) {
-                            Snackbar.make(requireView(), "Successfully registered!", Snackbar.LENGTH_LONG)
-                        }
-                        else if(it.isCanceled) {
-                            Snackbar.make(requireView(), it.exception?.message.toString(), Snackbar.LENGTH_LONG)
+                    .addOnCompleteListener(requireActivity()) { task ->
+                        if (task.isSuccessful) {
+                            showSnackbar("Successfully registered!")
+                        } else {
+                            showSnackbar(task.exception?.message.toString())
                         }
                     }
             }
         }
 
-
         val btnLogin = view.findViewById<TextView>(R.id.txtGoToLogin)
-        btnLogin.setOnClickListener() {
+        btnLogin.setOnClickListener {
             navigateToLogin()
         }
-
 
         return view
     }
 
+    private fun showSnackbar(message: String) {
+        Snackbar.make(requireView(), message, Snackbar.LENGTH_LONG).show()
+    }
     private fun navigateToLogin() {
         val loginFragment = LoginFragment.newInstance()
         requireActivity().supportFragmentManager.commit {
