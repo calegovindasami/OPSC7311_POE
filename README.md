@@ -1,6 +1,6 @@
 # OnTime
 
-Title: POE OPSC Part 2
+Title: ONTIME APPLICATION OPSC POE
 
 Version: 1.0.0
 
@@ -14,11 +14,13 @@ Members:
 Table of Contents:
  A - Pre-Requisites
  B - Description.
- C - How to intall the project.
+ C - How to install the project.
  D - How to use the project.
  E - Credits.
  F - Challenges.
- G - Video Tut link.
+ G - Additional features.
+ H - Changelog.
+ I - Video Tut link.
 
 A) Pre-Requisites
 
@@ -44,7 +46,7 @@ This feature provides valuable insights into time allocation, helping users iden
 Overall, the goal of this project is to offer a robust and user-friendly timesheet management solution. 
 By simplifying the process of tracking and categorizing working hours, the app empowers users to optimize their productivity and achieve their professional goals.
 
-C) How to intall the project:
+C) How to install the project:
 
 If you have Github Desktop follow these steps: 
 
@@ -60,7 +62,7 @@ If you have Github Desktop follow these steps:
 
 ![Screenshot 2023-06-14 074944](https://github.com/cgov-0406/OPSC7311_POE/assets/63053721/1ba3678c-21ca-497f-a22d-d9ada101190c)
 
-4) Lauch the project and you will be able to use the app
+4) Launch the project and you will be able to use the app
 
 D) How to use the project:
 
@@ -75,7 +77,18 @@ F) What I would like to add:
 2) Improve UI 
 3) Fix small UI bugs
 
-G) Video Tut link: [YouTube Video](https://www.youtube.com/watch?v=-PBK7cLDIJ0)
+G) Additional Features:
+
+1) Ability to add a reminder for a project
+2) Export data into Excel spreadsheet
+
+H) Changelog
+
+1)  Graph displaying total hours and min and max goals
+2)  Home page
+3)  Implementation of feedback received from Part 2
+
+I) Video Tut link: [YouTube Video](https://www.youtube.com/watch?v=-PBK7cLDIJ0)
 
 
 
