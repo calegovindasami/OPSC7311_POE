@@ -162,8 +162,11 @@
 
                     <TextView
                         android:id="@+id/txtUseGoals"
-                        android:text="User Goals: "
-                        android:layout_width="match_parent"
+                        android:text="This Months Hours Worked"
+                        android:textStyle="bold"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="10dp"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         />
 

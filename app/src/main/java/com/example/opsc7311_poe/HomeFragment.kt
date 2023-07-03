@@ -238,14 +238,17 @@ class HomeFragment : Fragment() {
             if (userHours < average)
             {
                 message = "You are below the monthly required hours of $average/Day"
+                textView.setTextColor(resources.getColor(R.color.graph_red))
             }
             else if (userHours > average)
             {
                 message = "You are above the monthly required hours of $average/Day"
+                textView.setTextColor(resources.getColor(R.color.graph_green))
             }
             else
             {
                 message = "You are meeting the monthly required hours of $average/Day"
+                textView.setTextColor(resources.getColor(R.color.graph_orange))
             }
 
             textView.text = message
